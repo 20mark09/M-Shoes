@@ -1,0 +1,146 @@
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    transition: all 0.25s ease;
+}
+
+body {
+    margin: 0;
+    background: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+/* Container */
+.container {
+    background: #ffffff;
+    padding: 30px;
+    margin: 60px 0;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    position: relative;
+    border: dashed;
+    border-width: 4px;
+    border-color: #333;
+}
+
+/* Heading */
+h1 {
+    margin-top: 0;
+    color: #111;
+}
+
+/* Labels */
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #222;
+}
+
+/* Inputs */
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    background-color: #ffd29c;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #dd2125;
+    box-shadow: 0 0 0 3px rgba(221,33,37,0.15);
+}
+
+/* WhatsApp Button Styled Like Store */
+button {
+    margin-top: 20px;
+    padding: 12px;
+    background: #dd2125;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+button:hover {
+    background: #b81a1d;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(221,33,37,0.3);
+}
+
+button:active {
+    transform: scale(0.96);
+}
+
+/* Language Button Same Style As Main */
+#langBtn {
+    position: absolute;
+    top: 50px;
+    right: 15px;
+    background: #111;
+    color: #fff;
+    width: auto;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+#langBtn:hover {
+    background: #000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* RTL Support */
+.rtl {
+    direction: rtl;
+    text-align: right;
+}
+
+.order-summary {
+    background: #ffd4a1;
+    color: #000;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    margin-top: 21px;
+}
+
+.order-summary h3 {
+    margin-top: 0;
+    color: #ca0004;
+}
+
+#summaryItems {
+    margin-top: 10px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 6px;
+    opacity: 0.9;
+}
+
+.summary-total {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 16px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 10px;
+}
+
+

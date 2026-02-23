@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Shop</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="">
+<header>
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  <link rel="shortcut icon" type="image/x-icon" href="logo.png">
+
+
+<a href="https://example.com">
+    <img alt="Go to example.com" class="toplogo" src="logo.png">
+</a>
+
+
+
+  
+  <div class="cart-btn" onclick="toggleCart()"><img alt="cart" src="cart.png" class="cartimg"> (<span id="cartCount">0</span>)</div>
+</header>
+<button id="langBtn">English / عربي</button>
+
+<aside id="menu" class="">
+  <h3>Categories</h3>
+  <ul>
+    <li onclick="filterProducts('all')">All</li>
+    <li onclick="filterProducts('shoes')">Shoes</li>
+    <li onclick="filterProducts('clothes')">Clothes</li>
+    <li onclick="filterProducts('accessories')">Accessories</li>
+  </ul>
+</aside>
+
+<main id="products"><div class="product">
+      <img src="nike1.jpg" onclick="openProduct(1)">
+      <h4>Running Shoes</h4>
+      <p>$50</p>
+      <div class="selects">
+        <select><option>Red</option><option>Blue</option></select>
+        <select><option>42</option><option>43</option><option>44</option><option>45</option><option>46</option></select>
+      </div>
+      <button onclick="addToCart(1, this);">Add to Cart</button>
+    </div><div class="product">
+      <img src="https://via.placeholder.com/400x300?text=Tshirt+Front" onclick="openProduct(2)">
+      <h4>T-Shirt</h4>
+      <p>$20</p>
+      <div class="selects">
+        <select><option>White</option><option>Black</option></select>
+        <select><option>42</option><option>43</option><option>44</option><option>45</option><option>46</option></select>
+      </div>
+      <button onclick="addToCart(2, this);">Add to Cart</button>
+    </div><div class="product">
+      <img src="https://via.placeholder.com/400x300?text=Cap+1" onclick="openProduct(3)">
+      <h4>Cap</h4>
+      <p>$10</p>
+      <div class="selects">
+        <select><option>Red</option><option>Black</option></select>
+        <select><option>42</option><option>43</option><option>44</option><option>45</option><option>46</option></select>
+      </div>
+      <button onclick="addToCart(3, this);">Add to Cart</button>
+    </div><div class="product">
+      <img src="https://via.placeholder.com/400x300?text=Sneakers+1" onclick="openProduct(4)">
+      <h4>Sneakers</h4>
+      <p>$60</p>
+      <div class="selects">
+        <select><option>Grey</option><option>Blue</option></select>
+        <select><option>42</option><option>43</option><option>44</option><option>45</option><option>46</option></select>
+      </div>
+      <button onclick="addToCart(4, this);">Add to Cart</button>
+    </div></main>
+
+<div class="cart" id="cart" style="display: none;">
+  <button class="close-cart" onclick="toggleCart()">✕</button>
+  <h3>Your Cart</h3>
+  <div id="cartItems"></div>
+  <div class="cart-total">Total: $<span id="cartTotal">0</span></div>
+  <button class="checkout" onclick="checkout()">Checkout</button>
+</div>
+
+<div id="productModal">
+
+  <div class="modal-box">
+
+    <button onclick="closeProduct()" style="position:absolute;right:10px;top:10px;border: none;color: #000000;background-color: #dd2125;border-radius: 15px;padding-top: 3px;padding-bottom: 3px;font-size: medium;">✕</button>
+    <img id="modalImage" style="width:100%;height:300px;object-fit:contain;" src="nike1.jpg">
+    <div id="thumbs" style="display:flex;gap:5px;margin-top:10px;"><img src="nike1.jpg" style="width:60px;cursor:pointer;" onclick="document.getElementById('modalImage').src='nike1.jpg'"><img src="https://via.placeholder.com/400x300?text=Shoes+2" style="width:60px;cursor:pointer;" onclick="document.getElementById('modalImage').src='https://via.placeholder.com/400x300?text=Shoes+2'"></div>
+    <h2 id="modalName">Nike AirForce 1</h2>
+    <p id="modalDesc">Sky leather imported quailty</p>
+    <strong>$<span id="modalPrice">500</span></strong>
+    <div class="selects">
+      <select id="modalColor"><option>White</option><option>Black</option></select>
+      <select id="modalSize"><option>42</option><option>43</option><option>44</option><option>45</option><option>46</option></select>
+    </div>
+    <br>
+    <button class="modalbutton" id="modalAddBtn" onclick="addToCartModal(); animateButton(this);">Add to Cart</button>
+  </div>
+</div>
+
+<script>
+const products = [
+  { id: 1, name: 'Nike AirForce 1', price: 500, category: 'shoes', images: ['nike1.jpg','nike2.jpg','nike3.jpg','nike4.jpg','nike5.jpg'], description: 'Sky Leather Imported Quality', colors:['White','Black'], sizes:[42,43,44,45,46] },
+  { id: 2, name: 'Adidas Campus', price: 450, category: 'shoes', images: ['adi1.jpg','adi2.jpg','adi3.jpg'], description: '100% cotton T-shirt. Comfortable and durable for daily wear.', colors:['Grey','Black'], sizes:[42,43,44,45,46] },
+  { id: 3, name: 'Cap', price: 10, category: 'accessories', images: ['https://via.placeholder.com/400x300?text=Cap+1'], description: 'Adjustable cap with classic design.', colors:['Red','Black'], sizes:[42,43,44,45,46] },
+  { id: 4, name: 'Sneakers', price: 60, category: 'shoes', images: ['https://via.placeholder.com/400x300?text=Sneakers+1','https://via.placeholder.com/400x300?text=Sneakers+2'], description: 'Stylish sneakers suitable for casual and sporty outfits.', colors:['Grey','Blue'], sizes:[42,43,44,45,46] }
+];
+
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let currentImageIndex = 0;
+let startX = 0;
+let currentProduct = null;
+let isArabic = false;
+
+const langBtn = document.getElementById('langBtn');
+langBtn.addEventListener('click',()=>{
+  isArabic = !isArabic;
+  document.querySelectorAll('.en').forEach(el=>el.style.display=isArabic?'none':'block');
+  document.querySelectorAll('.ar').forEach(el=>el.style.display=isArabic?'block':'none');
+  document.body.classList.toggle('rtl',isArabic);
+});
+
+function renderProducts(list) {
+  const container = document.getElementById('products');
+  container.innerHTML = '';
+  list.forEach(p => {
+    const colors = p.colors.map(c=>`<option>${c}</option>`).join('');
+    const sizes = p.sizes.map(s=>`<option>${s}</option>`).join('');
+    container.innerHTML += `<div class="product">
+      <img src="${p.images[0]}" onclick="openProduct(${p.id})">
+      <h4>${p.name}</h4>
+      <p>$${p.price}</p>
+      <div class='selects'>
+        <select>${colors}</select>
+        <select>${sizes}</select>
+      </div>
+      <button onclick="addToCart(${p.id}, this);">Add to Cart</button>
+    </div>`;
+  });
+}
+
+function animateButton(btn){ btn.classList.add('clicked'); setTimeout(()=>btn.classList.remove('clicked'),400); }
+
+function filterProducts(category) { renderProducts(category==='all'?products:products.filter(p=>p.category===category)); document.getElementById('menu').classList.remove('active'); }
+
+function addToCart(id, btn=null) {
+  const productDiv = btn.closest('.product');
+  const color = productDiv.querySelector('select:nth-of-type(1)').value;
+  const size = productDiv.querySelector('select:nth-of-type(2)').value;
+  const itemIndex = cart.findIndex(i=>i.id===id && i.color===color && i.size===size);
+  if(itemIndex>-1) cart[itemIndex].qty++;
+  else cart.push({...products.find(p=>p.id===id), color, size, qty:1});
+  saveCart();
+  if(btn) animateButton(btn);
+}
+
+function addToCartModal(){
+  const color = document.getElementById('modalColor').value;
+  const size = document.getElementById('modalSize').value;
+  const itemIndex = cart.findIndex(i=>i.id===currentProduct.id && i.color===color && i.size===size);
+  if(itemIndex>-1) cart[itemIndex].qty++;
+  else cart.push({...currentProduct, color, size, qty:1});
+  saveCart();
+  alert(isArabic?'تم إضافة المنتج إلى السلة':'Product added to cart');
+}
+
+function updateCart() {
+  const items = document.getElementById('cartItems');
+  items.innerHTML='';
+  let total=0;
+  cart.forEach(i=>{ total+=i.price*i.qty; items.innerHTML+=`<div class='cart-item'><span>${i.name} (${i.color}, ${i.size}) x${i.qty}</span><div><button onclick='changeQty(${i.id},"${i.color}","${i.size}",-1)'>−</button><button onclick='changeQty(${i.id},"${i.color}","${i.size}",1)'>+</button></div></div>`; });
+  document.getElementById('cartTotal').innerText=total;
+  document.getElementById('cartCount').innerText=cart.reduce((a,b)=>a+b.qty,0);
+}
+
+function changeQty(id,color,size,delta){
+  const item = cart.find(i=>i.id===id && i.color===color && i.size===size);
+  item.qty+=delta;
+  if(item.qty<=0) cart=cart.filter(i=>!(i.id===id && i.color===color && i.size===size));
+  saveCart();
+}
+
+function saveCart(){ localStorage.setItem('cart',JSON.stringify(cart)); updateCart(); }
+function toggleCart(){ const c=document.getElementById('cart'); c.style.display=c.style.display==='flex'?'none':'flex'; }
+function toggleMenu(){ document.getElementById('menu').classList.toggle('active'); }
+function openProduct(id){
+  currentProduct=products.find(p=>p.id===id);
+  document.getElementById('modalName').innerText=currentProduct.name;
+  document.getElementById('modalDesc').innerText=currentProduct.description;
+  document.getElementById('modalPrice').innerText=currentProduct.price;
+  currentImageIndex = 0;
+document.getElementById('modalImage').src = currentProduct.images[currentImageIndex];
+
+  const thumbs=document.getElementById('thumbs');
+  thumbs.innerHTML='';
+  currentProduct.images.forEach(img=>{ thumbs.innerHTML+=`<img src='${img}' style='width:60px;cursor:pointer;' onclick="document.getElementById('modalImage').src='${img}'">`; });
+  document.getElementById('modalColor').innerHTML=currentProduct.colors.map(c=>`<option>${c}</option>`).join('');
+  document.getElementById('modalSize').innerHTML=currentProduct.sizes.map(s=>`<option>${s}</option>`).join('');
+  document.getElementById('productModal').classList.add('show');
+  document.body.classList.add('modal-open');
+
+
+}
+function closeProduct(){ document.getElementById('productModal').classList.remove('show');
+  document.body.classList.remove('modal-open');
+ }
+function checkout(){ localStorage.setItem('cartForCheckout',JSON.stringify(cart)); window.location.href='checkout2.html'; }
+
+document.getElementById('productModal').addEventListener('click', function(e){
+  if(e.target.id === 'productModal'){
+    closeProduct();
+  }
+});
+
+
+renderProducts(products);
+updateCart();
+
+const modal = document.getElementById('productModal');
+modal.onclick = function(event) {
+  if (event.target === modal) {
+    closeProduct();
+  }
+};
+
+const modalImage = document.getElementById('modalImage');
+
+modalImage.addEventListener('touchstart', function(e){
+  startX = e.touches[0].clientX;
+});
+
+modalImage.addEventListener('touchend', function(e){
+  let endX = e.changedTouches[0].clientX;
+  let diff = startX - endX;
+
+  if(Math.abs(diff) > 50){ // swipe sensitivity
+    if(diff > 0){
+      // swipe left → next image
+      currentImageIndex++;
+      if(currentImageIndex >= currentProduct.images.length){
+        currentImageIndex = 0;
+      }
+    } else {
+      // swipe right → previous image
+      currentImageIndex--;
+      if(currentImageIndex < 0){
+        currentImageIndex = currentProduct.images.length - 1;
+      }
+    }
+
+    modalImage.src = currentProduct.images[currentImageIndex];
+  }
+});
+
+
+let isZoomed = false;
+
+modalImage.addEventListener('click', function(){
+  isZoomed = !isZoomed;
+
+  if(isZoomed){
+    modalImage.style.transform = "scale(2)";
+    modalImage.style.cursor = "zoom-out";
+  } else {
+    modalImage.style.transform = "scale(1)";
+    modalImage.style.cursor = "zoom-in";
+    modalImage.style.transformOrigin = "center center";
+  }
+});
+
+modalImage.addEventListener('mousemove', function(e){
+  if(!isZoomed) return;
+
+  const rect = modalImage.getBoundingClientRect();
+  const x = ((e.clientX - rect.left) / rect.width) * 100;
+  const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+  modalImage.style.transformOrigin = `${x}% ${y}%`;
+});
+
+
+modalImage.addEventListener('touchmove', function(e){
+  if(!isZoomed) return;
+
+  const rect = modalImage.getBoundingClientRect();
+  const touch = e.touches[0];
+
+  const x = ((touch.clientX - rect.left) / rect.width) * 100;
+  const y = ((touch.clientY - rect.top) / rect.height) * 100;
+
+  modalImage.style.transformOrigin = `${x}% ${y}%`;
+});
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>></html>
