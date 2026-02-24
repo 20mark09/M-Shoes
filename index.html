@@ -327,15 +327,20 @@ function applyDiscount(){
     message.style.color = "red";
   }
 
-function closeDiscountPopup(){
-  document.getElementById("discountPopup").style.display="none";
+  updateCart();
 }
 
+// ✅ NOW GLOBAL
+function closeDiscountPopup(){
+  document.getElementById("discountPopup").style.display = "none";
+}
+
+// ✅ Show popup after 1.5s
 window.onload = function(){
   setTimeout(()=>{
-    document.getElementById("discountPopup").style.display="flex";
+    document.getElementById("discountPopup").style.display = "flex";
   },1500);
-}
+};
 
   updateCart();
 }
