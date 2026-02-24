@@ -330,21 +330,19 @@ function applyDiscount(){
   updateCart();
 }
 
-// ✅ NOW GLOBAL
 function closeDiscountPopup(){
   document.getElementById("discountPopup").style.display = "none";
 }
 
-// ✅ Show popup after 1.5s
-window.onload = function(){
+document.addEventListener("DOMContentLoaded", function(){
   setTimeout(()=>{
     document.getElementById("discountPopup").style.display = "flex";
   },1500);
-};
+});
 
   updateCart();
 }
-  }
+  
 
   
 </script>
