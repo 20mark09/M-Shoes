@@ -127,7 +127,7 @@ function renderProducts(list) {
     const colors = p.colors.map(c=>`<option>${c}</option>`).join('');
     const sizes = p.sizes.map(s=>`<option>${s}</option>`).join('');
     container.innerHTML += `<div class="product">
-      <img src="${p.images[0]}" onclick="openProduct(${p.id})">
+      <img loading="lazy" src="${p.images[0]}" onclick="openProduct(${p.id})">
       <h4>${p.name}</h4>
       <p>$${p.price}</p>
       <div class='selects'>
