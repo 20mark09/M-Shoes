@@ -76,6 +76,11 @@
   <h3>Your Cart</h3>
   <div id="cartItems"></div>
   <div class="cart-total">Total: $<span id="cartTotal">0</span></div>
+  <div class="discount-box">
+  <input type="text" id="discountCode" placeholder="Enter discount code">
+  <button onclick="applyDiscount()">Apply</button>
+  <p id="discountMessage"></p>
+</div>
   <button class="checkout" onclick="checkout()">Checkout</button>
 </div>
 
@@ -106,6 +111,14 @@ const products = [
   { id: 4, name: 'Sneakers', price: 60, category: 'shoes', images: ['https://via.placeholder.com/400x300?text=Sneakers+1','https://via.placeholder.com/400x300?text=Sneakers+2'], description: 'Stylish sneakers suitable for casual and sporty outfits.', colors:['Grey','Blue'], sizes:[42,43,44,45,46] }
 ];
 
+  
+let discountPercent = 0;
+
+const discountCodes = {
+  "MSHOES10": 10,
+  "WELCOME20": 20,
+  "VIP30": 30
+};
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let currentImageIndex = 0;
 let startX = 0;
@@ -169,7 +182,8 @@ function updateCart() {
   items.innerHTML='';
   let total=0;
   cart.forEach(i=>{ total+=i.price*i.qty; items.innerHTML+=`<div class='cart-item'><span>${i.name} (${i.color}, ${i.size}) x${i.qty}</span><div><button onclick='changeQty(${i.id},"${i.color}","${i.size}",-1)'>−</button><button onclick='changeQty(${i.id},"${i.color}","${i.size}",1)'>+</button></div></div>`; });
-  document.getElementById('cartTotal').innerText=total;
+  let finalTotal = total - (total * discountPercent / 100);
+  document.getElementById('cartTotal').innerText = finalTotal.toFixed(2);
   document.getElementById('cartCount').innerText=cart.reduce((a,b)=>a+b.qty,0);
 }
 
@@ -291,7 +305,25 @@ modalImage.addEventListener('touchmove', function(e){
   modalImage.style.transformOrigin = `${x}% ${y}%`;
 });
 
+function applyDiscount(){
+  const code = document.getElementById("discountCode").value.trim().toUpperCase();
+  const message = document.getElementById("discountMessage");
 
+  if(discountCodes[code]){
+    discountPercent = discountCodes[code];
+    message.innerText = "Discount applied: " + discountPercent + "%";
+    message.style.color = "green";
+  } else {
+    discountPercent = 0;
+    message.innerText = "Invalid code";
+    message.style.color = "red";
+  }
+
+  updateCart();
+}
+
+
+  
 </script>
 
 
