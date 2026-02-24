@@ -103,6 +103,14 @@
   </div>
 </div>
 
+<div id="discountPopup" class="discount-popup">
+  <div class="popup-box">
+    <h3>🔥 Special Offer!</h3>
+    <p>Use code <strong>WELCOME20</strong> and get 20% OFF</p>
+    <button onclick="closeDiscountPopup()">Got it!</button>
+  </div>
+</div>
+  
 <script>
 const products = [
   { id: 1, name: 'Nike AirForce 1', price: 500, category: 'shoes', images: ['nike1.jpg','nike2.jpg','nike3.jpg','nike4.jpg','nike5.jpg'], description: 'Sky Leather Imported Quality', colors:['White','Black'], sizes:[42,43,44,45,46] },
@@ -318,6 +326,16 @@ function applyDiscount(){
     message.innerText = "Invalid code";
     message.style.color = "red";
   }
+
+  function closeDiscountPopup(){
+  document.getElementById("discountPopup").style.display="none";
+}
+
+window.onload = function(){
+  setTimeout(()=>{
+    document.getElementById("discountPopup").style.display="flex";
+  },1500);
+}
 
   updateCart();
 }
