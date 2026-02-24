@@ -317,14 +317,27 @@ function applyDiscount(){
   const code = document.getElementById("discountCode").value.trim().toUpperCase();
   const message = document.getElementById("discountMessage");
 
+  const totalItems = cart.reduce((a,b)=>a+b.qty,0);
+
+  if(totalItems < 2){
+    discountPercent = 0;
+    message.innerText = "Add at least 2 items to use a discount code";
+    message.style.color = "orange";
+    return;
+  }
+
   if(discountCodes[code]){
     discountPercent = discountCodes[code];
     message.innerText = "Discount applied: " + discountPercent + "%";
     message.style.color = "green";
+
+    // save discount for checkout page
+    localStorage.setItem("discountPercent", discountPercent);
   } else {
     discountPercent = 0;
     message.innerText = "Invalid code";
     message.style.color = "red";
+    localStorage.removeItem("discountPercent");
   }
 
   updateCart();
