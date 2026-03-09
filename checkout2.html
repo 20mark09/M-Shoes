@@ -13,7 +13,15 @@
 <h1 class="en" style="display: block; text-align: center;">Checkout</h1>
 <h1 class="ar rtl" style="display: none;">الدفع</h1>
 
+<div class="shipping-offer">
+  <div class="shipping-text">
+    🔥 <span id="orderNumber">3</span> / 20 orders claimed free the shipping 
+  </div>
 
+  <div class="shipping-bar">
+    <div class="shipping-progress" id="shippingProgress"></div>
+  </div>
+</div>
 
 <form id="checkoutForm">
   <label class="en" for="name" style="display: block;">Full Name</label>
@@ -96,6 +104,29 @@ langBtn.addEventListener('click', () => {
   document.body.classList.toggle('rtl', isArabic);
 });
 
+function fakeShippingCounter(){
+
+    const maxOrders = 20;
+
+    let orderNum = localStorage.getItem("fakeOrders");
+
+    if(!orderNum){
+        orderNum = Math.floor(Math.random()*8)+2; 
+    }else{
+        orderNum = parseInt(orderNum) + 1;
+        if(orderNum > maxOrders) orderNum = 6;
+    }
+
+    localStorage.setItem("fakeOrders", orderNum);
+
+    document.getElementById("orderNumber").innerText = orderNum;
+
+    const percent = (orderNum/maxOrders)*100;
+    document.getElementById("shippingProgress").style.width = percent + "%";
+}
+
+fakeShippingCounter();
+  
 function renderSummary() {
     const cart = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
     const container = document.getElementById('summaryItems');
