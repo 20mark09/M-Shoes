@@ -76,13 +76,17 @@
 <h1 class="ar rtl" style="display: none;">الدفع</h1>
 
 <div class="shipping-offer">
+
   <div class="shipping-text">
-    🔥 <span id="orderNumber">3</span> / 20 orders claimed free the shipping 
+    🔥 <span id="orderNumber">3</span> / 20 orders claimed the free shipping
   </div>
+
+  <div class="spots-left" id="spotsLeft"></div>
 
   <div class="shipping-bar">
     <div class="shipping-progress" id="shippingProgress"></div>
   </div>
+
 </div>
 
   <div id="summaryItems"></div>
@@ -112,10 +116,10 @@ function fakeShippingCounter(){
     let orderNum = localStorage.getItem("fakeOrders");
 
     if(!orderNum){
-        orderNum = Math.floor(Math.random()*8)+2; 
+        orderNum = Math.floor(Math.random()*8)+3;
     }else{
         orderNum = parseInt(orderNum) + 1;
-        if(orderNum > maxOrders) orderNum = 6;
+        if(orderNum > maxOrders) orderNum = 7;
     }
 
     localStorage.setItem("fakeOrders", orderNum);
@@ -124,6 +128,11 @@ function fakeShippingCounter(){
 
     const percent = (orderNum/maxOrders)*100;
     document.getElementById("shippingProgress").style.width = percent + "%";
+
+    const spotsLeft = maxOrders - orderNum;
+
+    document.getElementById("spotsLeft").innerText =
+      `⚠ Only ${spotsLeft} free shipping spots left today!`;
 }
 
 fakeShippingCounter();
