@@ -8,6 +8,9 @@
 </head>
 <body class="">
 <div class="container">
+<button id="langBtn">English/ عربي</button>
+<h1 class="en" style="display: block; text-align: center;">Checkout</h1>
+<h1 class="ar rtl" style="display: none;">الدفع</h1>
 
 <form id="checkoutForm">
   <label class="en" for="name" style="display: block;">Full Name</label>
@@ -71,9 +74,7 @@
   <h3 class="ar rtl" style="display: none;">ملخص الطلب</h3>
     
 
-<button id="langBtn">English/ عربي</button>
-<h1 class="en" style="display: block; text-align: center;">Checkout</h1>
-<h1 class="ar rtl" style="display: none;">الدفع</h1>
+
 
 <div class="shipping-offer">
 
@@ -132,7 +133,7 @@ function fakeShippingCounter(){
     const spotsLeft = maxOrders - orderNum;
 
     document.getElementById("spotsLeft").innerText =
-      `⚠ Only ${spotsLeft} free shipping spots left today!`;
+      `⚠ Only ${spotsLeft} free shipping spots left order now!`;
 }
 
 fakeShippingCounter();
