@@ -171,4 +171,9 @@ button:active {
     background:#dd2125;
     transition:width 0.5s ease;
 }
-
+.spots-left{
+    font-size:13px;
+    margin-bottom:8px;
+    color:#ffb347;
+    font-weight:bold;
+}
