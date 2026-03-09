@@ -144,3 +144,31 @@ button:active {
 }
 
 
+.shipping-offer{
+    background:#111;
+    border:1px solid #dd2125;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:20px;
+}
+
+.shipping-text{
+    font-size:14px;
+    margin-bottom:6px;
+    color:#fff;
+}
+
+.shipping-bar{
+    height:8px;
+    background:#333;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.shipping-progress{
+    height:100%;
+    width:0%;
+    background:#dd2125;
+    transition:width 0.5s ease;
+}
+
