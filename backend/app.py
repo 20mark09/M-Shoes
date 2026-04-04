@@ -8,17 +8,18 @@ CORS(app)  # ✅ THIS FIXES YOUR ERROR
 
 WINGEZZ_BASE = "https://wingezz.com/api/v1"
 
-EMAIL = os.environ.get("mf.shoes2617@gmail.com")
-PASSWORD = os.environ.get("01222552221@@@")
+EMAIL = os.environ.get("WINGEZZ_USER")
+PASSWORD = os.environ.get("WINGEZZ_PASS")
 
 def get_token():
-    res = requests.post(f"{WINGEZZ_BASE}/auth", json={
+    res = requests.post("https://api.wingezz.com/api/v1/auth", json={
         "email": EMAIL,
         "password": PASSWORD
     })
 
+    print("AUTH RESPONSE:", res.text)  # 🔥 ADD THIS
+
     if res.status_code != 200:
-        print("Auth failed:", res.text)
         return None
 
     return res.json().get("token")
