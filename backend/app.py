@@ -8,8 +8,8 @@ CORS(app)  # ✅ THIS FIXES YOUR ERROR
 
 WINGEZZ_BASE = "https://wingezz.com/api/v1"
 
-EMAIL = os.environ.get("WINGEZZ_USER")
-PASSWORD = os.environ.get("WINGEZZ_PASS")
+EMAIL = os.environ.get("mf.shoes2617@gmail.com")
+PASSWORD = os.environ.get("01222552221@@@")
 
 def get_token():
     res = requests.post(f"{WINGEZZ_BASE}/auth", json={
