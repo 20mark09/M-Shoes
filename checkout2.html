@@ -198,7 +198,7 @@ document.getElementById('whatsappBtn').addEventListener('click', async () => {
 
     if (!order.name || !order.phone || !order.address) {
         alert(isArabic?'الرجاء ملء جميع الحقول المطلوبة':'Please fill in all required fields');
-        return;
+        
     }
 
     const items = order.cart.map(i => `${i.name} x${i.qty} - $${i.price * i.qty}`).join('%0A');
