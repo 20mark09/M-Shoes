@@ -24,7 +24,7 @@ def get_token():
     return res.json().get("token")
 
 
-@app.route("/create-shipment", methods=["POST"])
+@app.route("/create-order", methods=["POST"])
 def create_order():
     data = request.json
 
