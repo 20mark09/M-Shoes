@@ -165,19 +165,18 @@ renderSummary();
 
 document.getElementById('whatsappBtn').addEventListener('click', async () => {
     const order = {
-    name: document.getElementById('name').value,
-    phone: document.getElementById('phone').value,
-    address: document.getElementById('address').value,
-    city: document.getElementById('city').value,
-    govern_id: 1,   // TEMP
-    area_id: 1,     // TEMP
-    price: document.getElementById('summaryTotal').innerText,
-    items: JSON.parse(localStorage.getItem('cartForCheckout') || '[]')
-};
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        city: document.getElementById('city').value,
+        governorate: document.getElementById('governorate').value,
+        cart: JSON.parse(localStorage.getItem('cartForCheckout') || '[]'),
+        total: document.getElementById('summaryTotal').innerText
+    };
 
     // 1. Send to your Backend (Wingezz API)
     try {
-        const response = await fetch('https://m-shoes-1.onrender.com/create-order', {
+        const response = await fetch('/create-shipment', {
             method: 'POST',
             body: JSON.stringify(order)
         });
@@ -198,7 +197,7 @@ document.getElementById('whatsappBtn').addEventListener('click', async () => {
 
     if (!order.name || !order.phone || !order.address) {
         alert(isArabic?'الرجاء ملء جميع الحقول المطلوبة':'Please fill in all required fields');
-        
+        return;
     }
 
     const items = order.cart.map(i => `${i.name} x${i.qty} - $${i.price * i.qty}`).join('%0A');
