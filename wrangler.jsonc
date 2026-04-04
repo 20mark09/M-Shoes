@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "my-worker-dev",
+  "vars": {
+    "WINGEZZ_EMAIL": "mf.shoes2617@gmail.com",
+    "WINGEZZ_PASSWORD": "01222552221@@@",
+   
+    }
+  }
+}
