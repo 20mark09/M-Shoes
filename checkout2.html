@@ -165,14 +165,15 @@ renderSummary();
 
 document.getElementById('whatsappBtn').addEventListener('click', async () => {
     const order = {
-        name: document.getElementById('name').value,
-        phone: document.getElementById('phone').value,
-        address: document.getElementById('address').value,
-        city: document.getElementById('city').value,
-        governorate: document.getElementById('governorate').value,
-        cart: JSON.parse(localStorage.getItem('cartForCheckout') || '[]'),
-        total: document.getElementById('summaryTotal').innerText
-    };
+    name: document.getElementById('name').value,
+    phone: document.getElementById('phone').value,
+    address: document.getElementById('address').value,
+    city: document.getElementById('city').value,
+    govern_id: 1,   // TEMP
+    area_id: 1,     // TEMP
+    price: document.getElementById('summaryTotal').innerText,
+    items: JSON.parse(localStorage.getItem('cartForCheckout') || '[]')
+};
 
     // 1. Send to your Backend (Wingezz API)
     try {
