@@ -163,37 +163,16 @@ function renderSummary() {
 renderSummary();
 
 
-document.getElementById('whatsappBtn').addEventListener('click', async () => {
+document.getElementById('whatsappBtn').addEventListener('click', () => {
     const order = {
         name: document.getElementById('name').value,
         phone: document.getElementById('phone').value,
         address: document.getElementById('address').value,
         city: document.getElementById('city').value,
         governorate: document.getElementById('governorate').value,
-        cart: JSON.parse(localStorage.getItem('cartForCheckout') || '[]'),
-        total: document.getElementById('summaryTotal').innerText
+        payment: document.getElementById('payment').value,
+        cart: JSON.parse(localStorage.getItem('cartForCheckout') || '[]')
     };
-
-    // 1. Send to your Backend (Wingezz API)
-    try {
-        const response = await fetch('/create-shipment', {
-            method: 'POST',
-            body: JSON.stringify(order)
-        });
-        const result = await response.json();
-        
-        if(response.ok) {
-            alert("Order sent to Wingezz successfully!");
-        }
-    } catch (err) {
-        console.error("API Error:", err);
-    }
-
-    // 2. Continue to WhatsApp as a secondary confirmation
-    const items = order.cart.map(i => `${i.name} x${i.qty}`).join('%0A');
-    const message = `New Order Created on Wingezz!%0AName: ${order.name}%0AItems:%0A${items}`;
-    window.open(`https://wa.me/+201556761228?text=${message}`, '_blank');
-});
 
     if (!order.name || !order.phone || !order.address) {
         alert(isArabic?'الرجاء ملء جميع الحقول المطلوبة':'Please fill in all required fields');
