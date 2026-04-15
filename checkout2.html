@@ -306,7 +306,7 @@ async function loadGovernorates() {
       const opt = document.createElement('option');
       opt.value = gov.id;
       // Try common field name patterns
-      opt.textContent = gov.name_en || gov.name || gov.govern_name || gov.title || `Gov ${gov.id}`;
+      opt.textContent = gov.name_en || gov.name || gov.govern_name || gov.title || govern_id || gov.govern_id || `Gov ${gov.id}`;
       sel.appendChild(opt);
     });
     loader.style.display = 'none';
