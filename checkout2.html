@@ -306,7 +306,7 @@ async function loadGovernorates() {
       const opt = document.createElement('option');
       opt.value = gov.id;
       // Try common field name patterns
-      opt.textContent = gov.name_en || gov.name || gov.govern_name || gov.title || govern_id || gov.govern_id || `Gov ${gov.id}`;
+      opt.textContent = gov.name_en || gov.name || gov.govern_name || gov.title || gov.govern_id || gov.governs || `Gov ${gov.id}`;
       sel.appendChild(opt);
     });
     loader.style.display = 'none';
@@ -372,7 +372,7 @@ document.getElementById('governorate').addEventListener('change', async function
     data.forEach(area => {
       const opt = document.createElement('option');
       opt.value = area.id;
-      opt.textContent = area.name_en || area.name || area.area_name || area.title || `Area ${area.id}`;
+      opt.textContent = area.name_en || area.name || area.area_name || area.title || gov.govern_id || `Area ${area.id}`;
       areaSel.appendChild(opt);
     });
     areaSel.disabled = false;
