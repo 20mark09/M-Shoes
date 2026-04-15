@@ -58,42 +58,44 @@
 
         <div class="field-group">
           <div class="field">
-            <label class="en" for="city" style="display:block">City</label>
-            <label class="ar rtl" for="city" style="display:none">المدينة</label>
-            <input type="text" id="city" placeholder="Cairo" required>
-          </div>
-          <div class="field">
             <label class="en" for="governorate" style="display:block">Governorate</label>
             <label class="ar rtl" for="governorate" style="display:none">المحافظة</label>
-            <select id="governorate" required>
-              <option value="Cairo">Cairo / القاهرة</option>
-              <option value="Giza">Giza / الجيزة</option>
-              <option value="Alexandria">Alexandria / الإسكندرية</option>
-              <option value="Dakahlia">Dakahlia / الدقهلية</option>
-              <option value="Red Sea">Red Sea / البحر الأحمر</option>
-              <option value="Beheira">Beheira / البحيرة</option>
-              <option value="Fayoum">Fayoum / الفيوم</option>
-              <option value="Gharbia">Gharbia / الغربية</option>
-              <option value="Ismailia">Ismailia / الإسماعيلية</option>
-              <option value="Menofia">Menofia / المنوفية</option>
-              <option value="Minya">Minya / المنيا</option>
-              <option value="Qaliubiya">Qaliubiya / القليوبية</option>
-              <option value="New Valley">New Valley / الوادي الجديد</option>
-              <option value="Suez">Suez / السويس</option>
-              <option value="Aswan">Aswan / أسوان</option>
-              <option value="Assiut">Assiut / أسيوط</option>
-              <option value="Beni Suef">Beni Suef / بني سويف</option>
-              <option value="Port Said">Port Said / بورسعيد</option>
-              <option value="Damietta">Damietta / دمياط</option>
-              <option value="Sharkia">Sharkia / الشرقية</option>
-              <option value="South Sinai">South Sinai / جنوب سيناء</option>
-              <option value="North Sinai" disabled>North Sinai (Not in coverage) / شمال سيناء</option>
-              <option value="Kafr El Sheikh">Kafr El Sheikh / كفر الشيخ</option>
-              <option value="Luxor">Luxor / الأقصر</option>
-              <option value="Qena">Qena / قنا</option>
-              <option value="Sohag">Sohag / سوهاج</option>
-              <option value="Matrouh">Matrouh / مطروح</option>
-            </select>
+            <div class="select-wrap">
+              <select id="governorate" required>
+                <option value="">Loading...</option>
+              </select>
+              <div class="select-loader" id="govLoader">
+                <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label class="en" for="area" style="display:block">Area / District</label>
+            <label class="ar rtl" for="area" style="display:none">المنطقة</label>
+            <div class="select-wrap">
+              <select id="area" required disabled>
+                <option value="">Select governorate first</option>
+              </select>
+              <div class="select-loader hidden" id="areaLoader">
+                <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="en" for="city" style="display:block">City / Building details</label>
+          <label class="ar rtl" for="city" style="display:none">المدينة / تفاصيل إضافية</label>
+          <input type="text" id="city" placeholder="Apartment, floor, landmark...">
+        </div>
+
+        <!-- SHIPPING ESTIMATE -->
+        <div class="shipping-estimate" id="shippingEstimate" style="display:none">
+          <div class="estimate-icon">🚚</div>
+          <div>
+            <div class="estimate-title en" style="display:block">Estimated Delivery</div>
+            <div class="estimate-title ar" style="display:none">موعد التوصيل المتوقع</div>
+            <div class="estimate-value" id="estimateValue">2–4 business days</div>
           </div>
         </div>
 
@@ -176,21 +178,70 @@
         </div>
       </div>
 
-      <button type="button" id="whatsappBtn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        <span class="en" style="display:block">Send Order via WhatsApp</span>
-        <span class="ar rtl" style="display:none">إرسال الطلب عبر واتساب</span>
+      <!-- PLACE ORDER BUTTON (Wingezz) -->
+      <button type="button" id="placeOrderBtn" class="place-order-btn">
+        <span class="btn-content" id="btnContent">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span class="en" style="display:inline">Place Order</span>
+          <span class="ar rtl" style="display:none">تأكيد الطلب</span>
+        </span>
+        <span class="btn-loading" id="btnLoading" style="display:none">
+          <svg class="spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+          <span class="en" style="display:inline">Submitting...</span>
+          <span class="ar rtl" style="display:none">جاري التقديم...</span>
+        </span>
       </button>
 
-      <p class="checkout-note en" style="display:block">By placing your order you agree to our terms of service and privacy policy.</p>
-      <p class="checkout-note ar rtl" style="display:none">بتقديم طلبك فإنك توافق على شروط الخدمة وسياسة الخصوصية.</p>
+      <!-- DIVIDER -->
+      <div class="divider-text">
+        <span>or</span>
+      </div>
+
+      <!-- WHATSAPP FALLBACK -->
+      <button type="button" id="whatsappBtn" class="whatsapp-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        <span class="en" style="display:inline">Order via WhatsApp instead</span>
+        <span class="ar rtl" style="display:none">اطلب عبر واتساب</span>
+      </button>
+
+      <p class="checkout-note en" style="display:block">Your order will be processed by Wingezz shipping. You'll receive a tracking number via WhatsApp.</p>
+      <p class="checkout-note ar rtl" style="display:none">سيتم معالجة طلبك عبر شركة وينجيز للشحن. ستتلقى رقم التتبع عبر واتساب.</p>
     </div>
 
   </div>
 </div>
 
+<!-- SUCCESS OVERLAY -->
+<div id="successOverlay" class="success-overlay" style="display:none">
+  <div class="success-box">
+    <div class="success-icon">✓</div>
+    <h2>Order Placed!</h2>
+    <p>Your order has been submitted to Wingezz. You'll receive a tracking SMS shortly.</p>
+    <div class="tracking-info" id="trackingInfo" style="display:none">
+      <span>Tracking ID:</span>
+      <strong id="trackingId"></strong>
+    </div>
+    <div class="success-actions">
+      <button onclick="window.location.href='index.html'" class="success-btn">Continue Shopping</button>
+      <button id="successWhatsApp" class="success-btn secondary">Confirm on WhatsApp</button>
+    </div>
+  </div>
+</div>
+
 <script>
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+// Replace with your actual Supabase project URL after deploying the function
+const SUPABASE_FUNCTION_URL = "https://supabase.com/dashboard/project/qczffxcqunuulymnefiy/functions";
+// Replace with your WhatsApp number
+const WHATSAPP_NUMBER = "+201556761228";
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
 let isArabic = false;
+let governorates = []; // [{id, name_en, name_ar}, ...]
+let selectedGovernId = null;
+let lastOrderData = null;
+
+// ─── LANGUAGE TOGGLE ──────────────────────────────────────────────────────────
 const langBtn = document.getElementById('langBtn');
 langBtn.addEventListener('click', () => {
   isArabic = !isArabic;
@@ -199,6 +250,7 @@ langBtn.addEventListener('click', () => {
   document.body.classList.toggle('rtl', isArabic);
 });
 
+// ─── FAKE SHIPPING COUNTER ────────────────────────────────────────────────────
 function fakeShippingCounter() {
   const maxOrders = 20;
   let orderNum = localStorage.getItem("fakeOrders");
@@ -206,22 +258,18 @@ function fakeShippingCounter() {
   else { orderNum = parseInt(orderNum) + 1; if (orderNum > maxOrders) orderNum = 7; }
   localStorage.setItem("fakeOrders", orderNum);
   document.getElementById("orderNumber").innerText = orderNum;
-  const percent = (orderNum / maxOrders) * 100;
-  document.getElementById("shippingProgress").style.width = percent + "%";
-  const spotsLeft = maxOrders - orderNum;
-  document.getElementById("spotsLeft").innerText = `⚠ Only ${spotsLeft} free shipping spots left — order now!`;
+  document.getElementById("shippingProgress").style.width = ((orderNum / maxOrders) * 100) + "%";
+  document.getElementById("spotsLeft").innerText = `⚠ Only ${maxOrders - orderNum} free shipping spots left — order now!`;
 }
-
 fakeShippingCounter();
 
+// ─── RENDER CART SUMMARY ──────────────────────────────────────────────────────
 function renderSummary() {
   const cart = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
   const container = document.getElementById('summaryItems');
-  const totalEl = document.getElementById('summaryTotal');
-  const subtotalEl = document.getElementById('summarySubtotal');
-  container.innerHTML = '';
   let total = 0;
-  if (cart.length === 0) {
+  container.innerHTML = '';
+  if (!cart.length) {
     container.innerHTML = '<div class="empty-cart-msg">No items in cart</div>';
   } else {
     cart.forEach(item => {
@@ -236,32 +284,229 @@ function renderSummary() {
         </div>`;
     });
   }
-  totalEl.innerText = total;
-  subtotalEl.innerText = total;
+  document.getElementById('summaryTotal').innerText = total;
+  document.getElementById('summarySubtotal').innerText = total;
+}
+renderSummary();
+
+// ─── LOAD GOVERNORATES FROM WINGEZZ ──────────────────────────────────────────
+async function loadGovernorates() {
+  const sel = document.getElementById('governorate');
+  const loader = document.getElementById('govLoader');
+
+  try {
+    const res = await fetch(`${SUPABASE_FUNCTION_URL}?action=governs`);
+    if (!res.ok) throw new Error('Failed to load');
+    const data = await res.json();
+
+    // Wingezz returns array — adapt field names if needed
+    governorates = data;
+    sel.innerHTML = '<option value="">Select Governorate</option>';
+    data.forEach(gov => {
+      const opt = document.createElement('option');
+      opt.value = gov.id;
+      // Try common field name patterns
+      opt.textContent = gov.name_en || gov.name || gov.govern_name || gov.title || `Gov ${gov.id}`;
+      sel.appendChild(opt);
+    });
+    loader.style.display = 'none';
+  } catch (err) {
+    // Fallback to hardcoded list if API fails
+    console.warn('Wingezz governs failed, using fallback:', err);
+    loadFallbackGovernorates();
+    loader.style.display = 'none';
+  }
 }
 
-renderSummary();
+function loadFallbackGovernorates() {
+  const GOVS = [
+    { id: 1, name: 'Cairo / القاهرة' }, { id: 2, name: 'Giza / الجيزة' },
+    { id: 3, name: 'Alexandria / الإسكندرية' }, { id: 4, name: 'Dakahlia / الدقهلية' },
+    { id: 5, name: 'Beheira / البحيرة' }, { id: 6, name: 'Fayoum / الفيوم' },
+    { id: 7, name: 'Gharbia / الغربية' }, { id: 8, name: 'Ismailia / الإسماعيلية' },
+    { id: 9, name: 'Menofia / المنوفية' }, { id: 10, name: 'Minya / المنيا' },
+    { id: 11, name: 'Qaliubiya / القليوبية' }, { id: 12, name: 'Suez / السويس' },
+    { id: 13, name: 'Aswan / أسوان' }, { id: 14, name: 'Assiut / أسيوط' },
+    { id: 15, name: 'Beni Suef / بني سويف' }, { id: 16, name: 'Port Said / بورسعيد' },
+    { id: 17, name: 'Damietta / دمياط' }, { id: 18, name: 'Sharkia / الشرقية' },
+    { id: 19, name: 'Luxor / الأقصر' }, { id: 20, name: 'Qena / قنا' },
+    { id: 21, name: 'Sohag / سوهاج' }, { id: 22, name: 'Matrouh / مطروح' },
+    { id: 23, name: 'Red Sea / البحر الأحمر' }, { id: 24, name: 'South Sinai / جنوب سيناء' },
+    { id: 25, name: 'Kafr El Sheikh / كفر الشيخ' }, { id: 26, name: 'New Valley / الوادي الجديد' },
+  ];
+  const sel = document.getElementById('governorate');
+  sel.innerHTML = '<option value="">Select Governorate</option>';
+  GOVS.forEach(g => {
+    const opt = document.createElement('option');
+    opt.value = g.id;
+    opt.textContent = g.name;
+    sel.appendChild(opt);
+  });
+  governorates = GOVS;
+}
+
+// ─── LOAD AREAS WHEN GOVERNORATE CHANGES ─────────────────────────────────────
+document.getElementById('governorate').addEventListener('change', async function () {
+  const governId = this.value;
+  const areaSel = document.getElementById('area');
+  const areaLoader = document.getElementById('areaLoader');
+  selectedGovernId = governId;
+
+  if (!governId) {
+    areaSel.innerHTML = '<option value="">Select governorate first</option>';
+    areaSel.disabled = true;
+    document.getElementById('shippingEstimate').style.display = 'none';
+    return;
+  }
+
+  areaSel.disabled = true;
+  areaSel.innerHTML = '<option>Loading areas...</option>';
+  areaLoader.classList.remove('hidden');
+
+  try {
+    const res = await fetch(`${SUPABASE_FUNCTION_URL}?action=areas&govern_id=${governId}`);
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+
+    areaSel.innerHTML = '<option value="">Select Area (optional)</option>';
+    data.forEach(area => {
+      const opt = document.createElement('option');
+      opt.value = area.id;
+      opt.textContent = area.name_en || area.name || area.area_name || area.title || `Area ${area.id}`;
+      areaSel.appendChild(opt);
+    });
+    areaSel.disabled = false;
+  } catch {
+    areaSel.innerHTML = '<option value="0">Area not available</option>';
+    areaSel.disabled = false;
+  }
+
+  areaLoader.classList.add('hidden');
+  document.getElementById('shippingEstimate').style.display = 'flex';
+  // Adjust delivery estimate by governorate
+  const cairoGovs = [1, 2, 11]; // Cairo, Giza, Qaliubiya = next day
+  document.getElementById('estimateValue').textContent =
+    cairoGovs.includes(parseInt(governId)) ? '1–2 business days' : '2–5 business days';
+});
+
+// ─── PLACE ORDER VIA WINGEZZ ──────────────────────────────────────────────────
+document.getElementById('placeOrderBtn').addEventListener('click', async () => {
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const city = document.getElementById('city').value.trim();
+  const govern_id = document.getElementById('governorate').value;
+  const area_id = document.getElementById('area').value || null;
+  const payment = document.querySelector('input[name="payment"]:checked').value;
+  const cart = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
+
+  if (!name || !phone || !address || !govern_id) {
+    showError(isArabic ? 'الرجاء ملء جميع الحقول المطلوبة' : 'Please fill all required fields');
+    return;
+  }
+  if (!cart.length) {
+    showError('Your cart is empty');
+    return;
+  }
+
+  const total = cart.reduce((a, b) => a + b.price * b.qty, 0);
+  const itemsText = cart.map(i => `${i.name} (${i.color}, Sz${i.size}) x${i.qty}`).join(', ');
+
+  // Store for WhatsApp fallback
+  lastOrderData = { name, phone, address, city, govern_id, area_id, payment, cart, total };
+
+  // Show loading state
+  document.getElementById('btnContent').style.display = 'none';
+  document.getElementById('btnLoading').style.display = 'flex';
+  document.getElementById('placeOrderBtn').disabled = true;
+
+  try {
+    const res = await fetch(`${SUPABASE_FUNCTION_URL}?action=create_order`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, address, city, govern_id, area_id, payment, total, items: itemsText }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      throw new Error(JSON.stringify(data.error || 'Order failed'));
+    }
+
+    // Success!
+    const trackingId = data.order?.id || data.order?.tracking_number || data.order?.order_id || null;
+    showSuccess(trackingId, name, phone, total, itemsText);
+
+    localStorage.removeItem('cartForCheckout');
+    localStorage.removeItem('cart');
+
+  } catch (err) {
+    console.error(err);
+    showError(isArabic
+      ? 'فشل إرسال الطلب. يمكنك إرسال الطلب عبر واتساب.'
+      : 'Order submission failed. You can still send via WhatsApp below.'
+    );
+  } finally {
+    document.getElementById('btnContent').style.display = 'flex';
+    document.getElementById('btnLoading').style.display = 'none';
+    document.getElementById('placeOrderBtn').disabled = false;
+  }
+});
+
+// ─── WHATSAPP FALLBACK ────────────────────────────────────────────────────────
+function sendWhatsApp(name, phone, address, city, governId, payment, cart, total) {
+  const governName = governorates.find(g => String(g.id) === String(governId))?.name || governId;
+  const items = cart.map(i => `${i.name} x${i.qty} - $${i.price * i.qty}`).join('%0A');
+  const message = `🛍 New Order — M Shoes%0A%0A👤 ${name}%0A📞 ${phone}%0A📍 ${address}, ${city}, ${governName}%0A💳 ${payment}%0A%0A📦 Items:%0A${items}%0A%0A💰 Total: $${total}`;
+  window.open(`https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g,'')}?text=${message}`, '_blank');
+}
 
 document.getElementById('whatsappBtn').addEventListener('click', () => {
   const name = document.getElementById('name').value;
   const phone = document.getElementById('phone').value;
   const address = document.getElementById('address').value;
   const city = document.getElementById('city').value;
-  const governorate = document.getElementById('governorate').value;
+  const govern_id = document.getElementById('governorate').value;
   const payment = document.querySelector('input[name="payment"]:checked').value;
   const cart = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
-
-  if (!name || !phone || !address) {
-    alert(isArabic ? 'الرجاء ملء جميع الحقول المطلوبة' : 'Please fill in all required fields');
-    return;
-  }
-
-  const items = cart.map(i => `${i.name} x${i.qty} - $${i.price * i.qty}`).join('%0A');
-  const message = `🛍 New Order from M Shoes%0A%0A👤 Name: ${name}%0A📞 Phone: ${phone}%0A📍 Address: ${address}, ${city}, ${governorate}%0A💳 Payment: ${payment}%0A%0A📦 Items:%0A${items}%0A%0A💰 Total: $${cart.reduce((a, b) => a + b.price * b.qty, 0)}`;
-  window.open(`https://wa.me/+201556761228?text=${message}`, '_blank');
+  const total = cart.reduce((a, b) => a + b.price * b.qty, 0);
+  if (!name || !phone) { showError('Please fill your name and phone first'); return; }
+  sendWhatsApp(name, phone, address, city, govern_id, payment, cart, total);
   localStorage.removeItem('cartForCheckout');
   localStorage.removeItem('cart');
 });
+
+// ─── SUCCESS OVERLAY ──────────────────────────────────────────────────────────
+function showSuccess(trackingId, name, phone, total, itemsText) {
+  const overlay = document.getElementById('successOverlay');
+  overlay.style.display = 'flex';
+  if (trackingId) {
+    document.getElementById('trackingInfo').style.display = 'flex';
+    document.getElementById('trackingId').textContent = trackingId;
+  }
+  // WhatsApp confirmation button
+  document.getElementById('successWhatsApp').onclick = () => {
+    const msg = `✅ Order Confirmed!%0ATracking: ${trackingId || 'N/A'}%0ATotal: $${total}`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g,'')}?text=${msg}`, '_blank');
+  };
+}
+
+// ─── ERROR TOAST ──────────────────────────────────────────────────────────────
+function showError(msg) {
+  let toast = document.getElementById('errorToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'errorToast';
+    toast.className = 'error-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+loadGovernorates();
 </script>
 </body>
 </html>
