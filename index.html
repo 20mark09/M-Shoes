@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M Shoes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="shortcut icon" type="image/x-icon" href="logo.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="">
+
+<header>
+  <div class="menu-btn" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+  <a href="https://20mark09.github.io/M-Shoes/" class="logo-link">
+    <img alt="M Shoes" class="toplogo" src="logo.png">
+    <span class="logo-text">M SHOES</span>
+  </a>
+  <div class="header-right">
+    <button id="langBtn">EN / ع</button>
+    <div class="cart-btn" onclick="toggleCart()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="cart-badge" id="cartCount">0</span>
+    </div>
+  </div>
+</header>
+
+<aside id="menu">
+  <button class="menu-close" onclick="toggleMenu()">✕</button>
+  <div class="menu-header">
+    <span class="en" style="display:block">Categories</span>
+    <span class="ar rtl" style="display:none">التصنيفات</span>
+  </div>
+  <ul>
+    <li onclick="filterProducts('all')">
+      <span class="en" style="display:block">All Products</span>
+      <span class="ar rtl" style="display:none">جميع المنتجات</span>
+    </li>
+    <li onclick="filterProducts('shoes')">
+      <span class="en" style="display:block">Shoes</span>
+      <span class="ar rtl" style="display:none">أحذية</span>
+    </li>
+    <li onclick="filterProducts('clothes')">
+      <span class="en" style="display:block">Clothes</span>
+      <span class="ar rtl" style="display:none">ملابس</span>
+    </li>
+    <li onclick="filterProducts('accessories')">
+      <span class="en" style="display:block">Accessories</span>
+      <span class="ar rtl" style="display:none">إكسسوارات</span>
+    </li>
+  </ul>
+  <div class="menu-footer">
+    <p>© 2025 M Shoes</p>
+  </div>
+</aside>
+
+<div id="menuOverlay" onclick="toggleMenu()"></div>
+
+<section class="hero">
+  <div class="hero-label">New Collection</div>
+  <h1 class="hero-title">STEP<br><em>DIFFERENT</em></h1>
+  <p class="hero-sub en" style="display:block">Premium footwear crafted for the streets</p>
+  <p class="hero-sub ar rtl" style="display:none">أحذية فاخرة مصممة للشوارع</p>
+  <div class="hero-accent"></div>
+</section>
+
+<main id="products"></main>
+
+<!-- CART SIDEBAR -->
+<div class="cart" id="cart" style="display: none;">
+  <div class="cart-header">
+    <h3 class="en" style="display:block">Your Cart</h3>
+    <h3 class="ar rtl" style="display:none">سلة التسوق</h3>
+    <button class="close-cart" onclick="toggleCart()">✕</button>
+  </div>
+  <div id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="discount-box">
+      <input type="text" id="discountCode" placeholder="Discount code">
+      <button onclick="applyDiscount()">Apply</button>
+    </div>
+    <p id="discountMessage"></p>
+    <div class="cart-total-row">
+      <span class="en" style="display:block">Total</span>
+      <span class="ar rtl" style="display:none">الإجمالي</span>
+      <strong>$<span id="cartTotal">0</span></strong>
+    </div>
+    <button class="checkout-btn" onclick="checkout()">
+      <span class="en" style="display:block">Checkout</span>
+      <span class="ar rtl" style="display:none">إتمام الشراء</span>
+    </button>
+  </div>
+</div>
+<div id="cartOverlay" onclick="toggleCart()"></div>
+
+<!-- PRODUCT MODAL -->
+<div id="productModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeProduct()">✕</button>
+    <div class="modal-img-wrap">
+      <img id="modalImage" src="nike1.jpg" alt="">
+      <div id="thumbs"></div>
+    </div>
+    <div class="modal-info">
+      <div class="modal-tag">New Arrival</div>
+      <h2 id="modalName"></h2>
+      <p id="modalDesc"></p>
+      <div class="modal-price">$<span id="modalPrice"></span></div>
+      <div class="modal-selects">
+        <div class="select-group">
+          <label class="en" style="display:block">Color</label>
+          <label class="ar rtl" style="display:none">اللون</label>
+          <select id="modalColor"></select>
+        </div>
+        <div class="select-group">
+          <label class="en" style="display:block">Size</label>
+          <label class="ar rtl" style="display:none">المقاس</label>
+          <select id="modalSize"></select>
+        </div>
+      </div>
+      <button class="modal-add-btn" id="modalAddBtn" onclick="addToCartModal(); animateButton(this);">
+        <span class="en" style="display:block">Add to Cart</span>
+        <span class="ar rtl" style="display:none">أضف إلى السلة</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- DISCOUNT POPUP -->
+<div id="discountPopup" class="discount-popup">
+  <div class="popup-box">
+    <div class="popup-icon">🎁</div>
+    <h3>اسأل عن خصم الويب سايت</h3>
+    <p>Ask about our exclusive website discount</p>
+    <button onclick="closeDiscountPopup()">Got it</button>
+  </div>
+</div>
+
+<script>
+const products = [
+  { id: 1, name: 'NIKE AirForce 1', price: 460, category: 'shoes', images: ['nikeaf1.jpg','nike1.jpg','nike2.jpg','nike3.jpg','nike4.jpg','nike5.jpg'], description: 'Sky Leather Imported Quality', colors:['White'], sizes:[42,43,44,45,46] },
+  { id: 2, name: 'NIKE AirForce1 Black', price: 460, category: 'shoes', images: ['nikeb.jpg','nikeb1.jpg','nikeb2.jpg','nikeb3.jpg'], description: 'Sky Leather Imported Quality', colors:['Black'], sizes:[42,43,44,45,46] },
+  { id: 4, name: 'NIKE Brown', price: 450, category: 'shoes', images: ['brown SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
+  { id: 5, name: 'NIKE Brown 2', price: 450, category: 'shoes', images: ['fullbrown SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
+  { id: 6, name: 'NIKE Gray', price: 450, category: 'shoes', images: ['graynblack SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
+  { id: 7, name: 'NIKE Gray 2', price: 450, category: 'shoes', images: ['gray SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
+  { id: 8, name: 'NIKE AirMax', price: 530, category: 'shoes', images: ['airmax.jpg'], description: 'High Quality', colors:['Black'], sizes:[41,42,43,44,45] },
+  { id: 3, name: 'Adidas Campus', price: 450, category: 'shoes', images: ['addi.jpg','adi1.jpg','adi2.jpg','adi3.jpg'], description: 'Rough leather material', colors:['Custom'], sizes:[41,42,43,44,45] }
+];
+
+let discountPercent = 0;
+const discountCodes = {};
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let currentImageIndex = 0;
+let startX = 0;
+let currentProduct = null;
+let isArabic = false;
+
+const langBtn = document.getElementById('langBtn');
+langBtn.addEventListener('click', () => {
+  isArabic = !isArabic;
+  document.querySelectorAll('.en').forEach(el => el.style.display = isArabic ? 'none' : 'block');
+  document.querySelectorAll('.ar').forEach(el => el.style.display = isArabic ? 'block' : 'none');
+  document.body.classList.toggle('rtl', isArabic);
+  langBtn.textContent = isArabic ? 'EN / ع' : 'EN / ع';
+});
+
+function renderProducts(list) {
+  const container = document.getElementById('products');
+  container.innerHTML = '';
+  list.forEach((p, i) => {
+    const colors = p.colors.map(c => `<option>${c}</option>`).join('');
+    const sizes = p.sizes.map(s => `<option>${s}</option>`).join('');
+    const div = document.createElement('div');
+    div.className = 'product';
+    div.style.animationDelay = (i * 0.07) + 's';
+    div.innerHTML = `
+      <div class="product-img-wrap" onclick="openProduct(${p.id})">
+        <img loading="lazy" src="${p.images[0]}" alt="${p.name}">
+        <div class="product-overlay">
+          <span>View Details</span>
+        </div>
+      </div>
+      <div class="product-body">
+        <div class="product-meta">
+          <span class="product-category">Shoes</span>
+          <span class="product-price">$${p.price}</span>
+        </div>
+        <h4>${p.name}</h4>
+        <div class="selects">
+          <select>${colors}</select>
+          <select>${sizes}</select>
+        </div>
+        <button onclick="addToCart(${p.id}, this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Add to Cart
+        </button>
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+function animateButton(btn) { btn.classList.add('clicked'); setTimeout(() => btn.classList.remove('clicked'), 500); }
+function filterProducts(category) { renderProducts(category === 'all' ? products : products.filter(p => p.category === category)); document.getElementById('menu').classList.remove('active'); document.getElementById('menuOverlay').classList.remove('active'); }
+
+function addToCart(id, btn = null) {
+  const productDiv = btn.closest('.product');
+  const color = productDiv.querySelector('select:nth-of-type(1)').value;
+  const size = productDiv.querySelector('select:nth-of-type(2)').value;
+  const itemIndex = cart.findIndex(i => i.id === id && i.color === color && i.size === size);
+  if (itemIndex > -1) cart[itemIndex].qty++;
+  else cart.push({ ...products.find(p => p.id === id), color, size, qty: 1 });
+  saveCart();
+  if (btn) animateButton(btn);
+}
+
+function addToCartModal() {
+  const color = document.getElementById('modalColor').value;
+  const size = document.getElementById('modalSize').value;
+  const itemIndex = cart.findIndex(i => i.id === currentProduct.id && i.color === color && i.size === size);
+  if (itemIndex > -1) cart[itemIndex].qty++;
+  else cart.push({ ...currentProduct, color, size, qty: 1 });
+  saveCart();
+  const btn = document.getElementById('modalAddBtn');
+  btn.classList.add('added');
+  btn.querySelector('.en').textContent = '✓ Added!';
+  setTimeout(() => { btn.classList.remove('added'); btn.querySelector('.en').textContent = 'Add to Cart'; }, 1500);
+}
+
+function updateCart() {
+  const items = document.getElementById('cartItems');
+  items.innerHTML = '';
+  let total = 0;
+  if (cart.length === 0) {
+    items.innerHTML = '<div class="cart-empty"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><p>Your cart is empty</p></div>';
+  } else {
+    cart.forEach(i => {
+      total += i.price * i.qty;
+      items.innerHTML += `<div class='cart-item'>
+        <div class="cart-item-info">
+          <span class="cart-item-name">${i.name}</span>
+          <span class="cart-item-meta">${i.color} · Size ${i.size}</span>
+        </div>
+        <div class="cart-item-right">
+          <div class="qty-controls">
+            <button onclick='changeQty(${i.id},"${i.color}","${i.size}",-1)'>−</button>
+            <span>${i.qty}</span>
+            <button onclick='changeQty(${i.id},"${i.color}","${i.size}",1)'>+</button>
+          </div>
+          <span class="cart-item-price">$${i.price * i.qty}</span>
+        </div>
+      </div>`;
+    });
+  }
+  let finalTotal = total - (total * discountPercent / 100);
+  document.getElementById('cartTotal').innerText = finalTotal.toFixed(2);
+  document.getElementById('cartCount').innerText = cart.reduce((a, b) => a + b.qty, 0);
+}
+
+function changeQty(id, color, size, delta) {
+  const item = cart.find(i => i.id === id && i.color === color && i.size === size);
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(i => !(i.id === id && i.color === color && i.size === size));
+  saveCart();
+}
+
+function saveCart() { localStorage.setItem('cart', JSON.stringify(cart)); updateCart(); }
+
+function toggleCart() {
+  const c = document.getElementById('cart');
+  const o = document.getElementById('cartOverlay');
+  const open = c.style.display !== 'flex';
+  c.style.display = open ? 'flex' : 'none';
+  o.classList.toggle('active', open);
+  document.body.classList.toggle('no-scroll', open);
+}
+
+function toggleMenu() {
+  document.getElementById('menu').classList.toggle('active');
+  document.getElementById('menuOverlay').classList.toggle('active');
+}
+
+function openProduct(id) {
+  currentProduct = products.find(p => p.id === id);
+  document.getElementById('modalName').innerText = currentProduct.name;
+  document.getElementById('modalDesc').innerText = currentProduct.description;
+  document.getElementById('modalPrice').innerText = currentProduct.price;
+  currentImageIndex = 0;
+  document.getElementById('modalImage').src = currentProduct.images[currentImageIndex];
+  const thumbs = document.getElementById('thumbs');
+  thumbs.innerHTML = '';
+  currentProduct.images.forEach((img, idx) => {
+    thumbs.innerHTML += `<img src='${img}' class="${idx === 0 ? 'active' : ''}" onclick="setModalImage('${img}', this)">`;
+  });
+  document.getElementById('modalColor').innerHTML = currentProduct.colors.map(c => `<option>${c}</option>`).join('');
+  document.getElementById('modalSize').innerHTML = currentProduct.sizes.map(s => `<option>${s}</option>`).join('');
+  document.getElementById('productModal').classList.add('show');
+  document.body.classList.add('modal-open');
+}
+
+function setModalImage(src, el) {
+  document.getElementById('modalImage').src = src;
+  document.querySelectorAll('#thumbs img').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function closeProduct() {
+  document.getElementById('productModal').classList.remove('show');
+  document.body.classList.remove('modal-open');
+}
+
+function checkout() { localStorage.setItem('cartForCheckout', JSON.stringify(cart)); window.location.href = 'checkout2.html'; }
+
+document.getElementById('productModal').addEventListener('click', function(e) { if (e.target.id === 'productModal') closeProduct(); });
+
+const modalImage = document.getElementById('modalImage');
+modalImage.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+modalImage.addEventListener('touchend', e => {
+  let diff = startX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) {
+    currentImageIndex = diff > 0 ? (currentImageIndex + 1) % currentProduct.images.length : (currentImageIndex - 1 + currentProduct.images.length) % currentProduct.images.length;
+    modalImage.src = currentProduct.images[currentImageIndex];
+    document.querySelectorAll('#thumbs img').forEach((t, i) => t.classList.toggle('active', i === currentImageIndex));
+  }
+});
+
+function applyDiscount() {
+  const code = document.getElementById("discountCode").value.trim().toUpperCase();
+  const message = document.getElementById("discountMessage");
+  const totalItems = cart.reduce((a, b) => a + b.qty, 0);
+  if (totalItems < 2) { discountPercent = 0; message.innerText = "Add at least 2 items to use a discount code"; message.style.color = "#f59e0b"; return; }
+  if (discountCodes[code]) { discountPercent = discountCodes[code]; message.innerText = "✓ Discount applied: " + discountPercent + "%"; message.style.color = "#22c55e"; localStorage.setItem("discountPercent", discountPercent); }
+  else { discountPercent = 0; message.innerText = "Invalid code"; message.style.color = "#ef4444"; localStorage.removeItem("discountPercent"); }
+  updateCart();
+}
+
+function closeDiscountPopup() { document.getElementById("discountPopup").style.display = "none"; }
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => { document.getElementById("discountPopup").style.display = "flex"; }, 2000);
+});
+
+renderProducts(products);
+updateCart();
+</script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — M Shoes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="shortcut icon" type="image/x-icon" href="logo.png">
+<link rel="stylesheet" href="checkoutstyle.css">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="back-link">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    <span class="en" style="display:inline">Back to Shop</span>
+    <span class="ar rtl" style="display:none">العودة للمتجر</span>
+  </a>
+  <div class="header-brand">
+    <img src="logo.png" alt="M Shoes" class="toplogo">
+    <span>M SHOES</span>
+  </div>
+  <button id="langBtn">EN / ع</button>
+</header>
+
+<div class="page-wrap">
+  <div class="checkout-grid">
+
+    <!-- LEFT: FORM -->
+    <div class="form-side">
+      <div class="section-label">
+        <span>01</span>
+        <h2 class="en" style="display:block">Delivery Details</h2>
+        <h2 class="ar rtl" style="display:none">تفاصيل التوصيل</h2>
+      </div>
+
+      <form id="checkoutForm">
+        <div class="field-group">
+          <div class="field">
+            <label class="en" for="name" style="display:block">Full Name</label>
+            <label class="ar rtl" for="name" style="display:none">الاسم الكامل</label>
+            <input type="text" id="name" placeholder="Ahmed Mohamed" required>
+          </div>
+          <div class="field">
+            <label class="en" for="phone" style="display:block">Phone Number</label>
+            <label class="ar rtl" for="phone" style="display:none">رقم الهاتف</label>
+            <input type="text" id="phone" placeholder="+20 1xx xxx xxxx" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="en" for="address" style="display:block">Street Address</label>
+          <label class="ar rtl" for="address" style="display:none">العنوان</label>
+          <textarea id="address" rows="2" placeholder="Street name, building number..." required></textarea>
+        </div>
+
+        <div class="field-group">
+          <div class="field">
+            <label class="en" for="city" style="display:block">City</label>
+            <label class="ar rtl" for="city" style="display:none">المدينة</label>
+            <input type="text" id="city" placeholder="Cairo" required>
+          </div>
+          <div class="field">
+            <label class="en" for="governorate" style="display:block">Governorate</label>
+            <label class="ar rtl" for="governorate" style="display:none">المحافظة</label>
+            <select id="governorate" required>
+              <option value="Cairo">Cairo / القاهرة</option>
+              <option value="Giza">Giza / الجيزة</option>
+              <option value="Alexandria">Alexandria / الإسكندرية</option>
+              <option value="Dakahlia">Dakahlia / الدقهلية</option>
+              <option value="Red Sea">Red Sea / البحر الأحمر</option>
+              <option value="Beheira">Beheira / البحيرة</option>
+              <option value="Fayoum">Fayoum / الفيوم</option>
+              <option value="Gharbia">Gharbia / الغربية</option>
+              <option value="Ismailia">Ismailia / الإسماعيلية</option>
+              <option value="Menofia">Menofia / المنوفية</option>
+              <option value="Minya">Minya / المنيا</option>
+              <option value="Qaliubiya">Qaliubiya / القليوبية</option>
+              <option value="New Valley">New Valley / الوادي الجديد</option>
+              <option value="Suez">Suez / السويس</option>
+              <option value="Aswan">Aswan / أسوان</option>
+              <option value="Assiut">Assiut / أسيوط</option>
+              <option value="Beni Suef">Beni Suef / بني سويف</option>
+              <option value="Port Said">Port Said / بورسعيد</option>
+              <option value="Damietta">Damietta / دمياط</option>
+              <option value="Sharkia">Sharkia / الشرقية</option>
+              <option value="South Sinai">South Sinai / جنوب سيناء</option>
+              <option value="North Sinai" disabled>North Sinai (Not in coverage) / شمال سيناء</option>
+              <option value="Kafr El Sheikh">Kafr El Sheikh / كفر الشيخ</option>
+              <option value="Luxor">Luxor / الأقصر</option>
+              <option value="Qena">Qena / قنا</option>
+              <option value="Sohag">Sohag / سوهاج</option>
+              <option value="Matrouh">Matrouh / مطروح</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-label" style="margin-top: 36px">
+          <span>02</span>
+          <h2 class="en" style="display:block">Payment Method</h2>
+          <h2 class="ar rtl" style="display:none">طريقة الدفع</h2>
+        </div>
+
+        <div class="payment-options">
+          <label class="payment-option">
+            <input type="radio" name="payment" value="COD" checked>
+            <div class="payment-card">
+              <div class="payment-icon">💵</div>
+              <div>
+                <strong class="en" style="display:block">Cash on Delivery</strong>
+                <strong class="ar rtl" style="display:none">الدفع عند الاستلام</strong>
+                <span class="en" style="display:block">Pay when you receive</span>
+                <span class="ar rtl" style="display:none">ادفع عند الاستلام</span>
+              </div>
+            </div>
+          </label>
+          <label class="payment-option">
+            <input type="radio" name="payment" value="InstaPay">
+            <div class="payment-card">
+              <div class="payment-icon">📱</div>
+              <div>
+                <strong class="en" style="display:block">InstaPay</strong>
+                <strong class="ar rtl" style="display:none">إنستاباي</strong>
+                <span class="en" style="display:block">Pay via InstaPay app</span>
+                <span class="ar rtl" style="display:none">ادفع عبر تطبيق إنستاباي</span>
+              </div>
+            </div>
+          </label>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- RIGHT: ORDER SUMMARY -->
+    <div class="summary-side">
+      <div class="section-label">
+        <span>03</span>
+        <h2 class="en" style="display:block">Order Summary</h2>
+        <h2 class="ar rtl" style="display:none">ملخص الطلب</h2>
+      </div>
+
+      <div class="shipping-offer">
+        <div class="shipping-top">
+          <span class="shipping-emoji">🚀</span>
+          <div>
+            <div class="shipping-title">
+              <span id="orderNumber">3</span>/20 orders claimed free shipping
+            </div>
+            <div class="spots-left" id="spotsLeft"></div>
+          </div>
+        </div>
+        <div class="shipping-bar">
+          <div class="shipping-progress" id="shippingProgress"></div>
+        </div>
+      </div>
+
+      <div id="summaryItems"></div>
+
+      <div class="summary-total-block">
+        <div class="summary-row">
+          <span class="en" style="display:block">Subtotal</span>
+          <span class="ar rtl" style="display:none">المجموع الفرعي</span>
+          <span>$<span id="summarySubtotal">0</span></span>
+        </div>
+        <div class="summary-row">
+          <span class="en" style="display:block">Shipping</span>
+          <span class="ar rtl" style="display:none">الشحن</span>
+          <span class="free-tag">Free</span>
+        </div>
+        <div class="summary-row total-row">
+          <span class="en" style="display:block">Total</span>
+          <span class="ar rtl" style="display:none">الإجمالي</span>
+          <strong>$<span id="summaryTotal">0</span></strong>
+        </div>
+      </div>
+
+      <button type="button" id="whatsappBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        <span class="en" style="display:block">Send Order via WhatsApp</span>
+        <span class="ar rtl" style="display:none">إرسال الطلب عبر واتساب</span>
+      </button>
+
+      <p class="checkout-note en" style="display:block">By placing your order you agree to our terms of service and privacy policy.</p>
+      <p class="checkout-note ar rtl" style="display:none">بتقديم طلبك فإنك توافق على شروط الخدمة وسياسة الخصوصية.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let isArabic = false;
+const langBtn = document.getElementById('langBtn');
+langBtn.addEventListener('click', () => {
+  isArabic = !isArabic;
+  document.querySelectorAll('.en').forEach(el => el.style.display = isArabic ? 'none' : 'block');
+  document.querySelectorAll('.ar').forEach(el => el.style.display = isArabic ? 'block' : 'none');
+  document.body.classList.toggle('rtl', isArabic);
+});
+
+function fakeShippingCounter() {
+  const maxOrders = 20;
+  let orderNum = localStorage.getItem("fakeOrders");
+  if (!orderNum) orderNum = Math.floor(Math.random() * 8) + 3;
+  else { orderNum = parseInt(orderNum) + 1; if (orderNum > maxOrders) orderNum = 7; }
+  localStorage.setItem("fakeOrders", orderNum);
+  document.getElementById("orderNumber").innerText = orderNum;
+  const percent = (orderNum / maxOrders) * 100;
+  document.getElementById("shippingProgress").style.width = percent + "%";
+  const spotsLeft = maxOrders - orderNum;
+  document.getElementById("spotsLeft").innerText = `⚠ Only ${spotsLeft} free shipping spots left — order now!`;
+}
+
+fakeShippingCounter();
+
+function renderSummary() {
+  const cart = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
+  const container = document.getElementById('summaryItems');
+  const totalEl = document.getElementById('summaryTotal');
+  const subtotalEl = document.getElementById('summarySubtotal');
+  container.innerHTML = '';
+  let total = 0;
+  if (cart.length === 0) {
+    container.innerHTML = '<div class="empty-cart-msg">No items in cart</div>';
+  } else {
+    cart.forEach(item => {
+      total += item.price * item.qty;
+      container.innerHTML += `
+        <div class="summary-item">
+          <div class="summary-item-info">
+            <span class="summary-item-name">${item.name}</span>
+            <span class="summary-item-meta">${item.color} · Size ${item.size} · ×${item.qty}</span>
+          </div>
+          <span class="summary-item-price">$${item.price * item.qty}</span>
+        </div>`;
+    });
+  }
+  totalEl.innerText = total;
+  subtotalEl.innerText = total;
+}
+
+renderSummary();
+
+document.getElementById('whatsappBtn').addEventListener('click', () => {
+  const name = document.getElementById('name').value;
+  const phone = document.getElementById('phone').value;
+  const address = document.getElementById('address').value;
+  const city = document.getElementById('city').value;
+  const governorate = document.getElementById('governorate').value;
+  const payment = document.querySelector('input[name="payment"]:checked').value;
+  const cart = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
+
+  if (!name || !phone || !address) {
+    alert(isArabic ? 'الرجاء ملء جميع الحقول المطلوبة' : 'Please fill in all required fields');
+    return;
+  }
+
+  const items = cart.map(i => `${i.name} x${i.qty} - $${i.price * i.qty}`).join('%0A');
+  const message = `🛍 New Order from M Shoes%0A%0A👤 Name: ${name}%0A📞 Phone: ${phone}%0A📍 Address: ${address}, ${city}, ${governorate}%0A💳 Payment: ${payment}%0A%0A📦 Items:%0A${items}%0A%0A💰 Total: $${cart.reduce((a, b) => a + b.price * b.qty, 0)}`;
+  window.open(`https://wa.me/+201556761228?text=${message}`, '_blank');
+  localStorage.removeItem('cartForCheckout');
+  localStorage.removeItem('cart');
+});
+</script>
+</body>
+</html>
