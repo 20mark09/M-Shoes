@@ -78,16 +78,16 @@ serve(async (req: Request) => {
       // Map our checkout form fields to Wingezz expected fields
       // Adjust field names to match what Wingezz actually expects
       const wingezzOrder = {
-        receiver_name:    body.name,
-        receiver_phone:   body.phone,
-        receiver_address: body.address,
+        customer_name:    body.name,
+        customer_phone:   body.phone,
+        address_notes: body.address,
         receiver_city:    body.city,
         govern_id:        body.govern_id,   // numeric ID from governs list
         area_id:          body.area_id,     // numeric ID from areas list (optional)
-        cod_amount:       body.total,       // cash on delivery amount in EGP
-        description:      body.items,       // order description
+        cost_from_customer:       body.total,       // cash on delivery amount in EGP
+        shipment_description:      body.items,       // order description
         payment_type:     body.payment === "COD" ? 1 : 2,
-        notes:            body.notes || "",
+        deliver_notes:            body.notes || "",
       };
 
       const res = await fetch(`${WINGEZZ_BASE}/order/insert`, {
