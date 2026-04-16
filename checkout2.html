@@ -331,23 +331,26 @@ renderSummary();
 
 // ─── LOAD GOVERNORATES ────────────────────────────────────────────────────────
 async function loadGovernorates() {
-  const sel    = document.getElementById('governorate');
+  const sel = document.getElementById('governorate');
   const loader = document.getElementById('govLoader');
   try {
-    const res  = await fetch(`${WORKER_URL}?action=governs`);
+    const res = await fetch(`${WORKER_URL}?action=governs`);
     if (!res.ok) throw new Error(res.status);
-    const data = await res.json();
+    const result = await res.json();
 
-    // Wingezz returns array of objects — detect the name field
-    governorates = data;
+    // Fix: Check if data is nested (Wingezz usually wraps in .data or .governs)
+    // If result is an array, use it; otherwise look for result.data or result.governs
+    const list = Array.isArray(result) ? result : (result.data || result.governs || []);
+    
+    governorates = list; 
     sel.innerHTML = `<option value="">${isArabic ? 'اختر المحافظة' : 'Select Governorate'}</option>`;
-    data.forEach(g => {
+    
+    list.forEach(g => {
       const name = g.govern_name || g.name_ar || g.name_en || g.name || `Gov ${g.id}`;
       sel.innerHTML += `<option value="${g.id}">${name}</option>`;
     });
   } catch (err) {
     console.error('Governs load failed:', err);
-    showError('Could not load governorates — using fallback list');
     loadFallbackGovs();
   } finally {
     loader.style.display = 'none';
@@ -374,15 +377,15 @@ function loadFallbackGovs() {
 
 // ─── LOAD AREAS ON GOVERNORATE CHANGE ────────────────────────────────────────
 document.getElementById('governorate').addEventListener('change', async function() {
-  const govId   = this.value;
+  const govId = this.value;
   const areaSel = document.getElementById('area');
-  const loader  = document.getElementById('areaLoader');
+  const loader = document.getElementById('areaLoader');
 
   document.getElementById('shippingEstimate').style.display = 'none';
 
   if (!govId) {
     areaSel.innerHTML = '<option value="">Select governorate first</option>';
-    areaSel.disabled  = true;
+    areaSel.disabled = true;
     return;
   }
 
@@ -391,30 +394,32 @@ document.getElementById('governorate').addEventListener('change', async function
   loader.classList.remove('hidden');
 
   try {
-    const res  = await fetch(`${WORKER_URL}?action=areas&govern_id=${govId}`);
+    const res = await fetch(`${WORKER_URL}?action=areas&govern_id=${govId}`);
     if (!res.ok) throw new Error(res.status);
-    const data = await res.json();
+    const result = await res.json();
+
+    // Fix: Handle nested data for areas
+    const list = Array.isArray(result) ? result : (result.data || result.areas || []);
 
     areaSel.innerHTML = `<option value="">${isArabic ? 'اختر المنطقة' : 'Select Area'}</option>`;
-    data.forEach(a => {
+    list.forEach(a => {
       const name = a.area_name || a.name_ar || a.name_en || a.name || `Area ${a.id}`;
       areaSel.innerHTML += `<option value="${a.id}">${name}</option>`;
     });
     areaSel.disabled = false;
-  } catch {
+  } catch (err) {
+    console.error('Areas load failed:', err);
     areaSel.innerHTML = '<option value="">Areas unavailable</option>';
-    areaSel.disabled  = false;
+    areaSel.disabled = false;
   } finally {
     loader.classList.add('hidden');
   }
 
-  // Show delivery estimate
   const cairoGovs = [1, 2, 11];
   document.getElementById('estimateValue').textContent =
     cairoGovs.includes(parseInt(govId)) ? '1–2 business days' : '2–5 business days';
   document.getElementById('shippingEstimate').style.display = 'flex';
 });
-
 // ─── COLLECT FORM ─────────────────────────────────────────────────────────────
 function collectForm() {
   return {
