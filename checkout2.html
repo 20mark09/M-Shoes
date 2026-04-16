@@ -214,6 +214,17 @@
           <span class="ar" style="display:none">المجموع</span>
           <span>$<span id="summarySubtotal">0</span></span>
         </div>
+        <div class="summary-row discount-row" id="checkoutDiscountRow" style="display:none">
+          <div class="discount-row-label">
+            <span style="font-size:15px">🏷</span>
+            <div>
+              <span class="en" style="display:block">Discount</span>
+              <span class="ar" style="display:none">خصم</span>
+              <span class="discount-code-tag" id="checkoutDiscountCode"></span>
+            </div>
+          </div>
+          <span class="discount-saving" id="checkoutDiscountAmt"></span>
+        </div>
         <div class="summary-row">
           <span class="en" style="display:block">Shipping</span>
           <span class="ar" style="display:none">الشحن</span>
@@ -224,6 +235,10 @@
           <span class="ar" style="display:none">الإجمالي</span>
           <strong>$<span id="summaryTotal">0</span></strong>
         </div>
+      </div>
+      <div class="savings-callout" id="savingsCallout" style="display:none">
+        <span>🎉</span>
+        <span>You&apos;re saving <strong id="savingsCalloutAmt"></strong> on this order!</span>
       </div>
 
       <!-- Place order -->
@@ -303,17 +318,19 @@ document.getElementById('langBtn').addEventListener('click', () => {
   document.getElementById("spotsLeft").textContent = `⚠ Only ${max - n} free shipping spots left!`;
 })();
 
-// ─── CART SUMMARY ─────────────────────────────────────────────────────────────
+// ─── CART SUMMARY WITH DISCOUNT ──────────────────────────────────────────────
 function renderSummary() {
-  const cart = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
-  const box  = document.getElementById('summaryItems');
-  let total  = 0;
-  box.innerHTML = '';
+  const cart     = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
+  const discount = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
+  const box      = document.getElementById('summaryItems');
+  let subtotal   = 0;
+  box.innerHTML  = '';
+
   if (!cart.length) {
     box.innerHTML = '<div class="empty-cart-msg">No items in cart</div>';
   } else {
     cart.forEach(i => {
-      total += i.price * i.qty;
+      subtotal += i.price * i.qty;
       box.innerHTML += `
         <div class="summary-item">
           <div class="summary-item-info">
@@ -324,8 +341,24 @@ function renderSummary() {
         </div>`;
     });
   }
-  document.getElementById('summaryTotal').textContent   = total;
-  document.getElementById('summarySubtotal').textContent = total;
+
+  document.getElementById('summarySubtotal').textContent = subtotal.toFixed(2);
+
+  if (discount && discount.saving > 0) {
+    // Show discount row
+    document.getElementById('checkoutDiscountRow').style.display = 'flex';
+    document.getElementById('checkoutDiscountCode').textContent  = discount.code;
+    document.getElementById('checkoutDiscountAmt').textContent   = '−$' + discount.saving.toFixed(2);
+    // Final total
+    document.getElementById('summaryTotal').textContent = discount.total.toFixed(2);
+    // Savings callout
+    document.getElementById('savingsCallout').style.display = 'flex';
+    document.getElementById('savingsCalloutAmt').textContent = '$' + discount.saving.toFixed(2);
+  } else {
+    document.getElementById('checkoutDiscountRow').style.display = 'none';
+    document.getElementById('savingsCallout').style.display      = 'none';
+    document.getElementById('summaryTotal').textContent          = subtotal.toFixed(2);
+  }
 }
 renderSummary();
 
@@ -452,7 +485,10 @@ document.getElementById('placeOrderBtn').addEventListener('click', async () => {
   const err = validateForm(f);
   if (err) { showError(err); return; }
 
-  const total       = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
+  const subtotal    = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
+  const discount    = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
+  const saving      = discount ? discount.saving : 0;
+  const total       = subtotal - saving;
   const itemsCount  = f.cart.reduce((a, b) => a + b.qty, 0);
   const itemsDesc   = f.cart.map(i => `${i.name} (${i.color} Sz${i.size}) x${i.qty}`).join(', ');
 
@@ -526,19 +562,24 @@ function buildWhatsAppMsg(f, total, trackingId) {
     '📦 *Items:*',
     items,
     '',
-    `💰 *Total: $${total}*`,
+    `💰 *Total: $${total.toFixed(2)}*`,
+    (saving && saving > 0) ? `🏷 Discount ${discount ? discount.code : ''} — saved $${saving.toFixed(2)}` : '',
     trackingId ? `🔖 Tracking: ${trackingId}` : '',
   ].filter(Boolean);
   return parts.join('%0A');
 }
 
 document.getElementById('whatsappBtn').addEventListener('click', () => {
-  const f = collectForm();
+  const f    = collectForm();
   if (!f.name || !f.phone) { showError('Please fill your name and phone first'); return; }
-  const total = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
+  const disc    = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
+  const rawTot  = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
+  const total   = disc ? disc.total : rawTot;
   window.open(`https://wa.me/${WHATSAPP_NUM}?text=${buildWhatsAppMsg(f, total, null)}`, '_blank');
   localStorage.removeItem('cartForCheckout');
   localStorage.removeItem('cart');
+  localStorage.removeItem('checkoutDiscount');
+  localStorage.removeItem('activeDiscount');
 });
 
 // ─── SUCCESS ──────────────────────────────────────────────────────────────────
