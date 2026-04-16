@@ -101,6 +101,41 @@ select:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .select-loader.hidden { display: none !important; }
 
+@media (max-width: 768px) {
+  /* Prevent the header from covering the first section */
+  .page-wrap {
+    padding-top: 80px; 
+    overflow-x: hidden; /* Prevent horizontal "wobble" */
+  }
+
+  /* Ensure the grid stacks properly without overlapping */
+  .checkout-grid {
+    display: flex;
+    flex-direction: column; /* Force vertical stack */
+    gap: 24px;
+  }
+
+  /* Make sure the summary (Right side) doesn't overlap the form (Left side) */
+  .summary-side {
+    position: relative; /* Remove sticky on mobile to avoid overlap */
+    top: 0;
+    order: 2; /* Put summary below the form */
+  }
+  
+  .form-side {
+    order: 1;
+  }
+
+  /* Fix for the "two" and "three" column groups on mobile */
+  .field-group.two, 
+  .field-group.three {
+    grid-template-columns: 1fr; /* Stack them 1 by 1 on mobile */
+    gap: 16px;
+  }
+}
+
+
+
 @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
 .spin { animation: spin 0.8s linear infinite; transform-origin: center; }
 
@@ -328,3 +363,31 @@ body.rtl .select-loader { right: auto; left: 14px; }
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 4px; }
+
+/* Update this section in your CSS */
+.field input, 
+.field select, 
+.field textarea {
+  width: 100%; /* Force full width */
+  background: var(--off-black); /* Ensure it uses your dark theme */
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  transition: all 0.2s;
+  appearance: none; /* Removes default iOS styling that turns inputs white/round */
+  -webkit-appearance: none;
+}
+
+/* Specific fix for the "white" background phone issue */
+.field input[type="tel"] {
+  background-color: var(--off-black) !important;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--red);
+  background: var(--card-bg);
+}
