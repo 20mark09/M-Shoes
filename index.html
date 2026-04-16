@@ -134,8 +134,8 @@
 <div id="discountPopup" class="discount-popup">
   <div class="popup-box">
     <div class="popup-icon">🎁</div>
-    <h3>اسأل عن خصم الويب سايت</h3>
-    <p>Ask about our exclusive website discount</p>
+   <h3> أستخدم كود Website5 للحصول علي خصم 5%</h3>
+    <p>Usr Discount Code Website5 To Get 5% Off</p>
     <button onclick="closeDiscountPopup()">Got it</button>
   </div>
 </div>
@@ -152,8 +152,8 @@ const products = [
   { id: 3, name: 'Adidas Campus', price: 450, category: 'shoes', images: ['addi.jpg','adi1.jpg','adi2.jpg','adi3.jpg'], description: 'Rough leather material', colors:['Custom'], sizes:[41,42,43,44,45] }
 ];
 
-let discountPercent = 0;
-const discountCodes = {};
+let discountPercent = 5;
+const discountCodes = {Website5};
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let currentImageIndex = 0;
 let startX = 0;
