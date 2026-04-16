@@ -16,7 +16,7 @@
   <a href="index.html" class="back-link">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     <span class="en" style="display:inline">Back to Shop</span>
-    <span class="ar rtl" style="display:none">العودة للمتجر</span>
+    <span class="ar" style="display:none">العودة للمتجر</span>
   </a>
   <div class="header-brand">
     <img src="logo.png" alt="M Shoes" class="toplogo">
@@ -28,197 +28,243 @@
 <div class="page-wrap">
   <div class="checkout-grid">
 
-    <!-- LEFT: FORM -->
+    <!-- ═══ LEFT: FORM ═══ -->
     <div class="form-side">
+
+      <!-- 01 Contact -->
       <div class="section-label">
         <span>01</span>
-        <h2 class="en" style="display:block">Delivery Details</h2>
-        <h2 class="ar rtl" style="display:none">تفاصيل التوصيل</h2>
+        <h2 class="en" style="display:block">Contact Info</h2>
+        <h2 class="ar" style="display:none">بيانات التواصل</h2>
       </div>
 
-      <form id="checkoutForm">
-        <div class="field-group">
-          <div class="field">
-            <label class="en" for="name" style="display:block">Full Name</label>
-            <label class="ar rtl" for="name" style="display:none">الاسم الكامل</label>
-            <input type="text" id="name" placeholder="Ahmed Mohamed" required>
-          </div>
-          <div class="field">
-            <label class="en" for="phone" style="display:block">Phone Number</label>
-            <label class="ar rtl" for="phone" style="display:none">رقم الهاتف</label>
-            <input type="text" id="phone" placeholder="+20 1xx xxx xxxx" required>
-          </div>
-        </div>
-
+      <div class="field-group two">
         <div class="field">
-          <label class="en" for="address" style="display:block">Street Address</label>
-          <label class="ar rtl" for="address" style="display:none">العنوان</label>
-          <textarea id="address" rows="2" placeholder="Street name, building number..." required></textarea>
+          <label>
+            <span class="en" style="display:block">Full Name *</span>
+            <span class="ar" style="display:none">الاسم الكامل *</span>
+          </label>
+          <input type="text" id="name" placeholder="Ahmed Mohamed" required>
         </div>
-
-        <div class="field-group">
-          <div class="field">
-            <label class="en" for="governorate" style="display:block">Governorate</label>
-            <label class="ar rtl" for="governorate" style="display:none">المحافظة</label>
-            <div class="select-wrap">
-              <select id="governorate" required>
-                <option value="">Loading...</option>
-              </select>
-              <div class="select-loader" id="govLoader">
-                <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
-              </div>
-            </div>
-          </div>
-          <div class="field">
-            <label class="en" for="area" style="display:block">Area / District</label>
-            <label class="ar rtl" for="area" style="display:none">المنطقة</label>
-            <div class="select-wrap">
-              <select id="area" required disabled>
-                <option value="">Select governorate first</option>
-              </select>
-              <div class="select-loader hidden" id="areaLoader">
-                <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class="field">
-          <label class="en" for="city" style="display:block">City / Building details</label>
-          <label class="ar rtl" for="city" style="display:none">المدينة / تفاصيل إضافية</label>
-          <input type="text" id="city" placeholder="Apartment, floor, landmark...">
+          <label>
+            <span class="en" style="display:block">Phone *</span>
+            <span class="ar" style="display:none">رقم الهاتف *</span>
+          </label>
+          <input type="tel" id="phone" placeholder="01012345678" required>
         </div>
+      </div>
 
-        <!-- SHIPPING ESTIMATE -->
-        <div class="shipping-estimate" id="shippingEstimate" style="display:none">
-          <div class="estimate-icon">🚚</div>
-          <div>
-            <div class="estimate-title en" style="display:block">Estimated Delivery</div>
-            <div class="estimate-title ar" style="display:none">موعد التوصيل المتوقع</div>
-            <div class="estimate-value" id="estimateValue">2–4 business days</div>
+      <div class="field">
+        <label>
+          <span class="en" style="display:block">Second Phone (optional)</span>
+          <span class="ar" style="display:none">رقم هاتف ثانٍ (اختياري)</span>
+        </label>
+        <input type="tel" id="phone2" placeholder="01112345678">
+      </div>
+
+      <!-- 02 Address -->
+      <div class="section-label" style="margin-top:32px">
+        <span>02</span>
+        <h2 class="en" style="display:block">Delivery Address</h2>
+        <h2 class="ar" style="display:none">عنوان التوصيل</h2>
+      </div>
+
+      <div class="field-group two">
+        <div class="field">
+          <label>
+            <span class="en" style="display:block">Governorate *</span>
+            <span class="ar" style="display:none">المحافظة *</span>
+          </label>
+          <div class="select-wrap">
+            <select id="governorate" required>
+              <option value="">
+                <span class="en">Loading…</span>
+              </option>
+            </select>
+            <div class="select-loader" id="govLoader">
+              <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+            </div>
           </div>
         </div>
-
-        <div class="section-label" style="margin-top: 36px">
-          <span>02</span>
-          <h2 class="en" style="display:block">Payment Method</h2>
-          <h2 class="ar rtl" style="display:none">طريقة الدفع</h2>
-        </div>
-
-        <div class="payment-options">
-          <label class="payment-option">
-            <input type="radio" name="payment" value="COD" checked>
-            <div class="payment-card">
-              <div class="payment-icon">💵</div>
-              <div>
-                <strong class="en" style="display:block">Cash on Delivery</strong>
-                <strong class="ar rtl" style="display:none">الدفع عند الاستلام</strong>
-                <span class="en" style="display:block">Pay when you receive</span>
-                <span class="ar rtl" style="display:none">ادفع عند الاستلام</span>
-              </div>
-            </div>
+        <div class="field">
+          <label>
+            <span class="en" style="display:block">Area *</span>
+            <span class="ar" style="display:none">المنطقة *</span>
           </label>
-          <label class="payment-option">
-            <input type="radio" name="payment" value="InstaPay">
-            <div class="payment-card">
-              <div class="payment-icon">📱</div>
-              <div>
-                <strong class="en" style="display:block">InstaPay</strong>
-                <strong class="ar rtl" style="display:none">إنستاباي</strong>
-                <span class="en" style="display:block">Pay via InstaPay app</span>
-                <span class="ar rtl" style="display:none">ادفع عبر تطبيق إنستاباي</span>
-              </div>
+          <div class="select-wrap">
+            <select id="area" required disabled>
+              <option value="">
+                <span class="en">Select governorate first</span>
+              </option>
+            </select>
+            <div class="select-loader hidden" id="areaLoader">
+              <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
             </div>
-          </label>
+          </div>
         </div>
+      </div>
 
-      </form>
+      <div class="field-group three">
+        <div class="field">
+          <label>
+            <span class="en" style="display:block">Floor No.</span>
+            <span class="ar" style="display:none">رقم الدور</span>
+          </label>
+          <input type="text" id="floor_no" placeholder="4">
+        </div>
+        <div class="field">
+          <label>
+            <span class="en" style="display:block">Apartment No.</span>
+            <span class="ar" style="display:none">رقم الشقة</span>
+          </label>
+          <input type="text" id="apartment_no" placeholder="8">
+        </div>
+        <div class="field">
+          <label>
+            <span class="en" style="display:block">Address Notes</span>
+            <span class="ar" style="display:none">تفاصيل العنوان</span>
+          </label>
+          <input type="text" id="address_notes" placeholder="Next to bank…">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>
+          <span class="en" style="display:block">Delivery Notes (for the courier)</span>
+          <span class="ar" style="display:none">ملاحظات للمندوب</span>
+        </label>
+        <input type="text" id="deliver_notes" placeholder="Customer can receive any time">
+      </div>
+
+      <!-- Delivery estimate (shown after picking area) -->
+      <div class="shipping-estimate" id="shippingEstimate" style="display:none">
+        <span>🚚</span>
+        <div>
+          <div class="estimate-title en" style="display:block">Estimated Delivery</div>
+          <div class="estimate-title ar" style="display:none">موعد التوصيل المتوقع</div>
+          <div class="estimate-value" id="estimateValue">2–4 business days</div>
+        </div>
+      </div>
+
+      <!-- 03 Payment -->
+      <div class="section-label" style="margin-top:32px">
+        <span>03</span>
+        <h2 class="en" style="display:block">Payment</h2>
+        <h2 class="ar" style="display:none">طريقة الدفع</h2>
+      </div>
+
+      <div class="payment-options">
+        <label class="payment-option">
+          <input type="radio" name="payment" value="COD" checked>
+          <div class="payment-card">
+            <div class="payment-icon">💵</div>
+            <div>
+              <strong class="en" style="display:block">Cash on Delivery</strong>
+              <strong class="ar" style="display:none">الدفع عند الاستلام</strong>
+              <span class="en" style="display:block">Pay when you receive</span>
+              <span class="ar" style="display:none">ادفع عند الاستلام</span>
+            </div>
+          </div>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="payment" value="InstaPay">
+          <div class="payment-card">
+            <div class="payment-icon">📱</div>
+            <div>
+              <strong class="en" style="display:block">InstaPay</strong>
+              <strong class="ar" style="display:none">إنستاباي</strong>
+              <span class="en" style="display:block">Pay via app</span>
+              <span class="ar" style="display:none">ادفع عبر التطبيق</span>
+            </div>
+          </div>
+        </label>
+      </div>
+
     </div>
 
-    <!-- RIGHT: ORDER SUMMARY -->
+    <!-- ═══ RIGHT: SUMMARY ═══ -->
     <div class="summary-side">
+
       <div class="section-label">
-        <span>03</span>
+        <span>04</span>
         <h2 class="en" style="display:block">Order Summary</h2>
-        <h2 class="ar rtl" style="display:none">ملخص الطلب</h2>
+        <h2 class="ar" style="display:none">ملخص الطلب</h2>
       </div>
 
+      <!-- Urgency bar -->
       <div class="shipping-offer">
         <div class="shipping-top">
-          <span class="shipping-emoji">🚀</span>
+          <span style="font-size:20px">🚀</span>
           <div>
-            <div class="shipping-title">
-              <span id="orderNumber">3</span>/20 orders claimed free shipping
-            </div>
+            <div class="shipping-title"><span id="orderNumber">3</span>/20 claimed free shipping</div>
             <div class="spots-left" id="spotsLeft"></div>
           </div>
         </div>
-        <div class="shipping-bar">
-          <div class="shipping-progress" id="shippingProgress"></div>
-        </div>
+        <div class="shipping-bar"><div class="shipping-progress" id="shippingProgress"></div></div>
       </div>
 
+      <!-- Items -->
       <div id="summaryItems"></div>
 
+      <!-- Totals -->
       <div class="summary-total-block">
         <div class="summary-row">
           <span class="en" style="display:block">Subtotal</span>
-          <span class="ar rtl" style="display:none">المجموع الفرعي</span>
+          <span class="ar" style="display:none">المجموع</span>
           <span>$<span id="summarySubtotal">0</span></span>
         </div>
         <div class="summary-row">
           <span class="en" style="display:block">Shipping</span>
-          <span class="ar rtl" style="display:none">الشحن</span>
+          <span class="ar" style="display:none">الشحن</span>
           <span class="free-tag">Free</span>
         </div>
         <div class="summary-row total-row">
           <span class="en" style="display:block">Total</span>
-          <span class="ar rtl" style="display:none">الإجمالي</span>
+          <span class="ar" style="display:none">الإجمالي</span>
           <strong>$<span id="summaryTotal">0</span></strong>
         </div>
       </div>
 
-      <!-- PLACE ORDER BUTTON (Wingezz) -->
+      <!-- Place order -->
       <button type="button" id="placeOrderBtn" class="place-order-btn">
-        <span class="btn-content" id="btnContent">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span id="btnContent" style="display:flex;align-items:center;gap:8px">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           <span class="en" style="display:inline">Place Order</span>
-          <span class="ar rtl" style="display:none">تأكيد الطلب</span>
+          <span class="ar" style="display:none">تأكيد الطلب</span>
         </span>
-        <span class="btn-loading" id="btnLoading" style="display:none">
-          <svg class="spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
-          <span class="en" style="display:inline">Submitting...</span>
-          <span class="ar rtl" style="display:none">جاري التقديم...</span>
+        <span id="btnLoading" style="display:none;align-items:center;gap:8px">
+          <svg class="spin" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+          <span class="en" style="display:inline">Submitting…</span>
+          <span class="ar" style="display:none">جاري التقديم…</span>
         </span>
       </button>
 
-      <!-- DIVIDER -->
-      <div class="divider-text">
-        <span>or</span>
-      </div>
+      <div class="divider-text"><span>or</span></div>
 
-      <!-- WHATSAPP FALLBACK -->
+      <!-- WhatsApp fallback -->
       <button type="button" id="whatsappBtn" class="whatsapp-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         <span class="en" style="display:inline">Order via WhatsApp instead</span>
-        <span class="ar rtl" style="display:none">اطلب عبر واتساب</span>
+        <span class="ar" style="display:none">اطلب عبر واتساب</span>
       </button>
 
-      <p class="checkout-note en" style="display:block">Your order will be processed by Wingezz shipping. You'll receive a tracking number via WhatsApp.</p>
-      <p class="checkout-note ar rtl" style="display:none">سيتم معالجة طلبك عبر شركة وينجيز للشحن. ستتلقى رقم التتبع عبر واتساب.</p>
+      <p class="checkout-note en" style="display:block">Your order is handled by Wingezz. You'll receive a tracking SMS after confirmation.</p>
+      <p class="checkout-note ar" style="display:none">يتم شحن طلبك عبر وينجيز. ستصلك رسالة متابعة بعد التأكيد.</p>
     </div>
 
   </div>
 </div>
 
-<!-- SUCCESS OVERLAY -->
+<!-- ═══ SUCCESS OVERLAY ═══ -->
 <div id="successOverlay" class="success-overlay" style="display:none">
   <div class="success-box">
     <div class="success-icon">✓</div>
     <h2>Order Placed!</h2>
-    <p>Your order has been submitted to Wingezz. You'll receive a tracking SMS shortly.</p>
+    <p class="en" style="display:block">Your shipment has been booked with Wingezz. You'll receive a tracking SMS shortly.</p>
+    <p class="ar" style="display:none">تم حجز شحنتك عبر وينجيز. ستصلك رسالة تتبع قريباً.</p>
     <div class="tracking-info" id="trackingInfo" style="display:none">
-      <span>Tracking ID:</span>
+      <span>Tracking ID</span>
       <strong id="trackingId"></strong>
     </div>
     <div class="success-actions">
@@ -229,280 +275,291 @@
 </div>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────────────────────────
-// Replace with your actual Supabase project URL after deploying the function
-const SUPABASE_FUNCTION_URL = "https://qczffxcqunuulymnefiy.supabase.co/functions/v1/wingezz";
-// Replace with your WhatsApp number
-const WHATSAPP_NUMBER = "+201556761228";
+// ─── CONFIG — update this to your Worker URL ──────────────────────────────────
+const WORKER_URL   = "https://qczffxcqunuulymnefiy.supabase.co/functions/v1/wingezz";
+const WHATSAPP_NUM = "201556761228";
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
-let isArabic = false;
-let governorates = []; // [{id, name_en, name_ar}, ...]
-let selectedGovernId = null;
-let lastOrderData = null;
+let isArabic    = false;
+let governorates = [];
+let lastSuccess = {};
 
-// ─── LANGUAGE TOGGLE ──────────────────────────────────────────────────────────
-const langBtn = document.getElementById('langBtn');
-langBtn.addEventListener('click', () => {
+// ─── LANGUAGE ────────────────────────────────────────────────────────────────
+document.getElementById('langBtn').addEventListener('click', () => {
   isArabic = !isArabic;
   document.querySelectorAll('.en').forEach(el => el.style.display = isArabic ? 'none' : 'block');
   document.querySelectorAll('.ar').forEach(el => el.style.display = isArabic ? 'block' : 'none');
   document.body.classList.toggle('rtl', isArabic);
 });
 
-// ─── FAKE SHIPPING COUNTER ────────────────────────────────────────────────────
-function fakeShippingCounter() {
-  const maxOrders = 20;
-  let orderNum = localStorage.getItem("fakeOrders");
-  if (!orderNum) orderNum = Math.floor(Math.random() * 8) + 3;
-  else { orderNum = parseInt(orderNum) + 1; if (orderNum > maxOrders) orderNum = 7; }
-  localStorage.setItem("fakeOrders", orderNum);
-  document.getElementById("orderNumber").innerText = orderNum;
-  document.getElementById("shippingProgress").style.width = ((orderNum / maxOrders) * 100) + "%";
-  document.getElementById("spotsLeft").innerText = `⚠ Only ${maxOrders - orderNum} free shipping spots left — order now!`;
-}
-fakeShippingCounter();
+// ─── URGENCY BAR ─────────────────────────────────────────────────────────────
+(function() {
+  const max = 20;
+  let n = parseInt(localStorage.getItem("fakeOrders") || "0") || Math.floor(Math.random() * 8) + 3;
+  n = Math.min(n + 1, max - 1);
+  localStorage.setItem("fakeOrders", n);
+  document.getElementById("orderNumber").textContent = n;
+  document.getElementById("shippingProgress").style.width = (n / max * 100) + "%";
+  document.getElementById("spotsLeft").textContent = `⚠ Only ${max - n} free shipping spots left!`;
+})();
 
-// ─── RENDER CART SUMMARY ──────────────────────────────────────────────────────
+// ─── CART SUMMARY ─────────────────────────────────────────────────────────────
 function renderSummary() {
   const cart = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
-  const container = document.getElementById('summaryItems');
-  let total = 0;
-  container.innerHTML = '';
+  const box  = document.getElementById('summaryItems');
+  let total  = 0;
+  box.innerHTML = '';
   if (!cart.length) {
-    container.innerHTML = '<div class="empty-cart-msg">No items in cart</div>';
+    box.innerHTML = '<div class="empty-cart-msg">No items in cart</div>';
   } else {
-    cart.forEach(item => {
-      total += item.price * item.qty;
-      container.innerHTML += `
+    cart.forEach(i => {
+      total += i.price * i.qty;
+      box.innerHTML += `
         <div class="summary-item">
           <div class="summary-item-info">
-            <span class="summary-item-name">${item.name}</span>
-            <span class="summary-item-meta">${item.color} · Size ${item.size} · ×${item.qty}</span>
+            <span class="summary-item-name">${i.name}</span>
+            <span class="summary-item-meta">${i.color} · Size ${i.size} · ×${i.qty}</span>
           </div>
-          <span class="summary-item-price">$${item.price * item.qty}</span>
+          <span class="summary-item-price">$${i.price * i.qty}</span>
         </div>`;
     });
   }
-  document.getElementById('summaryTotal').innerText = total;
-  document.getElementById('summarySubtotal').innerText = total;
+  document.getElementById('summaryTotal').textContent   = total;
+  document.getElementById('summarySubtotal').textContent = total;
 }
 renderSummary();
 
-// ─── LOAD GOVERNORATES FROM WINGEZZ ──────────────────────────────────────────
+// ─── LOAD GOVERNORATES ────────────────────────────────────────────────────────
 async function loadGovernorates() {
-  const sel = document.getElementById('governorate');
+  const sel    = document.getElementById('governorate');
   const loader = document.getElementById('govLoader');
-
   try {
-    const res = await fetch(`${SUPABASE_FUNCTION_URL}?action=governs`);
-    if (!res.ok) throw new Error('Failed to load');
+    const res  = await fetch(`${WORKER_URL}?action=governs`);
+    if (!res.ok) throw new Error(res.status);
     const data = await res.json();
 
-    // Wingezz returns array — adapt field names if needed
+    // Wingezz returns array of objects — detect the name field
     governorates = data;
-    sel.innerHTML = '<option value="">Select Governorate</option>';
-    data.forEach(gov => {
-      const opt = document.createElement('option');
-      opt.value = gov.id;
-      // Try common field name patterns
-      opt.textContent = gov.name_en || gov.name || gov.govern_name || gov.title || gov.govern_id || gov.governs || `Gov ${gov.id}`;
-      sel.appendChild(opt);
+    sel.innerHTML = `<option value="">${isArabic ? 'اختر المحافظة' : 'Select Governorate'}</option>`;
+    data.forEach(g => {
+      const name = g.govern_name || g.name_ar || g.name_en || g.name || `Gov ${g.id}`;
+      sel.innerHTML += `<option value="${g.id}">${name}</option>`;
     });
-    loader.style.display = 'none';
   } catch (err) {
-    // Fallback to hardcoded list if API fails
-    console.warn('Wingezz governs failed, using fallback:', err);
-    loadFallbackGovernorates();
+    console.error('Governs load failed:', err);
+    showError('Could not load governorates — using fallback list');
+    loadFallbackGovs();
+  } finally {
     loader.style.display = 'none';
   }
 }
 
-function loadFallbackGovernorates() {
+function loadFallbackGovs() {
   const GOVS = [
-    { id: 1, name: 'Cairo / القاهرة' }, { id: 2, name: 'Giza / الجيزة' },
-    { id: 3, name: 'Alexandria / الإسكندرية' }, { id: 4, name: 'Dakahlia / الدقهلية' },
-    { id: 5, name: 'Beheira / البحيرة' }, { id: 6, name: 'Fayoum / الفيوم' },
-    { id: 7, name: 'Gharbia / الغربية' }, { id: 8, name: 'Ismailia / الإسماعيلية' },
-    { id: 9, name: 'Menofia / المنوفية' }, { id: 10, name: 'Minya / المنيا' },
-    { id: 11, name: 'Qaliubiya / القليوبية' }, { id: 12, name: 'Suez / السويس' },
-    { id: 13, name: 'Aswan / أسوان' }, { id: 14, name: 'Assiut / أسيوط' },
-    { id: 15, name: 'Beni Suef / بني سويف' }, { id: 16, name: 'Port Said / بورسعيد' },
-    { id: 17, name: 'Damietta / دمياط' }, { id: 18, name: 'Sharkia / الشرقية' },
-    { id: 19, name: 'Luxor / الأقصر' }, { id: 20, name: 'Qena / قنا' },
-    { id: 21, name: 'Sohag / سوهاج' }, { id: 22, name: 'Matrouh / مطروح' },
-    { id: 23, name: 'Red Sea / البحر الأحمر' }, { id: 24, name: 'South Sinai / جنوب سيناء' },
-    { id: 25, name: 'Kafr El Sheikh / كفر الشيخ' }, { id: 26, name: 'New Valley / الوادي الجديد' },
+    {id:1,n:'Cairo / القاهرة'},{id:2,n:'Giza / الجيزة'},{id:3,n:'Alexandria / الإسكندرية'},
+    {id:4,n:'Dakahlia / الدقهلية'},{id:5,n:'Beheira / البحيرة'},{id:6,n:'Fayoum / الفيوم'},
+    {id:7,n:'Gharbia / الغربية'},{id:8,n:'Ismailia / الإسماعيلية'},{id:9,n:'Menofia / المنوفية'},
+    {id:10,n:'Minya / المنيا'},{id:11,n:'Qaliubiya / القليوبية'},{id:12,n:'Suez / السويس'},
+    {id:13,n:'Aswan / أسوان'},{id:14,n:'Assiut / أسيوط'},{id:15,n:'Beni Suef / بني سويف'},
+    {id:16,n:'Port Said / بورسعيد'},{id:17,n:'Damietta / دمياط'},{id:18,n:'Sharkia / الشرقية'},
+    {id:19,n:'Luxor / الأقصر'},{id:20,n:'Qena / قنا'},{id:21,n:'Sohag / سوهاج'},
+    {id:22,n:'Matrouh / مطروح'},{id:23,n:'Red Sea / البحر الأحمر'},
+    {id:24,n:'South Sinai / جنوب سيناء'},{id:25,n:'Kafr El Sheikh / كفر الشيخ'},
   ];
+  governorates = GOVS.map(g => ({id: g.id, govern_name: g.n}));
   const sel = document.getElementById('governorate');
-  sel.innerHTML = '<option value="">Select Governorate</option>';
-  GOVS.forEach(g => {
-    const opt = document.createElement('option');
-    opt.value = g.id;
-    opt.textContent = g.name;
-    sel.appendChild(opt);
-  });
-  governorates = GOVS;
+  sel.innerHTML = `<option value="">Select Governorate</option>`;
+  GOVS.forEach(g => sel.innerHTML += `<option value="${g.id}">${g.n}</option>`);
 }
 
-// ─── LOAD AREAS WHEN GOVERNORATE CHANGES ─────────────────────────────────────
-document.getElementById('governorate').addEventListener('change', async function () {
-  const governId = this.value;
+// ─── LOAD AREAS ON GOVERNORATE CHANGE ────────────────────────────────────────
+document.getElementById('governorate').addEventListener('change', async function() {
+  const govId   = this.value;
   const areaSel = document.getElementById('area');
-  const areaLoader = document.getElementById('areaLoader');
-  selectedGovernId = governId;
+  const loader  = document.getElementById('areaLoader');
 
-  if (!governId) {
+  document.getElementById('shippingEstimate').style.display = 'none';
+
+  if (!govId) {
     areaSel.innerHTML = '<option value="">Select governorate first</option>';
-    areaSel.disabled = true;
-    document.getElementById('shippingEstimate').style.display = 'none';
+    areaSel.disabled  = true;
     return;
   }
 
   areaSel.disabled = true;
-  areaSel.innerHTML = '<option>Loading areas...</option>';
-  areaLoader.classList.remove('hidden');
+  areaSel.innerHTML = '<option>Loading areas…</option>';
+  loader.classList.remove('hidden');
 
   try {
-    const res = await fetch(`${SUPABASE_FUNCTION_URL}?action=areas&govern_id=${governId}`);
-    if (!res.ok) throw new Error();
+    const res  = await fetch(`${WORKER_URL}?action=areas&govern_id=${govId}`);
+    if (!res.ok) throw new Error(res.status);
     const data = await res.json();
 
-    areaSel.innerHTML = '<option value="">Select Area (optional)</option>';
-    data.forEach(area => {
-      const opt = document.createElement('option');
-      opt.value = area.id;
-      opt.textContent = area.name_en || area.name || area.area_name || area.title || gov.govern_id || `Area ${area.id}`;
-      areaSel.appendChild(opt);
+    areaSel.innerHTML = `<option value="">${isArabic ? 'اختر المنطقة' : 'Select Area'}</option>`;
+    data.forEach(a => {
+      const name = a.area_name || a.name_ar || a.name_en || a.name || `Area ${a.id}`;
+      areaSel.innerHTML += `<option value="${a.id}">${name}</option>`;
     });
     areaSel.disabled = false;
   } catch {
-    areaSel.innerHTML = '<option value="0">Area not available</option>';
-    areaSel.disabled = false;
+    areaSel.innerHTML = '<option value="">Areas unavailable</option>';
+    areaSel.disabled  = false;
+  } finally {
+    loader.classList.add('hidden');
   }
 
-  areaLoader.classList.add('hidden');
-  document.getElementById('shippingEstimate').style.display = 'flex';
-  // Adjust delivery estimate by governorate
-  const cairoGovs = [1, 2, 11]; // Cairo, Giza, Qaliubiya = next day
+  // Show delivery estimate
+  const cairoGovs = [1, 2, 11];
   document.getElementById('estimateValue').textContent =
-    cairoGovs.includes(parseInt(governId)) ? '1–2 business days' : '2–5 business days';
+    cairoGovs.includes(parseInt(govId)) ? '1–2 business days' : '2–5 business days';
+  document.getElementById('shippingEstimate').style.display = 'flex';
 });
 
-// ─── PLACE ORDER VIA WINGEZZ ──────────────────────────────────────────────────
+// ─── COLLECT FORM ─────────────────────────────────────────────────────────────
+function collectForm() {
+  return {
+    name:          document.getElementById('name').value.trim(),
+    phone:         document.getElementById('phone').value.trim(),
+    phone2:        document.getElementById('phone2').value.trim(),
+    govern_id:     document.getElementById('governorate').value,
+    area_id:       document.getElementById('area').value,
+    floor_no:      document.getElementById('floor_no').value.trim(),
+    apartment_no:  document.getElementById('apartment_no').value.trim(),
+    address_notes: document.getElementById('address_notes').value.trim(),
+    deliver_notes: document.getElementById('deliver_notes').value.trim(),
+    payment:       document.querySelector('input[name="payment"]:checked').value,
+    cart:          JSON.parse(localStorage.getItem('cartForCheckout') || '[]'),
+  };
+}
+
+function validateForm(f) {
+  if (!f.name)      return isArabic ? 'أدخل اسمك الكامل' : 'Please enter your full name';
+  if (!f.phone)     return isArabic ? 'أدخل رقم هاتفك'   : 'Please enter your phone number';
+  if (!f.govern_id) return isArabic ? 'اختر المحافظة'    : 'Please select a governorate';
+  if (!f.area_id)   return isArabic ? 'اختر المنطقة'     : 'Please select an area';
+  if (!f.cart.length) return 'Your cart is empty';
+  return null;
+}
+
+// ─── PLACE ORDER ──────────────────────────────────────────────────────────────
 document.getElementById('placeOrderBtn').addEventListener('click', async () => {
-  const name = document.getElementById('name').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const address = document.getElementById('address').value.trim();
-  const city = document.getElementById('city').value.trim();
-  const govern_id = document.getElementById('governorate').value;
-  const area_id = document.getElementById('area').value || null;
-  const payment = document.querySelector('input[name="payment"]:checked').value;
-  const cart = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
+  const f = collectForm();
+  const err = validateForm(f);
+  if (err) { showError(err); return; }
 
-  if (!name || !phone || !address || !govern_id) {
-    showError(isArabic ? 'الرجاء ملء جميع الحقول المطلوبة' : 'Please fill all required fields');
-    return;
-  }
-  if (!cart.length) {
-    showError('Your cart is empty');
-    return;
-  }
+  const total       = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
+  const itemsCount  = f.cart.reduce((a, b) => a + b.qty, 0);
+  const itemsDesc   = f.cart.map(i => `${i.name} (${i.color} Sz${i.size}) x${i.qty}`).join(', ');
 
-  const total = cart.reduce((a, b) => a + b.price * b.qty, 0);
-  const itemsText = cart.map(i => `${i.name} (${i.color}, Sz${i.size}) x${i.qty}`).join(', ');
-
-  // Store for WhatsApp fallback
-  lastOrderData = { name, phone, address, city, govern_id, area_id, payment, cart, total };
-
-  // Show loading state
+  // Loading state
   document.getElementById('btnContent').style.display = 'none';
-  document.getElementById('btnLoading').style.display = 'flex';
-  document.getElementById('placeOrderBtn').disabled = true;
+  document.getElementById('btnLoading').style.display  = 'flex';
+  document.getElementById('placeOrderBtn').disabled    = true;
 
   try {
-    const res = await fetch(`${SUPABASE_FUNCTION_URL}?action=create_order`, {
-      method: 'POST',
+    const res = await fetch(`${WORKER_URL}?action=create_order`, {
+      method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, phone, address, city, govern_id, area_id, payment, total, items: itemsText }),
+      body: JSON.stringify({
+        name:             f.name,
+        phone:            f.phone,
+        phone2:           f.phone2,
+        govern_id:        f.govern_id,
+        area_id:          f.area_id,
+        floor_no:         f.floor_no,
+        apartment_no:     f.apartment_no,
+        address_notes:    f.address_notes,
+        deliver_notes:    f.deliver_notes,
+        payment:          f.payment,
+        total:            total,
+        items_count:      itemsCount,
+        items_description: itemsDesc,
+        reference_no:     'MSHOES-' + Date.now().toString().slice(-6),
+      }),
     });
 
     const data = await res.json();
+    if (!res.ok || data.error) throw new Error(JSON.stringify(data.error || 'Failed'));
 
-    if (!res.ok || data.error) {
-      throw new Error(JSON.stringify(data.error || 'Order failed'));
-    }
+    // Save for WhatsApp confirmation
+    lastSuccess = { ...f, total, itemsDesc };
 
-    // Success!
-    const trackingId = data.order?.id || data.order?.tracking_number || data.order?.order_id || null;
-    showSuccess(trackingId, name, phone, total, itemsText);
+    showSuccess(
+      data.order?.id || data.order?.shipment_id || data.order?.order_number || null,
+      f, total
+    );
 
     localStorage.removeItem('cartForCheckout');
     localStorage.removeItem('cart');
 
-  } catch (err) {
-    console.error(err);
+  } catch (e) {
+    console.error(e);
     showError(isArabic
-      ? 'فشل إرسال الطلب. يمكنك إرسال الطلب عبر واتساب.'
-      : 'Order submission failed. You can still send via WhatsApp below.'
-    );
+      ? 'فشل إرسال الطلب — يمكنك إرسال الطلب عبر واتساب'
+      : 'Order failed — you can still send via WhatsApp below');
   } finally {
     document.getElementById('btnContent').style.display = 'flex';
-    document.getElementById('btnLoading').style.display = 'none';
-    document.getElementById('placeOrderBtn').disabled = false;
+    document.getElementById('btnLoading').style.display  = 'none';
+    document.getElementById('placeOrderBtn').disabled    = false;
   }
 });
 
-// ─── WHATSAPP FALLBACK ────────────────────────────────────────────────────────
-function sendWhatsApp(name, phone, address, city, governId, payment, cart, total) {
-  const governName = governorates.find(g => String(g.id) === String(governId))?.name || governId;
-  const items = cart.map(i => `${i.name} x${i.qty} - $${i.price * i.qty}`).join('%0A');
-  const message = `🛍 New Order — M Shoes%0A%0A👤 ${name}%0A📞 ${phone}%0A📍 ${address}, ${city}, ${governName}%0A💳 ${payment}%0A%0A📦 Items:%0A${items}%0A%0A💰 Total: $${total}`;
-  window.open(`https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g,'')}?text=${message}`, '_blank');
+// ─── WHATSAPP ─────────────────────────────────────────────────────────────────
+function buildWhatsAppMsg(f, total, trackingId) {
+  const govName = (governorates.find(g => String(g.id) === String(f.govern_id)) || {}).govern_name || f.govern_id;
+  const items   = f.cart.map(i => `${i.name} x${i.qty} — $${i.price * i.qty}`).join('%0A');
+  const parts   = [
+    '🛍 *New Order — M Shoes*',
+    '',
+    `👤 ${f.name}`,
+    `📞 ${f.phone}${f.phone2 ? ' / ' + f.phone2 : ''}`,
+    `📍 ${govName}${f.floor_no ? ', Floor ' + f.floor_no : ''}${f.apartment_no ? ', Apt ' + f.apartment_no : ''}`,
+    f.address_notes ? `   ${f.address_notes}` : '',
+    f.deliver_notes ? `📝 ${f.deliver_notes}` : '',
+    `💳 ${f.payment}`,
+    '',
+    '📦 *Items:*',
+    items,
+    '',
+    `💰 *Total: $${total}*`,
+    trackingId ? `🔖 Tracking: ${trackingId}` : '',
+  ].filter(Boolean);
+  return parts.join('%0A');
 }
 
 document.getElementById('whatsappBtn').addEventListener('click', () => {
-  const name = document.getElementById('name').value;
-  const phone = document.getElementById('phone').value;
-  const address = document.getElementById('address').value;
-  const city = document.getElementById('city').value;
-  const govern_id = document.getElementById('governorate').value;
-  const payment = document.querySelector('input[name="payment"]:checked').value;
-  const cart = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
-  const total = cart.reduce((a, b) => a + b.price * b.qty, 0);
-  if (!name || !phone) { showError('Please fill your name and phone first'); return; }
-  sendWhatsApp(name, phone, address, city, govern_id, payment, cart, total);
+  const f = collectForm();
+  if (!f.name || !f.phone) { showError('Please fill your name and phone first'); return; }
+  const total = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
+  window.open(`https://wa.me/${WHATSAPP_NUM}?text=${buildWhatsAppMsg(f, total, null)}`, '_blank');
   localStorage.removeItem('cartForCheckout');
   localStorage.removeItem('cart');
 });
 
-// ─── SUCCESS OVERLAY ──────────────────────────────────────────────────────────
-function showSuccess(trackingId, name, phone, total, itemsText) {
-  const overlay = document.getElementById('successOverlay');
-  overlay.style.display = 'flex';
+// ─── SUCCESS ──────────────────────────────────────────────────────────────────
+function showSuccess(trackingId, f, total) {
+  document.getElementById('successOverlay').style.display = 'flex';
   if (trackingId) {
     document.getElementById('trackingInfo').style.display = 'flex';
     document.getElementById('trackingId').textContent = trackingId;
   }
-  // WhatsApp confirmation button
   document.getElementById('successWhatsApp').onclick = () => {
-    const msg = `✅ Order Confirmed!%0ATracking: ${trackingId || 'N/A'}%0ATotal: $${total}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g,'')}?text=${msg}`, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUM}?text=${buildWhatsAppMsg(f, total, trackingId)}`, '_blank');
   };
 }
 
 // ─── ERROR TOAST ──────────────────────────────────────────────────────────────
 function showError(msg) {
-  let toast = document.getElementById('errorToast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.id = 'errorToast';
-    toast.className = 'error-toast';
-    document.body.appendChild(toast);
+  let t = document.getElementById('errToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'errToast';
+    t.className = 'error-toast';
+    document.body.appendChild(t);
   }
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4000);
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4500);
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
