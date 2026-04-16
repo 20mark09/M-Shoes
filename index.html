@@ -79,16 +79,44 @@
   </div>
   <div id="cartItems"></div>
   <div class="cart-footer">
+
+    <!-- DISCOUNT BOX -->
     <div class="discount-box">
-      <input type="text" id="discountCode" placeholder="Discount code">
-      <button onclick="applyDiscount()">Apply</button>
+      <div class="discount-input-row">
+        <input type="text" id="discountCode" placeholder="Discount code" autocomplete="off" autocapitalize="characters">
+        <button onclick="applyDiscount()">Apply</button>
+      </div>
+      <!-- Status message -->
+      <div id="discountStatus" class="discount-status" style="display:none"></div>
+      <!-- Active discount badge -->
+      <div id="discountBadge" class="discount-badge" style="display:none">
+        <span id="discountBadgeText"></span>
+        <button class="remove-discount" onclick="removeDiscount()" title="Remove discount">✕</button>
+      </div>
     </div>
-    <p id="discountMessage"></p>
-    <div class="cart-total-row">
-      <span class="en" style="display:block">Total</span>
-      <span class="ar rtl" style="display:none">الإجمالي</span>
-      <strong>$<span id="cartTotal">0</span></strong>
+
+    <!-- TOTALS -->
+    <div class="cart-totals">
+      <!-- Subtotal row (only shown when discount is active) -->
+      <div class="cart-subtotal-row" id="subtotalRow" style="display:none">
+        <span class="en" style="display:block">Subtotal</span>
+        <span class="ar rtl" style="display:none">المجموع</span>
+        <span id="cartSubtotal">$0</span>
+      </div>
+      <!-- Savings row -->
+      <div class="cart-savings-row" id="savingsRow" style="display:none">
+        <span class="en" style="display:block">You save</span>
+        <span class="ar rtl" style="display:none">وفّرت</span>
+        <span class="savings-amount" id="cartSavings">$0</span>
+      </div>
+      <!-- Total row -->
+      <div class="cart-total-row">
+        <span class="en" style="display:block">Total</span>
+        <span class="ar rtl" style="display:none">الإجمالي</span>
+        <strong>$<span id="cartTotal">0</span></strong>
+      </div>
     </div>
+
     <button class="checkout-btn" onclick="checkout()">
       <span class="en" style="display:block">Checkout</span>
       <span class="ar rtl" style="display:none">إتمام الشراء</span>
@@ -141,6 +169,61 @@
 </div>
 
 <script>
+  // ════════════════════════════════════════════════════════════════════
+//  DISCOUNT CODES  —  edit this section whenever you want
+//
+//  Each code has:
+//    type        : "percent"  → deduct X% of the total
+//                  "fixed"    → deduct a flat $ amount
+//    value       : the number (10 = 10% or $10 depending on type)
+//    min_items   : minimum total items in cart  (0 = no minimum)
+//    max_items   : maximum total items in cart  (0 = no limit)
+//    min_total   : minimum cart value in $      (0 = no minimum)
+//    description : shown to customer when applied
+//
+//  Examples:
+//    "SAVE10"   → 10% off, any cart
+//    "BUNDLE"   → 15% off, only when buying 2+ items
+//    "VIP"      → $50 off, only when cart ≥ $400
+//    "SINGLE"   → 5% off, only for exactly 1 item
+// ════════════════════════════════════════════════════════════════════
+const DISCOUNT_CODES = {
+  "WELCOME10": {
+    type: "percent",
+    value: 10,
+    min_items: 1,
+    max_items: 0,
+    min_total: 0,
+    description: "10% off your order"
+  },
+  "BUNDLE15": {
+    type: "percent",
+    value: 15,
+    min_items: 2,
+    max_items: 0,
+    min_total: 0,
+    description: "15% off when buying 2+ items"
+  },
+  "VIP50": {
+    type: "fixed",
+    value: 50,
+    min_items: 1,
+    max_items: 0,
+    min_total: 400,
+    description: "$50 off orders over $400"
+  },
+  "SHOES5": {
+    type: "percent",
+    value: 5,
+    min_items: 1,
+    max_items: 1,
+    min_total: 0,
+    description: "5% off single item"
+  },
+};
+
+
+  
 const products = [
   { id: 1, name: 'NIKE AirForce 1', price: 399, category: 'shoes', images: ['nikeaf1.jpg','nike1.jpg','nike2.jpg','nike3.jpg','nike4.jpg','nike5.jpg'], description: 'Sky Leather Imported Quality', colors:['White'], sizes:[42,43,44,45,46] },
   { id: 4, name: 'NIKE Brown', price: 450, category: 'shoes', images: ['brown SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
@@ -152,38 +235,125 @@ const products = [
   { id: 3, name: 'Adidas Campus', price: 450, category: 'shoes', images: ['addi.jpg','adi1.jpg','adi2.jpg','adi3.jpg'], description: 'Rough leather material', colors:['Custom'], sizes:[41,42,43,44,45] }
 ];
 
-let discountPercent = 5;
-const discountCodes = "Website5";
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let activeDiscount = JSON.parse(localStorage.getItem('activeDiscount') || 'null');
 let currentImageIndex = 0;
 let startX = 0;
 let currentProduct = null;
 let isArabic = false;
 
+// ─── LANGUAGE ─────────────────────────────────────────────────────────────────
 const langBtn = document.getElementById('langBtn');
 langBtn.addEventListener('click', () => {
   isArabic = !isArabic;
   document.querySelectorAll('.en').forEach(el => el.style.display = isArabic ? 'none' : 'block');
   document.querySelectorAll('.ar').forEach(el => el.style.display = isArabic ? 'block' : 'none');
   document.body.classList.toggle('rtl', isArabic);
-  langBtn.textContent = isArabic ? 'EN / ع' : 'EN / ع';
 });
 
+// ─── DISCOUNT LOGIC ───────────────────────────────────────────────────────────
+function calcDiscount(subtotal, discount) {
+  if (!discount) return 0;
+  let saving = discount.type === 'fixed'
+    ? discount.value
+    : (subtotal * discount.value / 100);
+  return Math.min(saving, subtotal); // can't discount more than total
+}
+
+function applyDiscount() {
+  const code    = document.getElementById('discountCode').value.trim().toUpperCase();
+  const status  = document.getElementById('discountStatus');
+  const totalItems = cart.reduce((a, b) => a + b.qty, 0);
+  const subtotal   = cart.reduce((a, b) => a + b.price * b.qty, 0);
+
+  const showStatus = (msg, type) => {
+    status.textContent = msg;
+    status.className = `discount-status ${type}`;
+    status.style.display = 'block';
+  };
+
+  if (!code) return;
+
+  const rule = DISCOUNT_CODES[code];
+  if (!rule) {
+    showStatus('✕  Invalid code', 'error');
+    activeDiscount = null;
+    localStorage.removeItem('activeDiscount');
+    updateCart();
+    return;
+  }
+
+  // Check min items
+  if (rule.min_items > 0 && totalItems < rule.min_items) {
+    showStatus(
+      `Add ${rule.min_items - totalItems} more item${rule.min_items - totalItems > 1 ? 's' : ''} to use this code (min ${rule.min_items})`,
+      'warn'
+    );
+    activeDiscount = null;
+    localStorage.removeItem('activeDiscount');
+    updateCart();
+    return;
+  }
+
+  // Check max items
+  if (rule.max_items > 0 && totalItems > rule.max_items) {
+    showStatus(
+      `This code is only valid for up to ${rule.max_items} item${rule.max_items > 1 ? 's' : ''}`,
+      'warn'
+    );
+    activeDiscount = null;
+    localStorage.removeItem('activeDiscount');
+    updateCart();
+    return;
+  }
+
+  // Check min total
+  if (rule.min_total > 0 && subtotal < rule.min_total) {
+    showStatus(
+      `Minimum order of $${rule.min_total} required (you have $${subtotal})`,
+      'warn'
+    );
+    activeDiscount = null;
+    localStorage.removeItem('activeDiscount');
+    updateCart();
+    return;
+  }
+
+  // Valid!
+  activeDiscount = { code, ...rule };
+  localStorage.setItem('activeDiscount', JSON.stringify(activeDiscount));
+  status.style.display = 'none';
+  document.getElementById('discountCode').value = '';
+  updateCart();
+}
+
+function removeDiscount() {
+  activeDiscount = null;
+  localStorage.removeItem('activeDiscount');
+  document.getElementById('discountCode').value = '';
+  document.getElementById('discountStatus').style.display = 'none';
+  updateCart();
+}
+
+// Allow Enter key in discount input
+document.getElementById('discountCode').addEventListener('keydown', e => {
+  if (e.key === 'Enter') applyDiscount();
+});  
+
+// ─── RENDER PRODUCTS ──────────────────────────────────────────────────────────
 function renderProducts(list) {
   const container = document.getElementById('products');
   container.innerHTML = '';
   list.forEach((p, i) => {
     const colors = p.colors.map(c => `<option>${c}</option>`).join('');
-    const sizes = p.sizes.map(s => `<option>${s}</option>`).join('');
-    const div = document.createElement('div');
+    const sizes  = p.sizes.map(s => `<option>${s}</option>`).join('');
+    const div    = document.createElement('div');
     div.className = 'product';
     div.style.animationDelay = (i * 0.07) + 's';
     div.innerHTML = `
       <div class="product-img-wrap" onclick="openProduct(${p.id})">
         <img loading="lazy" src="${p.images[0]}" alt="${p.name}">
-        <div class="product-overlay">
-          <span>View Details</span>
-        </div>
+        <div class="product-overlay"><span>View Details</span></div>
       </div>
       <div class="product-body">
         <div class="product-meta">
@@ -203,16 +373,19 @@ function renderProducts(list) {
     container.appendChild(div);
   });
 }
-
 function animateButton(btn) { btn.classList.add('clicked'); setTimeout(() => btn.classList.remove('clicked'), 500); }
-function filterProducts(category) { renderProducts(category === 'all' ? products : products.filter(p => p.category === category)); document.getElementById('menu').classList.remove('active'); document.getElementById('menuOverlay').classList.remove('active'); }
-
+function filterProducts(cat) {
+  renderProducts(cat === 'all' ? products : products.filter(p => p.category === cat));
+  document.getElementById('menu').classList.remove('active');
+  document.getElementById('menuOverlay').classList.remove('active');
+}
+// ─── CART CRUD ────────────────────────────────────────────────────────────────
 function addToCart(id, btn = null) {
   const productDiv = btn.closest('.product');
   const color = productDiv.querySelector('select:nth-of-type(1)').value;
-  const size = productDiv.querySelector('select:nth-of-type(2)').value;
-  const itemIndex = cart.findIndex(i => i.id === id && i.color === color && i.size === size);
-  if (itemIndex > -1) cart[itemIndex].qty++;
+  const size  = productDiv.querySelector('select:nth-of-type(2)').value;
+  const idx   = cart.findIndex(i => i.id === id && i.color === color && i.size === size);
+  if (idx > -1) cart[idx].qty++;
   else cart.push({ ...products.find(p => p.id === id), color, size, qty: 1 });
   saveCart();
   if (btn) animateButton(btn);
@@ -220,9 +393,9 @@ function addToCart(id, btn = null) {
 
 function addToCartModal() {
   const color = document.getElementById('modalColor').value;
-  const size = document.getElementById('modalSize').value;
-  const itemIndex = cart.findIndex(i => i.id === currentProduct.id && i.color === color && i.size === size);
-  if (itemIndex > -1) cart[itemIndex].qty++;
+  const size  = document.getElementById('modalSize').value;
+  const idx   = cart.findIndex(i => i.id === currentProduct.id && i.color === color && i.size === size);
+  if (idx > -1) cart[idx].qty++;
   else cart.push({ ...currentProduct, color, size, qty: 1 });
   saveCart();
   const btn = document.getElementById('modalAddBtn');
@@ -231,16 +404,52 @@ function addToCartModal() {
   setTimeout(() => { btn.classList.remove('added'); btn.querySelector('.en').textContent = 'Add to Cart'; }, 1500);
 }
 
+function changeQty(id, color, size, delta) {
+  const item = cart.find(i => i.id === id && i.color === color && i.size === size);
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(i => !(i.id === id && i.color === color && i.size === size));
+  // If discount no longer valid after qty change, revalidate silently
+  if (activeDiscount) revalidateDiscount();
+  saveCart();
+}
+
+function revalidateDiscount() {
+  const totalItems = cart.reduce((a, b) => a + b.qty, 0);
+  const subtotal   = cart.reduce((a, b) => a + b.price * b.qty, 0);
+  const rule = activeDiscount;
+  if (!rule) return;
+  const invalid =
+    (rule.min_items > 0 && totalItems < rule.min_items) ||
+    (rule.max_items > 0 && totalItems > rule.max_items) ||
+    (rule.min_total > 0 && subtotal < rule.min_total);
+  if (invalid) {
+    activeDiscount = null;
+    localStorage.removeItem('activeDiscount');
+    const status = document.getElementById('discountStatus');
+    status.textContent = 'Discount removed — cart no longer meets requirements';
+    status.className = 'discount-status warn';
+    status.style.display = 'block';
+    setTimeout(() => status.style.display = 'none', 4000);
+  }
+}
+
+function saveCart() { localStorage.setItem('cart', JSON.stringify(cart)); updateCart(); }
+
+  
+// ─── UPDATE CART UI ───────────────────────────────────────────────────────────
 function updateCart() {
-  const items = document.getElementById('cartItems');
-  items.innerHTML = '';
-  let total = 0;
+  const itemsEl = document.getElementById('cartItems');
+  itemsEl.innerHTML = '';
+  let subtotal = 0;
+
   if (cart.length === 0) {
-    items.innerHTML = '<div class="cart-empty"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><p>Your cart is empty</p></div>';
+    itemsEl.innerHTML = `<div class="cart-empty">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <p>Your cart is empty</p></div>`;
   } else {
     cart.forEach(i => {
-      total += i.price * i.qty;
-      items.innerHTML += `<div class='cart-item'>
+      subtotal += i.price * i.qty;
+      itemsEl.innerHTML += `<div class="cart-item">
         <div class="cart-item-info">
           <span class="cart-item-name">${i.name}</span>
           <span class="cart-item-meta">${i.color} · Size ${i.size}</span>
@@ -256,23 +465,40 @@ function updateCart() {
       </div>`;
     });
   }
-  let finalTotal = total - (total * discountPercent / 100);
-  document.getElementById('cartTotal').innerText = finalTotal.toFixed(2);
-  document.getElementById('cartCount').innerText = cart.reduce((a, b) => a + b.qty, 0);
+
+  const saving   = calcDiscount(subtotal, activeDiscount);
+  const total    = subtotal - saving;
+  const hasDisc  = activeDiscount && saving > 0;
+
+  // Subtotal row
+  document.getElementById('subtotalRow').style.display = hasDisc ? 'flex' : 'none';
+  document.getElementById('cartSubtotal').textContent  = `$${subtotal.toFixed(2)}`;
+
+  // Savings row
+  document.getElementById('savingsRow').style.display  = hasDisc ? 'flex' : 'none';
+  document.getElementById('cartSavings').textContent   = `−$${saving.toFixed(2)}`;
+
+  // Total
+  document.getElementById('cartTotal').textContent = total.toFixed(2);
+
+  // Badge
+  const badge     = document.getElementById('discountBadge');
+  const badgeTxt  = document.getElementById('discountBadgeText');
+  if (hasDisc) {
+    badgeTxt.textContent = `${activeDiscount.code} · ${activeDiscount.description}`;
+    badge.style.display  = 'flex';
+  } else {
+    badge.style.display = 'none';
+  }
+
+  // Cart count badge
+  document.getElementById('cartCount').textContent = cart.reduce((a, b) => a + b.qty, 0);
 }
-
-function changeQty(id, color, size, delta) {
-  const item = cart.find(i => i.id === id && i.color === color && i.size === size);
-  item.qty += delta;
-  if (item.qty <= 0) cart = cart.filter(i => !(i.id === id && i.color === color && i.size === size));
-  saveCart();
-}
-
-function saveCart() { localStorage.setItem('cart', JSON.stringify(cart)); updateCart(); }
-
+  
+// ─── CART OPEN/CLOSE ──────────────────────────────────────────────────────────
 function toggleCart() {
-  const c = document.getElementById('cart');
-  const o = document.getElementById('cartOverlay');
+  const c    = document.getElementById('cart');
+  const o    = document.getElementById('cartOverlay');
   const open = c.style.display !== 'flex';
   c.style.display = open ? 'flex' : 'none';
   o.classList.toggle('active', open);
@@ -284,20 +510,21 @@ function toggleMenu() {
   document.getElementById('menuOverlay').classList.toggle('active');
 }
 
+// ─── PRODUCT MODAL ────────────────────────────────────────────────────────────
 function openProduct(id) {
   currentProduct = products.find(p => p.id === id);
-  document.getElementById('modalName').innerText = currentProduct.name;
-  document.getElementById('modalDesc').innerText = currentProduct.description;
+  document.getElementById('modalName').innerText  = currentProduct.name;
+  document.getElementById('modalDesc').innerText  = currentProduct.description;
   document.getElementById('modalPrice').innerText = currentProduct.price;
   currentImageIndex = 0;
-  document.getElementById('modalImage').src = currentProduct.images[currentImageIndex];
+  document.getElementById('modalImage').src = currentProduct.images[0];
   const thumbs = document.getElementById('thumbs');
   thumbs.innerHTML = '';
   currentProduct.images.forEach((img, idx) => {
     thumbs.innerHTML += `<img src='${img}' class="${idx === 0 ? 'active' : ''}" onclick="setModalImage('${img}', this)">`;
   });
   document.getElementById('modalColor').innerHTML = currentProduct.colors.map(c => `<option>${c}</option>`).join('');
-  document.getElementById('modalSize').innerHTML = currentProduct.sizes.map(s => `<option>${s}</option>`).join('');
+  document.getElementById('modalSize').innerHTML  = currentProduct.sizes.map(s => `<option>${s}</option>`).join('');
   document.getElementById('productModal').classList.add('show');
   document.body.classList.add('modal-open');
 }
@@ -313,37 +540,47 @@ function closeProduct() {
   document.body.classList.remove('modal-open');
 }
 
-function checkout() { localStorage.setItem('cartForCheckout', JSON.stringify(cart)); window.location.href = 'checkout2.html'; }
-
-document.getElementById('productModal').addEventListener('click', function(e) { if (e.target.id === 'productModal') closeProduct(); });
+document.getElementById('productModal').addEventListener('click', e => { if (e.target.id === 'productModal') closeProduct(); });
 
 const modalImage = document.getElementById('modalImage');
 modalImage.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
 modalImage.addEventListener('touchend', e => {
-  let diff = startX - e.changedTouches[0].clientX;
+  const diff = startX - e.changedTouches[0].clientX;
   if (Math.abs(diff) > 50) {
-    currentImageIndex = diff > 0 ? (currentImageIndex + 1) % currentProduct.images.length : (currentImageIndex - 1 + currentProduct.images.length) % currentProduct.images.length;
+    currentImageIndex = diff > 0
+      ? (currentImageIndex + 1) % currentProduct.images.length
+      : (currentImageIndex - 1 + currentProduct.images.length) % currentProduct.images.length;
     modalImage.src = currentProduct.images[currentImageIndex];
     document.querySelectorAll('#thumbs img').forEach((t, i) => t.classList.toggle('active', i === currentImageIndex));
   }
 });
 
-function applyDiscount() {
-  const code = document.getElementById("discountCode").value.trim().toUpperCase();
-  const message = document.getElementById("discountMessage");
-  const totalItems = cart.reduce((a, b) => a + b.qty, 0);
-  if (totalItems < 2) { discountPercent = 0; message.innerText = "Add at least 2 items to use a discount code"; message.style.color = "#f59e0b"; return; }
-  if (discountCodes[code]) { discountPercent = discountCodes[code]; message.innerText = "✓ Discount applied: " + discountPercent + "%"; message.style.color = "#22c55e"; localStorage.setItem("discountPercent", discountPercent); }
-  else { discountPercent = 0; message.innerText = "Invalid code"; message.style.color = "#ef4444"; localStorage.removeItem("discountPercent"); }
-  updateCart();
+// ─── CHECKOUT ─────────────────────────────────────────────────────────────────
+function checkout() {
+  const subtotal = cart.reduce((a, b) => a + b.price * b.qty, 0);
+  const saving   = calcDiscount(subtotal, activeDiscount);
+  localStorage.setItem('cartForCheckout', JSON.stringify(cart));
+  // Pass discount info to checkout page
+  if (activeDiscount && saving > 0) {
+    localStorage.setItem('checkoutDiscount', JSON.stringify({
+      ...activeDiscount,
+      saving: saving,
+      subtotal: subtotal,
+      total: subtotal - saving,
+    }));
+  } else {
+    localStorage.removeItem('checkoutDiscount');
+  }
+  window.location.href = 'checkout2.html';
 }
 
+// ─── POPUP ────────────────────────────────────────────────────────────────────
 function closeDiscountPopup() { document.getElementById("discountPopup").style.display = "none"; }
-
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => { document.getElementById("discountPopup").style.display = "flex"; }, 2000);
 });
 
+// ─── INIT ─────────────────────────────────────────────────────────────────────
 renderProducts(products);
 updateCart();
 </script>
