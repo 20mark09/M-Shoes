@@ -183,7 +183,7 @@
 
     </div>
 
-    <!-- ═══ RIGHT: SUMMARY ═══ -->
+     <!-- ═══ RIGHT: SUMMARY ═══ -->
     <div class="summary-side">
 
       <div class="section-label">
@@ -192,17 +192,33 @@
         <h2 class="ar" style="display:none">ملخص الطلب</h2>
       </div>
 
-      <!-- Urgency bar -->
-      <div class="shipping-offer">
-        <div class="shipping-top">
-          <span style="font-size:20px">🚀</span>
-          <div>
-            <div class="shipping-title"><span id="orderNumber">3</span>/20 claimed free shipping</div>
-            <div class="spots-left" id="spotsLeft"></div>
+      <!-- Social proof / trust widget -->
+      <div class="trust-widget">
+        <div class="trust-live-row">
+          <span class="trust-dot"></span>
+          <span id="trustMsg">3 people are viewing this store right now</span>
+        </div>
+        <div class="trust-stats">
+          <div class="trust-stat">
+            <span class="trust-stat-num" id="todayOrders">—</span>
+            <span class="trust-stat-label en" style="display:block">orders today</span>
+            <span class="trust-stat-label ar" style="display:none">طلب اليوم</span>
+          </div>
+          <div class="trust-divider"></div>
+          <div class="trust-stat">
+            <span class="trust-stat-num">★ 4.9</span>
+            <span class="trust-stat-label en" style="display:block">avg rating</span>
+            <span class="trust-stat-label ar" style="display:none">متوسط التقييم</span>
+          </div>
+          <div class="trust-divider"></div>
+          <div class="trust-stat">
+            <span class="trust-stat-num">48h</span>
+            <span class="trust-stat-label en" style="display:block">avg delivery</span>
+            <span class="trust-stat-label ar" style="display:none">متوسط التوصيل</span>
           </div>
         </div>
-        <div class="shipping-bar"><div class="shipping-progress" id="shippingProgress"></div></div>
       </div>
+
 
       <!-- Items -->
       <div id="summaryItems"></div>
@@ -214,9 +230,11 @@
           <span class="ar" style="display:none">المجموع</span>
           <span>$<span id="summarySubtotal">0</span></span>
         </div>
-        <div class="summary-row discount-row" id="checkoutDiscountRow" style="display:none">
-          <div class="discount-row-label">
-            <span style="font-size:15px">🏷</span>
+        <div class="summary-row" id="shippingRow">
+          <span class="en" style="display:block">Shipping</span>
+          <span class="ar" style="display:none">الشحن</span>
+          <span id="shippingDisplay" class="free-tag">Select area</span>
+        </div>
             <div>
               <span class="en" style="display:block">Discount</span>
               <span class="ar" style="display:none">خصم</span>
@@ -307,30 +325,107 @@ document.getElementById('langBtn').addEventListener('click', () => {
   document.body.classList.toggle('rtl', isArabic);
 });
 
-// ─── URGENCY BAR ─────────────────────────────────────────────────────────────
+// ─── TRUST WIDGET ────────────────────────────────────────────────────────────
 (function() {
-  const max = 20;
-  let n = parseInt(localStorage.getItem("fakeOrders") || "0") || Math.floor(Math.random() * 8) + 3;
-  n = Math.min(n + 1, max - 1);
-  localStorage.setItem("fakeOrders", n);
-  document.getElementById("orderNumber").textContent = n;
-  document.getElementById("shippingProgress").style.width = (n / max * 100) + "%";
-  document.getElementById("spotsLeft").textContent = `⚠ Only ${max - n} free shipping spots left!`;
+  // Today orders: seed from date so it's consistent per day but varies day to day
+  const today = new Date();
+  const seed  = today.getFullYear() * 10000 + (today.getMonth()+1) * 100 + today.getDate();
+  const base  = 14 + (seed % 11); // gives 14–24, different each day, same all day
+  document.getElementById('todayOrders').textContent = base;
+
+  // Live viewers: random 2–8, rotates every 25s
+  const viewers = [2,3,3,4,4,5,5,6,7,8];
+  let vi = Math.floor(Math.random() * viewers.length);
+  function rotateViewers() {
+    vi = (vi + 1) % viewers.length;
+    const v = viewers[vi];
+    document.getElementById('trustMsg').textContent =
+      `${v} ${v === 1 ? 'person is' : 'people are'} viewing this store right now`;
+  }
+  setInterval(rotateViewers, 25000);
 })();
 
-// ─── CART SUMMARY WITH DISCOUNT ──────────────────────────────────────────────
-function renderSummary() {
-  const cart     = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
-  const discount = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
-  const box      = document.getElementById('summaryItems');
-  let subtotal   = 0;
-  box.innerHTML  = '';
+// ════════════════════════════════════════════════════════════════════════
+//  SHIPPING ZONES — edit whenever you want
+//
+//  fee   : shipping cost in EGP (use 0 for free)
+//  govs  : array of Wingezz governorate IDs in this zone
+//  label : shown to the customer (keep it short)
+// ════════════════════════════════════════════════════════════════════════
+const SHIPPING_ZONES = [
+  {
+    label: 'Greater Cairo',
+    fee: 30,
+    govs: [1, 2, 11],           // Cairo, Giza, Qaliubiya
+  },
+  {
+    label: 'Delta & Canal',
+    fee: 40,
+    govs: [4, 5, 7, 8, 9, 17, 18, 25],  // Dakahlia, Beheira, Gharbia, Ismailia, Menofia, Damietta, Sharkia, Kafr El Sheikh
+  },
+  {
+    label: 'Alexandria & North Coast',
+    fee: 40,
+    govs: [3, 22],              // Alexandria, Matrouh
+  },
+  {
+    label: 'Canal Cities',
+    fee: 50,
+    govs: [12, 16],             // Suez, Port Said
+  },
+  {
+    label: 'Upper Egypt',
+    fee: 60,
+    govs: [6, 10, 14, 15, 19, 20, 21],  // Fayoum, Minya, Assiut, Beni Suef, Luxor, Qena, Sohag
+  },
+  {
+    label: 'South Egypt',
+    fee: 70,
+    govs: [13, 23, 24, 26],     // Aswan, Red Sea, South Sinai, New Valley
+  },
+];
+// ════════════════════════════════════════════════════════════════════════
 
+// Returns { fee, label } for a given govern ID, or { fee: null } if not found
+function getShippingZone(governId) {
+  const id = parseInt(governId);
+  if (!id) return { fee: null, label: '' };
+  const zone = SHIPPING_ZONES.find(z => z.govs.includes(id));
+  return zone || { fee: 0, label: 'Free' };  // default free if not mapped
+}
+
+// Updates the shipping row in the summary and recalculates total
+function updateShippingDisplay(governId) {
+  const { fee, label } = getShippingZone(governId);
+  const el = document.getElementById('shippingDisplay');
+
+  if (fee === null) {
+    el.textContent = 'Select area';
+    el.className = 'shipping-pending';
+  } else if (fee === 0) {
+    el.textContent = 'Free';
+    el.className = 'free-tag';
+  } else {
+    el.textContent = `$${fee}`;
+    el.className = 'shipping-cost';
+  }
+
+  // Re-render totals with new shipping fee
+  renderSummary(governId);
+}
+
+// ─── CART SUMMARY ─────────────────────────────────────────────────────────────
+function renderSummary(governId) {
+  if (governId === undefined) governId = document.getElementById('governorate').value;
+  const cart = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
+  const box  = document.getElementById('summaryItems');
+  let total  = 0;
+  box.innerHTML = '';
   if (!cart.length) {
     box.innerHTML = '<div class="empty-cart-msg">No items in cart</div>';
   } else {
     cart.forEach(i => {
-      subtotal += i.price * i.qty;
+      total += i.price * i.qty;
       box.innerHTML += `
         <div class="summary-item">
           <div class="summary-item-info">
@@ -341,23 +436,29 @@ function renderSummary() {
         </div>`;
     });
   }
+  const disc     = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
+  const saving   = disc ? disc.saving : 0;
+  const { fee }  = getShippingZone(governId);
+  const shipping = (fee === null || fee === undefined) ? 0 : fee;
+  const grandTotal = (total - saving) + shipping;
 
-  document.getElementById('summarySubtotal').textContent = subtotal.toFixed(2);
+  document.getElementById('summarySubtotal').textContent = total.toFixed(2);
+  document.getElementById('summaryTotal').textContent    = grandTotal.toFixed(2);
 
-  if (discount && discount.saving > 0) {
-    // Show discount row
-    document.getElementById('checkoutDiscountRow').style.display = 'flex';
-    document.getElementById('checkoutDiscountCode').textContent  = discount.code;
-    document.getElementById('checkoutDiscountAmt').textContent   = '−$' + discount.saving.toFixed(2);
-    // Final total
-    document.getElementById('summaryTotal').textContent = discount.total.toFixed(2);
-    // Savings callout
-    document.getElementById('savingsCallout').style.display = 'flex';
-    document.getElementById('savingsCalloutAmt').textContent = '$' + discount.saving.toFixed(2);
-  } else {
-    document.getElementById('checkoutDiscountRow').style.display = 'none';
-    document.getElementById('savingsCallout').style.display      = 'none';
-    document.getElementById('summaryTotal').textContent          = subtotal.toFixed(2);
+  // Discount row
+  const discRow = document.getElementById('checkoutDiscountRow');
+  if (discRow) {
+    if (disc && saving > 0) {
+      discRow.style.display = 'flex';
+      document.getElementById('checkoutDiscountCode').textContent = disc.code;
+      document.getElementById('checkoutDiscountAmt').textContent  = '−$' + saving.toFixed(2);
+      document.getElementById('savingsCallout').style.display     = 'flex';
+      document.getElementById('savingsCalloutAmt').textContent    = '$' + saving.toFixed(2);
+    } else {
+      discRow.style.display = 'none';
+      const sc = document.getElementById('savingsCallout');
+      if (sc) sc.style.display = 'none';
+    }
   }
 }
 renderSummary();
@@ -448,6 +549,10 @@ document.getElementById('governorate').addEventListener('change', async function
     loader.classList.add('hidden');
   }
 
+  // Update shipping fee based on selected governorate
+  updateShippingDisplay(govId);
+
+  // Delivery estimate
   const cairoGovs = [1, 2, 11];
   document.getElementById('estimateValue').textContent =
     cairoGovs.includes(parseInt(govId)) ? '1–2 business days' : '2–5 business days';
@@ -488,7 +593,9 @@ document.getElementById('placeOrderBtn').addEventListener('click', async () => {
   const subtotal    = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
   const discount    = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
   const saving      = discount ? discount.saving : 0;
-  const total       = subtotal - saving;
+  const { fee: shipFee, label: shipLabel } = getShippingZone(f.govern_id);
+  const shipping    = shipFee || 0;
+  const total       = (subtotal - saving) + shipping;
   const itemsCount  = f.cart.reduce((a, b) => a + b.qty, 0);
   const itemsDesc   = f.cart.map(i => `${i.name} (${i.color} Sz${i.size}) x${i.qty}`).join(', ');
 
@@ -562,24 +669,24 @@ function buildWhatsAppMsg(f, total, trackingId) {
     '📦 *Items:*',
     items,
     '',
-    `💰 *Total: $${total.toFixed(2)}*`,
-    (saving && saving > 0) ? `🏷 Discount ${discount ? discount.code : ''} — saved $${saving.toFixed(2)}` : '',
+    `🚚 Shipping: $${(getShippingZone(f.govern_id).fee || 0)}`,
+    `💰 *Total: $${total.toFixed ? total.toFixed(2) : total}*`,
     trackingId ? `🔖 Tracking: ${trackingId}` : '',
   ].filter(Boolean);
   return parts.join('%0A');
 }
 
 document.getElementById('whatsappBtn').addEventListener('click', () => {
-  const f    = collectForm();
+  const f = collectForm();
   if (!f.name || !f.phone) { showError('Please fill your name and phone first'); return; }
-  const disc    = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
-  const rawTot  = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
-  const total   = disc ? disc.total : rawTot;
+  const waSub  = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
+  const waDisc = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
+  const waSave = waDisc ? waDisc.saving : 0;
+  const { fee: waFee } = getShippingZone(f.govern_id);
+  const total  = (waSub - waSave) + (waFee || 0);
   window.open(`https://wa.me/${WHATSAPP_NUM}?text=${buildWhatsAppMsg(f, total, null)}`, '_blank');
   localStorage.removeItem('cartForCheckout');
   localStorage.removeItem('cart');
-  localStorage.removeItem('checkoutDiscount');
-  localStorage.removeItem('activeDiscount');
 });
 
 // ─── SUCCESS ──────────────────────────────────────────────────────────────────
