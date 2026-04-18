@@ -31,7 +31,6 @@
     <!-- ═══ LEFT: FORM ═══ -->
     <div class="form-side">
 
-      <!-- 01 Contact -->
       <div class="section-label">
         <span>01</span>
         <h2 class="en" style="display:block">Contact Info</h2>
@@ -40,30 +39,20 @@
 
       <div class="field-group two">
         <div class="field">
-          <label>
-            <span class="en" style="display:block">Full Name *</span>
-            <span class="ar" style="display:none">الاسم الكامل *</span>
-          </label>
+          <label><span class="en" style="display:block">Full Name *</span><span class="ar" style="display:none">الاسم الكامل *</span></label>
           <input type="text" id="name" placeholder="Ahmed Mohamed" required>
         </div>
         <div class="field">
-          <label>
-            <span class="en" style="display:block">Phone *</span>
-            <span class="ar" style="display:none">رقم الهاتف *</span>
-          </label>
+          <label><span class="en" style="display:block">Phone *</span><span class="ar" style="display:none">رقم الهاتف *</span></label>
           <input type="tel" id="phone" placeholder="01012345678" required>
         </div>
       </div>
 
       <div class="field">
-        <label>
-          <span class="en" style="display:block">Second Phone (optional)</span>
-          <span class="ar" style="display:none">رقم هاتف ثانٍ (اختياري)</span>
-        </label>
+        <label><span class="en" style="display:block">Second Phone (optional)</span><span class="ar" style="display:none">رقم هاتف ثانٍ (اختياري)</span></label>
         <input type="tel" id="phone2" placeholder="01112345678">
       </div>
 
-      <!-- 02 Address -->
       <div class="section-label" style="margin-top:32px">
         <span>02</span>
         <h2 class="en" style="display:block">Delivery Address</h2>
@@ -72,32 +61,18 @@
 
       <div class="field-group two">
         <div class="field">
-          <label>
-            <span class="en" style="display:block">Governorate *</span>
-            <span class="ar" style="display:none">المحافظة *</span>
-          </label>
+          <label><span class="en" style="display:block">Governorate *</span><span class="ar" style="display:none">المحافظة *</span></label>
           <div class="select-wrap">
-            <select id="governorate" required>
-              <option value="">
-                <span class="en">Loading…</span>
-              </option>
-            </select>
+            <select id="governorate" required><option value="">Loading…</option></select>
             <div class="select-loader" id="govLoader">
               <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
             </div>
           </div>
         </div>
         <div class="field">
-          <label>
-            <span class="en" style="display:block">Area *</span>
-            <span class="ar" style="display:none">المنطقة *</span>
-          </label>
+          <label><span class="en" style="display:block">Area *</span><span class="ar" style="display:none">المنطقة *</span></label>
           <div class="select-wrap">
-            <select id="area" required disabled>
-              <option value="">
-                <span class="en">Select governorate first</span>
-              </option>
-            </select>
+            <select id="area" required disabled><option value="">Select governorate first</option></select>
             <div class="select-loader hidden" id="areaLoader">
               <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
             </div>
@@ -107,47 +82,33 @@
 
       <div class="field-group three">
         <div class="field">
-          <label>
-            <span class="en" style="display:block">Floor No.</span>
-            <span class="ar" style="display:none">رقم الدور</span>
-          </label>
+          <label><span class="en" style="display:block">Floor No.</span><span class="ar" style="display:none">رقم الدور</span></label>
           <input type="text" id="floor_no" placeholder="4">
         </div>
         <div class="field">
-          <label>
-            <span class="en" style="display:block">Apartment No.</span>
-            <span class="ar" style="display:none">رقم الشقة</span>
-          </label>
+          <label><span class="en" style="display:block">Apartment No.</span><span class="ar" style="display:none">رقم الشقة</span></label>
           <input type="text" id="apartment_no" placeholder="8">
         </div>
         <div class="field">
-          <label>
-            <span class="en" style="display:block">Address Notes</span>
-            <span class="ar" style="display:none">تفاصيل العنوان</span>
-          </label>
+          <label><span class="en" style="display:block">Address Notes</span><span class="ar" style="display:none">تفاصيل العنوان</span></label>
           <input type="text" id="address_notes" placeholder="Next to bank…">
         </div>
       </div>
 
       <div class="field">
-        <label>
-          <span class="en" style="display:block">Delivery Notes (for the courier)</span>
-          <span class="ar" style="display:none">ملاحظات للمندوب</span>
-        </label>
+        <label><span class="en" style="display:block">Delivery Notes (for the courier)</span><span class="ar" style="display:none">ملاحظات للمندوب</span></label>
         <input type="text" id="deliver_notes" placeholder="Customer can receive any time">
       </div>
 
-      <!-- Delivery estimate (shown after picking area) -->
       <div class="shipping-estimate" id="shippingEstimate" style="display:none">
         <span>🚚</span>
         <div>
           <div class="estimate-title en" style="display:block">Estimated Delivery</div>
           <div class="estimate-title ar" style="display:none">موعد التوصيل المتوقع</div>
-          <div class="estimate-value" id="estimateValue">2–4 business days</div>
+          <div class="estimate-value" id="estimateValue">24 hours</div>
         </div>
       </div>
 
-      <!-- 03 Payment -->
       <div class="section-label" style="margin-top:32px">
         <span>03</span>
         <h2 class="en" style="display:block">Payment</h2>
@@ -192,11 +153,10 @@
         <h2 class="ar" style="display:none">ملخص الطلب</h2>
       </div>
 
-      <!-- Social proof / trust widget -->
       <div class="trust-widget">
         <div class="trust-live-row">
           <span class="trust-dot"></span>
-          <span id="trustMsg">3 people are viewing this store right now</span>
+          <span id="trustMsg">4 people are viewing this store right now</span>
         </div>
         <div class="trust-stats">
           <div class="trust-stat">
@@ -219,40 +179,53 @@
         </div>
       </div>
 
-      <!-- Items -->
       <div id="summaryItems"></div>
 
-      <!-- Totals -->
       <div class="summary-total-block">
+
         <div class="summary-row">
           <span class="en" style="display:block">Subtotal</span>
-          <span class="ar" style="display:none">المجموع</span>
-          <span>$<span id="summarySubtotal">0</span></span>
+          <span class="ar" style="display:none">المجموع الفرعي</span>
+          <span>EGP <span id="summarySubtotal">0</span></span>
         </div>
-        <div class="summary-row" id="shippingRow">
-          <span class="en" style="display:block">Shipping</span>
-          <span class="ar" style="display:none">الشحن</span>
-          <span id="shippingDisplay" class="free-tag">Select area</span>
-        </div>
-        <div class="summary-row discount-row" id="checkoutDiscountRow" style="display: flex;">
+
+        <!-- Discount row — hidden until discount active -->
+        <div class="summary-row discount-row" id="checkoutDiscountRow" style="display:none">
           <div class="discount-row-label">
-            <span style="font-size:15px">🏷️</span>
+            <span style="font-size:15px">🏷</span>
             <div>
               <span class="en" style="display:block">Discount</span>
               <span class="ar" style="display:none">خصم</span>
-              <span class="discount-code-tag" id="checkoutDiscountCode">code</span>
+              <span class="discount-code-tag" id="checkoutDiscountCode"></span>
             </div>
           </div>
-          <span class="discount-saving" id="checkoutDiscountAmt">0</span>
+          <span class="discount-saving" id="checkoutDiscountAmt"></span>
         </div>
+
+        <!-- Shipping row — updates live when governorate picked -->
+        <div class="summary-row" id="shippingRow">
+          <div class="shipping-row-label">
+            <span class="en" style="display:block">Shipping</span>
+            <span class="ar" style="display:none">الشحن</span>
+            <span class="shipping-zone-name" id="shippingZoneName"></span>
+          </div>
+          <span id="shippingDisplay" class="shipping-pending">— select area —</span>
+        </div>
+
         <div class="summary-row total-row">
           <span class="en" style="display:block">Total</span>
           <span class="ar" style="display:none">الإجمالي</span>
-          <strong>$<span id="summaryTotal">0</span></strong>
+          <strong>EGP <span id="summaryTotal">0</span></strong>
         </div>
+
       </div>
 
-      <!-- Place order -->
+      <!-- Savings callout -->
+      <div class="savings-callout" id="savingsCallout" style="display:none">
+        <span>🎉</span>
+        <span>You're saving <strong id="savingsCalloutAmt"></strong> on this order!</span>
+      </div>
+
       <button type="button" id="placeOrderBtn" class="place-order-btn">
         <span id="btnContent" style="display:flex;align-items:center;gap:8px">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -268,7 +241,6 @@
 
       <div class="divider-text"><span>or</span></div>
 
-      <!-- WhatsApp fallback -->
       <button type="button" id="whatsappBtn" class="whatsapp-btn">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         <span class="en" style="display:inline">Order via WhatsApp instead</span>
@@ -282,7 +254,7 @@
   </div>
 </div>
 
-<!-- ═══ SUCCESS OVERLAY ═══ -->
+<!-- SUCCESS OVERLAY -->
 <div id="successOverlay" class="success-overlay" style="display:none">
   <div class="success-box">
     <div class="success-icon">✓</div>
@@ -301,187 +273,163 @@
 </div>
 
 <script>
-// ─── CONFIG — update this to your Worker URL ──────────────────────────────────
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
 const WORKER_URL   = "https://api.m-shoes.workers.dev/";
 const WHATSAPP_NUM = "201556761228";
 
-// ─── STATE ────────────────────────────────────────────────────────────────────
-let isArabic    = false;
-let governorates = [];
-let lastSuccess = {};
+// ════════════════════════════════════════════════════════════════════════
+//  SHIPPING ZONES — real Wingezz Bronze tier prices (EGP, 1–99 shipments/mo)
+//  Source: wingezz.com/en — Bronze column, smallest package size
+//
+//  When your volume grows, update the fee values:
+//    100–300/mo: Cairo 82, NewCities 92, Alex 95, Delta 100, NUpper 110, SUpper 120, Remote 155
+//    301–1000/mo: Cairo 79, NewCities 89, Alex 92, Delta 98, NUpper 108, SUpper 118, Remote 153
+// ════════════════════════════════════════════════════════════════════════
+const SHIPPING_ZONES = [
+  { label: 'Cairo & Giza',           labelAr: 'القاهرة والجيزة',             fee: 86,  hours: 24, govs: [1, 2] },
+  { label: 'New Cities & Outskirts', labelAr: 'المدن الجديدة والأطراف',      fee: 95,  hours: 24, govs: [11] },
+  { label: 'Alexandria',             labelAr: 'الإسكندرية',                  fee: 99,  hours: 24, govs: [3] },
+  { label: 'Delta & Canal Cities',   labelAr: 'مدن الدلتا ومدن القناة',      fee: 103, hours: 72, govs: [4, 5, 7, 8, 9, 12, 16, 17, 18, 25] },
+  { label: 'North Upper Egypt',      labelAr: 'شمال الصعيد',                 fee: 113, hours: 72, govs: [6, 10, 14, 15] },
+  { label: 'South Upper Egypt',      labelAr: 'جنوب الصعيد',                 fee: 123, hours: 86, govs: [13, 19, 20, 21] },
+  { label: 'Remote Areas',           labelAr: 'المناطق الخارجية',            fee: 155, hours: 98, govs: [22, 23, 24, 26] },
+];
 
-// ─── LANGUAGE ────────────────────────────────────────────────────────────────
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let isArabic     = false;
+let governorates = [];
+let lastSuccess  = {};
+
+// ─── LANGUAGE ─────────────────────────────────────────────────────────────────
 document.getElementById('langBtn').addEventListener('click', () => {
   isArabic = !isArabic;
   document.querySelectorAll('.en').forEach(el => el.style.display = isArabic ? 'none' : 'block');
   document.querySelectorAll('.ar').forEach(el => el.style.display = isArabic ? 'block' : 'none');
   document.body.classList.toggle('rtl', isArabic);
+  // Re-render so zone labels switch language
+  renderSummary();
+  const govId = document.getElementById('governorate').value;
+  if (govId) {
+    const zone = getShippingZone(govId);
+    if (zone) document.getElementById('shippingZoneName').textContent = isArabic ? zone.labelAr : zone.label;
+  }
 });
 
-// ─── TRUST WIDGET ────────────────────────────────────────────────────────────
+// ─── TRUST WIDGET ─────────────────────────────────────────────────────────────
 (function() {
-  // Today orders: seed from date so it's consistent per day but varies day to day
   const today = new Date();
   const seed  = today.getFullYear() * 10000 + (today.getMonth()+1) * 100 + today.getDate();
-  const base  = 14 + (seed % 11); // gives 14–24, different each day, same all day
-  document.getElementById('todayOrders').textContent = base;
-
-  // Live viewers: random 2–8, rotates every 25s
+  document.getElementById('todayOrders').textContent = 14 + (seed % 11);
   const viewers = [2,3,3,4,4,5,5,6,7,8];
   let vi = Math.floor(Math.random() * viewers.length);
-  function rotateViewers() {
+  setInterval(() => {
     vi = (vi + 1) % viewers.length;
     const v = viewers[vi];
     document.getElementById('trustMsg').textContent =
       `${v} ${v === 1 ? 'person is' : 'people are'} viewing this store right now`;
-  }
-  setInterval(rotateViewers, 25000);
+  }, 25000);
 })();
 
-// ════════════════════════════════════════════════════════════════════════
-//  SHIPPING ZONES — edit whenever you want
-//
-//  fee   : shipping cost in EGP (use 0 for free)
-//  govs  : array of Wingezz governorate IDs in this zone
-//  label : shown to the customer (keep it short)
-// ════════════════════════════════════════════════════════════════════════
-const SHIPPING_ZONES = [
-  {
-    label: 'Greater Cairo',
-    fee: 30,
-    govs: [1, 2, 11],           // Cairo, Giza, Qaliubiya
-  },
-  {
-    label: 'Delta & Canal',
-    fee: 40,
-    govs: [4, 5, 7, 8, 9, 17, 18, 25],  // Dakahlia, Beheira, Gharbia, Ismailia, Menofia, Damietta, Sharkia, Kafr El Sheikh
-  },
-  {
-    label: 'Alexandria & North Coast',
-    fee: 40,
-    govs: [3, 22],              // Alexandria, Matrouh
-  },
-  {
-    label: 'Canal Cities',
-    fee: 50,
-    govs: [12, 16],             // Suez, Port Said
-  },
-  {
-    label: 'Upper Egypt',
-    fee: 60,
-    govs: [6, 10, 14, 15, 19, 20, 21],  // Fayoum, Minya, Assiut, Beni Suef, Luxor, Qena, Sohag
-  },
-  {
-    label: 'South Egypt',
-    fee: 70,
-    govs: [13, 23, 24, 26],     // Aswan, Red Sea, South Sinai, New Valley
-  },
-];
-// ════════════════════════════════════════════════════════════════════════
-
-// Returns { fee, label } for a given govern ID, or { fee: null } if not found
+// ─── SHIPPING HELPERS ─────────────────────────────────────────────────────────
 function getShippingZone(governId) {
   const id = parseInt(governId);
-  if (!id) return { fee: null, label: '' };
-  const zone = SHIPPING_ZONES.find(z => z.govs.includes(id));
-  return zone || { fee: 0, label: 'Free' };  // default free if not mapped
+  if (!id) return null;
+  return SHIPPING_ZONES.find(z => z.govs.includes(id)) || null;
 }
 
-// Updates the shipping row in the summary and recalculates total
 function updateShippingDisplay(governId) {
-  const { fee, label } = getShippingZone(governId);
-  const el = document.getElementById('shippingDisplay');
+  const zone   = getShippingZone(governId);
+  const el     = document.getElementById('shippingDisplay');
+  const nameEl = document.getElementById('shippingZoneName');
 
-  if (fee === null) {
-    el.textContent = 'Select area';
-    el.className = 'shipping-pending';
-  } else if (fee === 0) {
-    el.textContent = 'Free';
-    el.className = 'free-tag';
+  if (!zone) {
+    el.textContent   = '— select area —';
+    el.className     = 'shipping-pending';
+    nameEl.textContent = '';
   } else {
-    el.textContent = `$${fee}`;
-    el.className = 'shipping-cost';
+    el.textContent   = `EGP ${zone.fee}`;
+    el.className     = 'shipping-cost';
+    nameEl.textContent = isArabic ? zone.labelAr : zone.label;
   }
-
-  // Re-render totals with new shipping fee
   renderSummary(governId);
 }
 
-// ─── CART SUMMARY ─────────────────────────────────────────────────────────────
+// ─── RENDER SUMMARY ───────────────────────────────────────────────────────────
 function renderSummary(governId) {
   if (governId === undefined) governId = document.getElementById('governorate').value;
+
   const cart = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
   const box  = document.getElementById('summaryItems');
-  let total  = 0;
+  let subtotal = 0;
+
   box.innerHTML = '';
   if (!cart.length) {
     box.innerHTML = '<div class="empty-cart-msg">No items in cart</div>';
   } else {
     cart.forEach(i => {
-      total += i.price * i.qty;
+      subtotal += i.price * i.qty;
       box.innerHTML += `
         <div class="summary-item">
           <div class="summary-item-info">
             <span class="summary-item-name">${i.name}</span>
             <span class="summary-item-meta">${i.color} · Size ${i.size} · ×${i.qty}</span>
           </div>
-          <span class="summary-item-price">$${i.price * i.qty}</span>
+          <span class="summary-item-price">EGP ${i.price * i.qty}</span>
         </div>`;
     });
   }
-  const disc     = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
-  const saving   = disc ? disc.saving : 0;
-  const { fee }  = getShippingZone(governId);
-  const shipping = (fee === null || fee === undefined) ? 0 : fee;
-  const grandTotal = (total - saving) + shipping;
 
-  document.getElementById('summarySubtotal').textContent = total.toFixed(2);
-  document.getElementById('summaryTotal').textContent    = grandTotal.toFixed(2);
+  const disc    = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
+  const saving  = disc ? Number(disc.saving) : 0;
+  const zone    = getShippingZone(governId);
+  const shipFee = zone ? zone.fee : 0;
+  const grand   = (subtotal - saving) + shipFee;
 
-  // Discount row
+  document.getElementById('summarySubtotal').textContent = subtotal.toFixed(2);
+  document.getElementById('summaryTotal').textContent    = grand.toFixed(2);
+
+  // ── Discount row ───────────────────────────────────────────────────────────
   const discRow = document.getElementById('checkoutDiscountRow');
-  if (discRow) {
-    if (disc && saving > 0) {
-      discRow.style.display = 'flex';
-      document.getElementById('checkoutDiscountCode').textContent = disc.code;
-      document.getElementById('checkoutDiscountAmt').textContent  = '−$' + saving.toFixed(2);
-      document.getElementById('savingsCallout').style.display     = 'flex';
-      document.getElementById('savingsCalloutAmt').textContent    = '$' + saving.toFixed(2);
-    } else {
-      discRow.style.display = 'none';
-      const sc = document.getElementById('savingsCallout');
-      if (sc) sc.style.display = 'none';
+  if (disc && saving > 0) {
+    discRow.style.display = 'flex';
+    document.getElementById('checkoutDiscountCode').textContent = disc.code;
+    // e.g. "−EGP 23.00 (5%)" or "−EGP 50.00 (fixed)"
+    const label = disc.type === 'fixed'
+      ? `−EGP ${saving.toFixed(2)}`
+      : `−EGP ${saving.toFixed(2)} (${disc.value}% off)`;
+    document.getElementById('checkoutDiscountAmt').textContent = label;
+
+    const sc = document.getElementById('savingsCallout');
+    if (sc) {
+      sc.style.display = 'flex';
+      document.getElementById('savingsCalloutAmt').textContent = `EGP ${saving.toFixed(2)}`;
     }
+  } else {
+    discRow.style.display = 'none';
+    const sc = document.getElementById('savingsCallout');
+    if (sc) sc.style.display = 'none';
   }
 }
+
 renderSummary();
 
 // ─── LOAD GOVERNORATES ────────────────────────────────────────────────────────
 async function loadGovernorates() {
-  const sel = document.getElementById('governorate');
+  const sel    = document.getElementById('governorate');
   const loader = document.getElementById('govLoader');
   try {
-    const res = await fetch(`${WORKER_URL}?action=governs`);
+    const res    = await fetch(`${WORKER_URL}?action=governs`);
     if (!res.ok) throw new Error(res.status);
     const result = await res.json();
-
-    // Fix: Check if data is nested (Wingezz usually wraps in .data or .governs)
-    // If result is an array, use it; otherwise look for result.data or result.governs
-    const list = Array.isArray(result) ? result : (result.data || result.governs || []);
-    
-    governorates = list; 
+    const list   = Array.isArray(result) ? result : (result.data || result.governs || []);
+    governorates = list;
     sel.innerHTML = `<option value="">${isArabic ? 'اختر المحافظة' : 'Select Governorate'}</option>`;
-    
     list.forEach(g => {
       const name = g.govern_name || g.name_ar || g.name_en || g.name || `Gov ${g.id}`;
       sel.innerHTML += `<option value="${g.id}">${name}</option>`;
     });
-  } catch (err) {
-    console.error('Governs load failed:', err);
-    loadFallbackGovs();
-  } finally {
-    loader.style.display = 'none';
-  }
+  } catch { loadFallbackGovs(); }
+  finally { loader.style.display = 'none'; }
 }
 
 function loadFallbackGovs() {
@@ -495,6 +443,7 @@ function loadFallbackGovs() {
     {id:19,n:'Luxor / الأقصر'},{id:20,n:'Qena / قنا'},{id:21,n:'Sohag / سوهاج'},
     {id:22,n:'Matrouh / مطروح'},{id:23,n:'Red Sea / البحر الأحمر'},
     {id:24,n:'South Sinai / جنوب سيناء'},{id:25,n:'Kafr El Sheikh / كفر الشيخ'},
+    {id:26,n:'New Valley / الوادي الجديد'},
   ];
   governorates = GOVS.map(g => ({id: g.id, govern_name: g.n}));
   const sel = document.getElementById('governorate');
@@ -502,17 +451,18 @@ function loadFallbackGovs() {
   GOVS.forEach(g => sel.innerHTML += `<option value="${g.id}">${g.n}</option>`);
 }
 
-// ─── LOAD AREAS ON GOVERNORATE CHANGE ────────────────────────────────────────
+// ─── GOVERNORATE CHANGE ───────────────────────────────────────────────────────
 document.getElementById('governorate').addEventListener('change', async function() {
-  const govId = this.value;
+  const govId   = this.value;
   const areaSel = document.getElementById('area');
-  const loader = document.getElementById('areaLoader');
+  const loader  = document.getElementById('areaLoader');
 
   document.getElementById('shippingEstimate').style.display = 'none';
 
   if (!govId) {
     areaSel.innerHTML = '<option value="">Select governorate first</option>';
-    areaSel.disabled = true;
+    areaSel.disabled  = true;
+    updateShippingDisplay('');
     return;
   }
 
@@ -521,36 +471,32 @@ document.getElementById('governorate').addEventListener('change', async function
   loader.classList.remove('hidden');
 
   try {
-    const res = await fetch(`${WORKER_URL}?action=areas&govern_id=${govId}`);
+    const res    = await fetch(`${WORKER_URL}?action=areas&govern_id=${govId}`);
     if (!res.ok) throw new Error(res.status);
     const result = await res.json();
-
-    // Fix: Handle nested data for areas
-    const list = Array.isArray(result) ? result : (result.data || result.areas || []);
-
+    const list   = Array.isArray(result) ? result : (result.data || result.areas || []);
     areaSel.innerHTML = `<option value="">${isArabic ? 'اختر المنطقة' : 'Select Area'}</option>`;
     list.forEach(a => {
       const name = a.area_name || a.name_ar || a.name_en || a.name || `Area ${a.id}`;
       areaSel.innerHTML += `<option value="${a.id}">${name}</option>`;
     });
     areaSel.disabled = false;
-  } catch (err) {
-    console.error('Areas load failed:', err);
+  } catch {
     areaSel.innerHTML = '<option value="">Areas unavailable</option>';
-    areaSel.disabled = false;
-  } finally {
-    loader.classList.add('hidden');
-  }
+    areaSel.disabled  = false;
+  } finally { loader.classList.add('hidden'); }
 
-  // Update shipping fee based on selected governorate
   updateShippingDisplay(govId);
 
-  // Delivery estimate
-  const cairoGovs = [1, 2, 11];
-  document.getElementById('estimateValue').textContent =
-    cairoGovs.includes(parseInt(govId)) ? '1–2 business days' : '2–5 business days';
+  const zone = getShippingZone(govId);
+  if (zone) {
+    const hrs = zone.hours;
+    document.getElementById('estimateValue').textContent =
+      hrs <= 24 ? '24 hours' : hrs <= 72 ? '2–3 business days' : `${Math.ceil(hrs/24)} business days`;
+  }
   document.getElementById('shippingEstimate').style.display = 'flex';
 });
+
 // ─── COLLECT FORM ─────────────────────────────────────────────────────────────
 function collectForm() {
   return {
@@ -569,30 +515,30 @@ function collectForm() {
 }
 
 function validateForm(f) {
-  if (!f.name)      return isArabic ? 'أدخل اسمك الكامل' : 'Please enter your full name';
-  if (!f.phone)     return isArabic ? 'أدخل رقم هاتفك'   : 'Please enter your phone number';
-  if (!f.govern_id) return isArabic ? 'اختر المحافظة'    : 'Please select a governorate';
-  if (!f.area_id)   return isArabic ? 'اختر المنطقة'     : 'Please select an area';
+  if (!f.name)        return isArabic ? 'أدخل اسمك الكامل' : 'Please enter your full name';
+  if (!f.phone)       return isArabic ? 'أدخل رقم هاتفك'   : 'Please enter your phone number';
+  if (!f.govern_id)   return isArabic ? 'اختر المحافظة'    : 'Please select a governorate';
+  if (!f.area_id)     return isArabic ? 'اختر المنطقة'     : 'Please select an area';
   if (!f.cart.length) return 'Your cart is empty';
   return null;
 }
 
 // ─── PLACE ORDER ──────────────────────────────────────────────────────────────
 document.getElementById('placeOrderBtn').addEventListener('click', async () => {
-  const f = collectForm();
+  const f   = collectForm();
   const err = validateForm(f);
   if (err) { showError(err); return; }
 
-  const subtotal    = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
-  const discount    = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
-  const saving      = discount ? discount.saving : 0;
-  const { fee: shipFee, label: shipLabel } = getShippingZone(f.govern_id);
-  const shipping    = shipFee || 0;
-  const total       = (subtotal - saving) + shipping;
-  const itemsCount  = f.cart.reduce((a, b) => a + b.qty, 0);
-  const itemsDesc   = f.cart.map(i => `${i.name} (${i.color} Sz${i.size}) x${i.qty}`).join(', ');
+  const subtotal   = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
+  const disc       = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
+  const saving     = disc ? Number(disc.saving) : 0;
+  const zone       = getShippingZone(f.govern_id);
+  const shipFee    = zone ? zone.fee : 0;
+  const shipLabel  = zone ? zone.label : '';
+  const total      = (subtotal - saving) + shipFee;
+  const itemsCount = f.cart.reduce((a, b) => a + b.qty, 0);
+  const itemsDesc  = f.cart.map(i => `${i.name} (${i.color} Sz${i.size}) x${i.qty}`).join(', ');
 
-  // Loading state
   document.getElementById('btnContent').style.display = 'none';
   document.getElementById('btnLoading').style.display  = 'flex';
   document.getElementById('placeOrderBtn').disabled    = true;
@@ -602,36 +548,32 @@ document.getElementById('placeOrderBtn').addEventListener('click', async () => {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name:             f.name,
-        phone:            f.phone,
-        phone2:           f.phone2,
-        govern_id:        f.govern_id,
-        area_id:          f.area_id,
-        floor_no:         f.floor_no,
-        apartment_no:     f.apartment_no,
-        address_notes:    f.address_notes,
-        deliver_notes:    f.deliver_notes,
-        payment:          f.payment,
-        total:            total,
-        items_count:      itemsCount,
+        name: f.name, phone: f.phone, phone2: f.phone2,
+        govern_id: f.govern_id, area_id: f.area_id,
+        floor_no: f.floor_no, apartment_no: f.apartment_no,
+        address_notes: f.address_notes, deliver_notes: f.deliver_notes,
+        payment: f.payment, total, items_count: itemsCount,
         items_description: itemsDesc,
-        reference_no:     'MSHOES-' + Date.now().toString().slice(-6),
+        reference_no: 'MSHOES-' + Date.now().toString().slice(-6),
+        // Sent to Worker so Telegram notification is rich
+        subtotal, shipping_fee: shipFee, shipping_zone: shipLabel,
+        discount_code: disc ? disc.code : null,
+        discount_saving: saving,
       }),
     });
 
     const data = await res.json();
     if (!res.ok || data.error) throw new Error(JSON.stringify(data.error || 'Failed'));
 
-    // Save for WhatsApp confirmation
-    lastSuccess = { ...f, total, itemsDesc };
-
     showSuccess(
       data.order?.id || data.order?.shipment_id || data.order?.order_number || null,
-      f, total
+      f, total, saving, shipFee, disc
     );
 
     localStorage.removeItem('cartForCheckout');
     localStorage.removeItem('cart');
+    localStorage.removeItem('checkoutDiscount');
+    localStorage.removeItem('activeDiscount');
 
   } catch (e) {
     console.error(e);
@@ -645,70 +587,68 @@ document.getElementById('placeOrderBtn').addEventListener('click', async () => {
   }
 });
 
-// ─── WHATSAPP ─────────────────────────────────────────────────────────────────
-function buildWhatsAppMsg(f, total, trackingId) {
-  const govName = (governorates.find(g => String(g.id) === String(f.govern_id)) || {}).govern_name || f.govern_id;
-  const items   = f.cart.map(i => `${i.name} x${i.qty} — $${i.price * i.qty}`).join('%0A');
-  const parts   = [
-    '🛍 *New Order — M Shoes*',
-    '',
+// ─── WHATSAPP MESSAGE ─────────────────────────────────────────────────────────
+function buildWhatsAppMsg(f, total, trackingId, saving, shipFee, disc) {
+  const govObj   = governorates.find(g => String(g.id) === String(f.govern_id)) || {};
+  const govName  = govObj.govern_name || f.govern_id;
+  const zone     = getShippingZone(f.govern_id);
+  const subtotal = f.cart.reduce((a,b) => a + b.price * b.qty, 0);
+  const items    = f.cart.map(i => `${i.name} x${i.qty} — EGP ${i.price * i.qty}`).join('%0A');
+  const parts    = [
+    '🛍 *New Order — M Shoes*', '',
     `👤 ${f.name}`,
     `📞 ${f.phone}${f.phone2 ? ' / ' + f.phone2 : ''}`,
     `📍 ${govName}${f.floor_no ? ', Floor ' + f.floor_no : ''}${f.apartment_no ? ', Apt ' + f.apartment_no : ''}`,
     f.address_notes ? `   ${f.address_notes}` : '',
     f.deliver_notes ? `📝 ${f.deliver_notes}` : '',
-    `💳 ${f.payment}`,
-    '',
-    '📦 *Items:*',
-    items,
-    '',
-    `🚚 Shipping: $${(getShippingZone(f.govern_id).fee || 0)}`,
-    `💰 *Total: $${total.toFixed ? total.toFixed(2) : total}*`,
+    `💳 ${f.payment}`, '',
+    '📦 *Items:*', items, '',
+    `🧾 Subtotal: EGP ${subtotal.toFixed(2)}`,
+    (saving > 0) ? `🏷 Discount (${disc?.code || ''}): −EGP ${saving.toFixed(2)}` : '',
+    `🚚 Shipping (${zone ? zone.label : 'unknown'}): EGP ${shipFee}`,
+    `💰 *Total: EGP ${typeof total === 'number' ? total.toFixed(2) : total}*`,
     trackingId ? `🔖 Tracking: ${trackingId}` : '',
   ].filter(Boolean);
   return parts.join('%0A');
 }
 
 document.getElementById('whatsappBtn').addEventListener('click', () => {
-  const f = collectForm();
+  const f        = collectForm();
   if (!f.name || !f.phone) { showError('Please fill your name and phone first'); return; }
-  const waSub  = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
-  const waDisc = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
-  const waSave = waDisc ? waDisc.saving : 0;
-  const { fee: waFee } = getShippingZone(f.govern_id);
-  const total  = (waSub - waSave) + (waFee || 0);
-  window.open(`https://wa.me/${WHATSAPP_NUM}?text=${buildWhatsAppMsg(f, total, null)}`, '_blank');
+  const subtotal = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
+  const disc     = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
+  const saving   = disc ? Number(disc.saving) : 0;
+  const zone     = getShippingZone(f.govern_id);
+  const shipFee  = zone ? zone.fee : 0;
+  const total    = (subtotal - saving) + shipFee;
+  window.open(`https://wa.me/${WHATSAPP_NUM}?text=${buildWhatsAppMsg(f, total, null, saving, shipFee, disc)}`, '_blank');
   localStorage.removeItem('cartForCheckout');
   localStorage.removeItem('cart');
+  localStorage.removeItem('checkoutDiscount');
+  localStorage.removeItem('activeDiscount');
 });
 
 // ─── SUCCESS ──────────────────────────────────────────────────────────────────
-function showSuccess(trackingId, f, total) {
+function showSuccess(trackingId, f, total, saving, shipFee, disc) {
   document.getElementById('successOverlay').style.display = 'flex';
   if (trackingId) {
     document.getElementById('trackingInfo').style.display = 'flex';
     document.getElementById('trackingId').textContent = trackingId;
   }
   document.getElementById('successWhatsApp').onclick = () => {
-    window.open(`https://wa.me/${WHATSAPP_NUM}?text=${buildWhatsAppMsg(f, total, trackingId)}`, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUM}?text=${buildWhatsAppMsg(f, total, trackingId, saving, shipFee, disc)}`, '_blank');
   };
 }
 
 // ─── ERROR TOAST ──────────────────────────────────────────────────────────────
 function showError(msg) {
   let t = document.getElementById('errToast');
-  if (!t) {
-    t = document.createElement('div');
-    t.id = 'errToast';
-    t.className = 'error-toast';
-    document.body.appendChild(t);
-  }
+  if (!t) { t = document.createElement('div'); t.id = 'errToast'; t.className = 'error-toast'; document.body.appendChild(t); }
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 4500);
 }
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
 loadGovernorates();
 </script>
 </body>
