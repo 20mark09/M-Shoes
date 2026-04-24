@@ -49,7 +49,7 @@ header {
 
 .checkout-grid { display: grid; grid-template-columns: 1fr 420px; gap: 48px; align-items: start; }
 
-@media (max-width: 860px) { .checkout-grid { grid-template-columns: 1fr; } .summary-side { order: -1; } }
+@media (max-width: 860px) { .checkout-grid { grid-template-columns: 1fr; } .summary-side { order: 1; } }
 
 /* ─── SECTION LABELS ─── */
 .section-label { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
@@ -108,12 +108,7 @@ select:disabled { opacity: 0.5; cursor: not-allowed; }
     overflow-x: hidden; /* Prevent horizontal "wobble" */
   }
 
-  /* Ensure the grid stacks properly without overlapping */
-  .checkout-grid {
-    display: flex;
-    flex-direction: column; /* Force vertical stack */
-    gap: 24px;
-  }
+
 
   /* Make sure the summary (Right side) doesn't overlap the form (Left side) */
   .summary-side {
