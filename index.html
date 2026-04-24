@@ -210,14 +210,18 @@ const DEFAULT_DISCOUNT_CODES = {
 };
 
 // ── Load data from admin localStorage (or fall back to defaults) ────────────
-function loadAdminData() {
-  const savedProducts  = localStorage.getItem('admin_products');
-  const savedDiscounts = localStorage.getItem('admin_discounts');
-  return {
-    products:      savedProducts  ? JSON.parse(savedProducts)  : DEFAULT_PRODUCTS,
-    DISCOUNT_CODES: savedDiscounts ? JSON.parse(savedDiscounts) : DEFAULT_DISCOUNT_CODES
-  };
+async function loadLiveProducts() {
+  const response = await fetch('/api/products');
+  const data = await response.json();
+  if (data && data.length > 0) {
+    products = data;
+    renderProducts(products);
+  }
 }
+
+// Call this when the page loads
+loadLiveProducts();
+
 
 let { products, DISCOUNT_CODES } = loadAdminData();
 
