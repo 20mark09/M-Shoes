@@ -187,56 +187,55 @@
 //    "VIP"      → $50 off, only when cart ≥ $400
 //    "SINGLE"   → 5% off, only for exactly 1 item
 // ════════════════════════════════════════════════════════════════════
-const DISCOUNT_CODES = {
-  "WEBSITE": {
-    type: "percent",
-    value: 5,
-    min_items: 2,
-    max_items: 2,
-    min_total: 0,
-    description: "5% off your order"
-  },
-  "BUNDLE15": {
-    type: "percent",
-    value: 15,
-    min_items: 2,
-    max_items: 0,
-    min_total: 0,
-    description: "15% off when buying 2+ items"
-  },
-  "VIP50": {
-    type: "fixed",
-    value: 50,
-    min_items: 1,
-    max_items: 0,
-    min_total: 400,
-    description: "EGP 50 off orders over EGP 400"
-  },
-  "SHOES5": {
-    type: "percent",
-    value: 5,
-    min_items: 1,
-    max_items: 1,
-    min_total: 0,
-    description: "5% off single item"
-  },
-};
+// ── SYNC FROM ADMIN PANEL ──────────────────────────────────────────────────
+// Products and discount codes are managed via admin.html.
+// If no admin data exists yet, fall back to the defaults below.
 
-
-  
-const products = [
-  { id: 1, name: 'NIKE AirForce 1', price: 455, originalPrice: 500, category: 'shoes', images: ['nikeaf1.jpg','nike1.jpg','nike2.jpg','nike3.jpg','nike4.jpg','nike5.jpg'], description: 'Sky Leather Imported Quality', colors:['White'], sizes:[42,43,44,45,46] },
+const DEFAULT_PRODUCTS = [
+  { id: 1, name: 'NIKE AirForce 1', price: 455, originalPrice: 550, category: 'shoes', images: ['nikeaf1.jpg','nike1.jpg','nike2.jpg','nike3.jpg','nike4.jpg','nike5.jpg'], description: 'Sky Leather Imported Quality', colors:['White'], sizes:[42,43,44,45,46] },
   { id: 4, name: 'NIKE Brown', price: 420, category: 'shoes', images: ['brown SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
   { id: 2, name: 'NIKE AirForce1 Black', price: 455, originalPrice: 550, category: 'shoes', images: ['nikeb.jpg','nikeb1.jpg','nikeb2.jpg','nikeb3.jpg'], description: 'Sky Leather Imported Quality', colors:['Black'], sizes:[42,43,44,45,46] },
   { id: 5, name: 'NIKE Brown 2', price: 420, category: 'shoes', images: ['fullbrown SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
   { id: 6, name: 'NIKE Gray', price: 420, category: 'shoes', images: ['graynblack SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
   { id: 7, name: 'NIKE Gray 2', price: 420, category: 'shoes', images: ['gray SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
-  { id: 8, name: 'NIKE AirMax', price: 500, originalPrice: 575, category: 'shoes', images: ['airmax.jpg'], description: 'High Quality', colors:['Black'], sizes:[41,42,43,44,45] },
+  { id: 8, name: 'NIKE AirMax', price: 500, originalPrice: 620, category: 'shoes', images: ['airmax.jpg'], description: 'High Quality', colors:['Black'], sizes:[41,42,43,44,45] },
   { id: 3, name: 'Adidas Campus', price: 420, category: 'shoes', images: ['addi.jpg','adi1.jpg','adi2.jpg','adi3.jpg'], description: 'Rough leather material', colors:['Custom'], sizes:[41,42,43,44,45] }
 ];
 
+const DEFAULT_DISCOUNT_CODES = {
+  "WEBSITE":  { type:"percent", value:5,  min_items:2, max_items:2, min_total:0,   description:"5% off your order" },
+  "BUNDLE15": { type:"percent", value:15, min_items:2, max_items:0, min_total:0,   description:"15% off when buying 2+ items" },
+  "VIP50":    { type:"fixed",   value:50, min_items:1, max_items:0, min_total:400, description:"EGP 50 off orders over EGP 400" },
+  "SHOES5":   { type:"percent", value:5,  min_items:1, max_items:1, min_total:0,   description:"5% off single item" }
+};
+
+// ── Load data from admin localStorage (or fall back to defaults) ────────────
+function loadAdminData() {
+  const savedProducts  = localStorage.getItem('admin_products');
+  const savedDiscounts = localStorage.getItem('admin_discounts');
+  return {
+    products:      savedProducts  ? JSON.parse(savedProducts)  : DEFAULT_PRODUCTS,
+    DISCOUNT_CODES: savedDiscounts ? JSON.parse(savedDiscounts) : DEFAULT_DISCOUNT_CODES
+  };
+}
+
+let { products, DISCOUNT_CODES } = loadAdminData();
+
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let activeDiscount = JSON.parse(localStorage.getItem('activeDiscount') || 'null');
+
+// ── Live-sync: if admin panel saves changes while this tab is open, reload products ──
+window.addEventListener('storage', e => {
+  if (e.key === 'admin_products' || e.key === 'admin_discounts') {
+    const fresh = loadAdminData();
+    products      = fresh.products;
+    // DISCOUNT_CODES is block-scoped above but we need to update the reference used by applyDiscount
+    window._DISCOUNT_CODES = fresh.DISCOUNT_CODES;
+    renderProducts(products);
+  }
+});
+// Keep DISCOUNT_CODES accessible for the storage event handler above
+window._DISCOUNT_CODES = DISCOUNT_CODES;
 let currentImageIndex = 0;
 let startX = 0;
 let currentProduct = null;
@@ -274,7 +273,7 @@ function applyDiscount() {
 
   if (!code) return;
 
-  const rule = DISCOUNT_CODES[code];
+  const rule = (window._DISCOUNT_CODES || DISCOUNT_CODES)[code];
   if (!rule) {
     showStatus('✕  Invalid code', 'error');
     activeDiscount = null;
