@@ -113,7 +113,7 @@
       <div class="cart-total-row">
         <span class="en" style="display:block">Total</span>
         <span class="ar rtl" style="display:none">الإجمالي</span>
-        <strong>$<span id="cartTotal">0</span></strong>
+        <strong>EGP <span id="cartTotal">0</span></strong>
       </div>
     </div>
 
@@ -137,7 +137,7 @@
       <div class="modal-tag">New Arrival</div>
       <h2 id="modalName"></h2>
       <p id="modalDesc"></p>
-      <div class="modal-price">$<span id="modalPrice"></span></div>
+      <div class="modal-price">EGP <span id="modalPrice"></span></div>
       <div class="modal-selects">
         <div class="select-group">
           <label class="en" style="display:block">Color</label>
@@ -210,7 +210,7 @@ const DISCOUNT_CODES = {
     min_items: 1,
     max_items: 0,
     min_total: 400,
-    description: "$50 off orders over $400"
+    description: "EGP 50 off orders over EGP 400"
   },
   "SHOES5": {
     type: "percent",
@@ -225,13 +225,13 @@ const DISCOUNT_CODES = {
 
   
 const products = [
-  { id: 1, name: 'NIKE AirForce 1', price: 455, category: 'shoes', images: ['nikeaf1.jpg','nike1.jpg','nike2.jpg','nike3.jpg','nike4.jpg','nike5.jpg'], description: 'Sky Leather Imported Quality', colors:['White'], sizes:[42,43,44,45,46] },
+  { id: 1, name: 'NIKE AirForce 1', price: 455, originalPrice: 550, category: 'shoes', images: ['nikeaf1.jpg','nike1.jpg','nike2.jpg','nike3.jpg','nike4.jpg','nike5.jpg'], description: 'Sky Leather Imported Quality', colors:['White'], sizes:[42,43,44,45,46] },
   { id: 4, name: 'NIKE Brown', price: 420, category: 'shoes', images: ['brown SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
-  { id: 2, name: 'NIKE AirForce1 Black', price: 455, category: 'shoes', images: ['nikeb.jpg','nikeb1.jpg','nikeb2.jpg','nikeb3.jpg'], description: 'Sky Leather Imported Quality', colors:['Black'], sizes:[42,43,44,45,46] },
+  { id: 2, name: 'NIKE AirForce1 Black', price: 455, originalPrice: 550, category: 'shoes', images: ['nikeb.jpg','nikeb1.jpg','nikeb2.jpg','nikeb3.jpg'], description: 'Sky Leather Imported Quality', colors:['Black'], sizes:[42,43,44,45,46] },
   { id: 5, name: 'NIKE Brown 2', price: 420, category: 'shoes', images: ['fullbrown SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
   { id: 6, name: 'NIKE Gray', price: 420, category: 'shoes', images: ['graynblack SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
   { id: 7, name: 'NIKE Gray 2', price: 420, category: 'shoes', images: ['gray SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
-  { id: 8, name: 'NIKE AirMax', price: 500, category: 'shoes', images: ['airmax.jpg'], description: 'High Quality', colors:['Black'], sizes:[41,42,43,44,45] },
+  { id: 8, name: 'NIKE AirMax', price: 500, originalPrice: 620, category: 'shoes', images: ['airmax.jpg'], description: 'High Quality', colors:['Black'], sizes:[41,42,43,44,45] },
   { id: 3, name: 'Adidas Campus', price: 420, category: 'shoes', images: ['addi.jpg','adi1.jpg','adi2.jpg','adi3.jpg'], description: 'Rough leather material', colors:['Custom'], sizes:[41,42,43,44,45] }
 ];
 
@@ -310,7 +310,7 @@ function applyDiscount() {
   // Check min total
   if (rule.min_total > 0 && subtotal < rule.min_total) {
     showStatus(
-      `Minimum order of $${rule.min_total} required (you have $${subtotal})`,
+      `Minimum order of EGP ${rule.min_total} required (you have EGP ${subtotal})`,
       'warn'
     );
     activeDiscount = null;
@@ -350,15 +350,21 @@ function renderProducts(list) {
     const div    = document.createElement('div');
     div.className = 'product';
     div.style.animationDelay = (i * 0.07) + 's';
+    const hasOffer = p.originalPrice && p.originalPrice > p.price;
+    const discountPct = hasOffer ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
     div.innerHTML = `
       <div class="product-img-wrap" onclick="openProduct(${p.id})">
+        ${hasOffer ? `<div class="offer-ribbon">🔥 OFFER −${discountPct}%</div>` : ''}
         <img loading="lazy" src="${p.images[0]}" alt="${p.name}">
         <div class="product-overlay"><span>View Details</span></div>
       </div>
       <div class="product-body">
         <div class="product-meta">
           <span class="product-category">Shoes</span>
-          <span class="product-price">$${p.price}</span>
+          <div class="product-price-wrap">
+            ${hasOffer ? `<span class="product-original-price">EGP ${p.originalPrice}</span>` : ''}
+            <span class="product-price${hasOffer ? ' on-sale' : ''}">EGP ${p.price}</span>
+          </div>
         </div>
         <h4>${p.name}</h4>
         <div class="selects">
@@ -460,7 +466,7 @@ function updateCart() {
             <span>${i.qty}</span>
             <button onclick='changeQty(${i.id},"${i.color}","${i.size}",1)'>+</button>
           </div>
-          <span class="cart-item-price">$${i.price * i.qty}</span>
+          <span class="cart-item-price">EGP ${i.price * i.qty}</span>
         </div>
       </div>`;
     });
@@ -472,11 +478,11 @@ function updateCart() {
 
   // Subtotal row
   document.getElementById('subtotalRow').style.display = hasDisc ? 'flex' : 'none';
-  document.getElementById('cartSubtotal').textContent  = `$${subtotal.toFixed(2)}`;
+  document.getElementById('cartSubtotal').textContent  = `EGP ${subtotal.toFixed(2)}`;
 
   // Savings row
   document.getElementById('savingsRow').style.display  = hasDisc ? 'flex' : 'none';
-  document.getElementById('cartSavings').textContent   = `−$${saving.toFixed(2)}`;
+  document.getElementById('cartSavings').textContent   = `−EGP ${saving.toFixed(2)}`;
 
   // Total
   document.getElementById('cartTotal').textContent = total.toFixed(2);
