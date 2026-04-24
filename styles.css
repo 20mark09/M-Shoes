@@ -956,7 +956,7 @@ body.modal-open { overflow: hidden; }
   z-index: 5;
   background: var(--red);
   color: #fff;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
