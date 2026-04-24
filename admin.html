@@ -434,19 +434,22 @@ let discounts = {};
 let stock = {};
 let editingProductId = null;
 
-function loadData() {
-  const savedProducts = localStorage.getItem('admin_products');
-  products = savedProducts ? JSON.parse(savedProducts) : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
-
-  const savedDiscounts = localStorage.getItem('admin_discounts');
-  discounts = savedDiscounts ? JSON.parse(savedDiscounts) : JSON.parse(JSON.stringify(DEFAULT_DISCOUNTS));
-
-  const savedStock = localStorage.getItem('admin_stock');
-  stock = savedStock ? JSON.parse(savedStock) : {};
+// Load from Cloudflare instead of localStorage
+async function loadData() {
+  const response = await fetch('/api/products');
+  const data = await response.json();
+  products = data.length ? data : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+  renderAll();
 }
 
-function saveProducts() {
-  localStorage.setItem('admin_products', JSON.stringify(products));
+// Save to Cloudflare instead of localStorage
+async function saveProducts() {
+  await fetch('/api/products', {
+    method: 'POST',
+    body: JSON.stringify(products),
+    headers: { 'Content-Type': 'application/json' }
+  });
+  showToast('Saved to Cloud!');
 }
 function saveDiscountsData() {
   localStorage.setItem('admin_discounts', JSON.stringify(discounts));
