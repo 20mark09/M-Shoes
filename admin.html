@@ -436,7 +436,7 @@ let editingProductId = null;
 
 // Load from Cloudflare instead of localStorage
 async function loadData() {
-  const response = await fetch('/api/products');
+  const response = await fetch('https://apistock.m-shoes.workers.dev/products');
   const data = await response.json();
   products = data.length ? data : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
   renderAll();
@@ -444,7 +444,7 @@ async function loadData() {
 
 // Save to Cloudflare instead of localStorage
 async function saveProducts() {
-  await fetch('/api/products', {
+  await fetch('https://apistock.m-shoes.workers.dev/products', {
     method: 'POST',
     body: JSON.stringify(products),
     headers: { 'Content-Type': 'application/json' }
