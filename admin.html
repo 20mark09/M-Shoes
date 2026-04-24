@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M Shoes — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #E8201F;
+  --red-dark: #B51615;
+  --black: #0A0A0A;
+  --off-black: #111111;
+  --card-bg: #161616;
+  --border: rgba(255,255,255,0.07);
+  --border-hover: rgba(255,255,255,0.15);
+  --text-primary: #F2F0EB;
+  --text-muted: #888880;
+  --text-dim: #555550;
+  --green: #22c55e;
+  --green-dark: #16a34a;
+  --yellow: #f59e0b;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); background: var(--black); color: var(--text-primary); min-height: 100vh; }
+
+/* ── LOGIN ── */
+#loginScreen {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 0%, rgba(232,32,31,0.12) 0%, transparent 70%);
+}
+.login-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 48px 40px;
+  width: 360px;
+  text-align: center;
+}
+.login-box h1 { font-family: var(--font-display); font-size: 2.8rem; letter-spacing: 2px; color: var(--red); margin-bottom: 4px; }
+.login-box p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 28px; }
+.login-box input {
+  width: 100%; padding: 12px 16px; background: #1e1e1e; border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text-primary); font-family: var(--font-body); font-size: 0.95rem;
+  margin-bottom: 12px; outline: none; transition: border-color 0.2s;
+}
+.login-box input:focus { border-color: var(--red); }
+.login-box button {
+  width: 100%; padding: 13px; background: var(--red); border: none; border-radius: 8px;
+  color: #fff; font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 1px;
+  cursor: pointer; transition: background 0.2s;
+}
+.login-box button:hover { background: var(--red-dark); }
+.login-error { color: #ff6b6b; font-size: 0.82rem; margin-top: 10px; display: none; }
+
+/* ── LAYOUT ── */
+#adminApp { display: none; }
+.admin-header {
+  background: rgba(10,10,10,0.97); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+.admin-header .brand { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 2px; color: var(--red); }
+.admin-header .logout-btn {
+  background: transparent; border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text-muted); padding: 6px 14px; cursor: pointer; font-size: 0.82rem;
+  transition: all 0.2s;
+}
+.admin-header .logout-btn:hover { border-color: var(--red); color: var(--red); }
+
+.tabs {
+  display: flex; gap: 0; border-bottom: 1px solid var(--border);
+  background: var(--off-black); padding: 0 28px;
+}
+.tab-btn {
+  padding: 14px 20px; font-family: var(--font-body); font-size: 0.88rem;
+  color: var(--text-muted); background: none; border: none; cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+.tab-btn.active { color: var(--text-primary); border-bottom-color: var(--red); }
+.tab-btn:hover:not(.active) { color: var(--text-primary); }
+
+.tab-panel { display: none; padding: 32px 28px; }
+.tab-panel.active { display: block; }
+
+/* ── SECTION HEADERS ── */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;
+}
+.section-title { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 1px; }
+.btn-primary {
+  background: var(--red); border: none; border-radius: 8px; color: #fff;
+  padding: 10px 20px; font-family: var(--font-body); font-size: 0.9rem;
+  cursor: pointer; transition: background 0.2s; font-weight: 500;
+}
+.btn-primary:hover { background: var(--red-dark); }
+.btn-ghost {
+  background: transparent; border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text-muted); padding: 8px 16px; font-size: 0.85rem;
+  cursor: pointer; transition: all 0.2s; font-family: var(--font-body);
+}
+.btn-ghost:hover { border-color: var(--border-hover); color: var(--text-primary); }
+.btn-danger {
+  background: transparent; border: 1px solid rgba(232,32,31,0.3); border-radius: 6px;
+  color: var(--red); padding: 6px 12px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
+}
+.btn-danger:hover { background: rgba(232,32,31,0.1); }
+
+/* ── PRODUCT TABLE ── */
+.products-grid { display: flex; flex-direction: column; gap: 12px; }
+.product-row {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 20px;
+  display: grid; grid-template-columns: 48px 1fr auto auto auto;
+  align-items: center; gap: 16px; transition: border-color 0.2s;
+}
+.product-row:hover { border-color: var(--border-hover); }
+.product-thumb { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: #222; }
+.product-info h4 { font-size: 0.95rem; font-weight: 500; }
+.product-info span { font-size: 0.8rem; color: var(--text-muted); }
+.product-price { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); white-space: nowrap; }
+.stock-pill {
+  font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; font-weight: 500;
+  background: rgba(34,197,94,0.12); color: var(--green); border: 1px solid rgba(34,197,94,0.2);
+}
+.stock-pill.low { background: rgba(245,158,11,0.12); color: var(--yellow); border-color: rgba(245,158,11,0.2); }
+.stock-pill.out { background: rgba(232,32,31,0.12); color: var(--red); border-color: rgba(232,32,31,0.2); }
+.product-actions { display: flex; gap: 8px; }
+
+/* ── MODAL / DRAWER ── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 500;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 16px; width: 100%; max-width: 640px;
+  max-height: 90vh; overflow-y: auto; padding: 32px;
+}
+.modal-box h3 { font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 24px; letter-spacing: 1px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-group label { font-size: 0.78rem; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; }
+.form-group input, .form-group select, .form-group textarea {
+  background: #1e1e1e; border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text-primary); padding: 10px 14px; font-family: var(--font-body); font-size: 0.9rem;
+  outline: none; transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--red); }
+.form-group textarea { resize: vertical; min-height: 70px; }
+.form-group select option { background: #1e1e1e; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+
+/* ── STOCK PANEL ── */
+.stock-product-card {
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+  padding: 20px; margin-bottom: 14px;
+}
+.stock-product-name { font-weight: 500; font-size: 1rem; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.stock-table { width: 100%; border-collapse: collapse; }
+.stock-table th {
+  font-size: 0.73rem; color: var(--text-muted); text-transform: uppercase;
+  letter-spacing: 0.5px; padding: 6px 10px; text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.stock-table td { padding: 8px 10px; vertical-align: middle; }
+.stock-table tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,0.04); }
+.stock-input {
+  width: 72px; background: #1e1e1e; border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text-primary); padding: 5px 8px;
+  font-family: var(--font-body); font-size: 0.88rem; text-align: center; outline: none;
+  transition: border-color 0.2s;
+}
+.stock-input:focus { border-color: var(--red); }
+.save-stock-btn {
+  background: var(--green-dark); border: none; border-radius: 6px; color: #fff;
+  padding: 8px 16px; font-family: var(--font-body); font-size: 0.82rem;
+  cursor: pointer; transition: background 0.2s; margin-top: 12px;
+}
+.save-stock-btn:hover { background: var(--green); }
+
+/* ── DISCOUNT CODES ── */
+.discount-grid { display: flex; flex-direction: column; gap: 10px; }
+.discount-row {
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
+  padding: 14px 18px; display: grid;
+  grid-template-columns: 140px 1fr 1fr 1fr auto;
+  align-items: center; gap: 12px; transition: border-color 0.2s;
+}
+.discount-row:hover { border-color: var(--border-hover); }
+.discount-code { font-family: var(--font-display); font-size: 1rem; letter-spacing: 1px; color: var(--yellow); }
+.discount-meta { font-size: 0.82rem; color: var(--text-muted); }
+.discount-meta strong { color: var(--text-primary); display: block; font-size: 0.9rem; }
+.type-badge {
+  font-size: 0.72rem; padding: 3px 9px; border-radius: 20px; font-weight: 500;
+  border: 1px solid; display: inline-block;
+}
+.type-badge.percent { background: rgba(34,197,94,0.1); color: var(--green); border-color: rgba(34,197,94,0.25); }
+.type-badge.fixed { background: rgba(96,165,250,0.1); color: #60a5fa; border-color: rgba(96,165,250,0.25); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+  background: var(--card-bg); border: 1px solid var(--green);
+  border-radius: 10px; padding: 12px 20px; color: var(--green);
+  font-size: 0.88rem; transform: translateY(80px); opacity: 0;
+  transition: all 0.3s; pointer-events: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.error { border-color: var(--red); color: var(--red); }
+
+/* ── TAGS INPUT ── */
+.tags-wrap {
+  background: #1e1e1e; border: 1px solid var(--border); border-radius: 8px;
+  min-height: 44px; padding: 6px 10px; display: flex; flex-wrap: wrap; gap: 6px;
+  align-items: center; cursor: text; transition: border-color 0.2s;
+}
+.tags-wrap:focus-within { border-color: var(--red); }
+.tag {
+  background: rgba(232,32,31,0.15); border: 1px solid rgba(232,32,31,0.3);
+  border-radius: 4px; padding: 2px 8px; font-size: 0.82rem; display: flex;
+  align-items: center; gap: 5px; color: var(--text-primary);
+}
+.tag button { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; line-height: 1; padding: 0; }
+.tag button:hover { color: var(--red); }
+.tags-input { background: none; border: none; outline: none; color: var(--text-primary); font-family: var(--font-body); font-size: 0.88rem; min-width: 80px; flex: 1; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .tab-panel { padding: 20px 16px; }
+  .product-row { grid-template-columns: 40px 1fr auto; }
+  .product-row .product-price, .product-row .stock-pill { display: none; }
+  .discount-row { grid-template-columns: 1fr auto; grid-template-rows: auto auto; }
+  .discount-row > :not(.discount-code):not(:last-child) { display: none; }
+  .form-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>M SHOES</h1>
+    <p>Admin Panel — Enter password to continue</p>
+    <input type="password" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button onclick="doLogin()">ENTER PANEL</button>
+    <div class="login-error" id="loginError">Incorrect password. Try again.</div>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="adminApp">
+  <header class="admin-header">
+    <div class="brand">M SHOES · ADMIN</div>
+    <button class="logout-btn" onclick="logout()">Log Out</button>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('products', this)">Products</button>
+    <button class="tab-btn" onclick="switchTab('stock', this)">Stock</button>
+    <button class="tab-btn" onclick="switchTab('discounts', this)">Discount Codes</button>
+  </div>
+
+  <!-- PRODUCTS TAB -->
+  <div class="tab-panel active" id="tab-products">
+    <div class="section-header">
+      <div class="section-title">Products</div>
+      <button class="btn-primary" onclick="openProductModal()">+ Add Product</button>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+
+  <!-- STOCK TAB -->
+  <div class="tab-panel" id="tab-stock">
+    <div class="section-header">
+      <div class="section-title">Stock Management</div>
+      <button class="btn-ghost" onclick="saveAllStock()">Save All Changes</button>
+    </div>
+    <div id="stockGrid"></div>
+  </div>
+
+  <!-- DISCOUNTS TAB -->
+  <div class="tab-panel" id="tab-discounts">
+    <div class="section-header">
+      <div class="section-title">Discount Codes</div>
+      <button class="btn-primary" onclick="openDiscountModal()">+ Add Code</button>
+    </div>
+    <div class="discount-grid" id="discountGrid"></div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal-box">
+    <h3 id="productModalTitle">Add Product</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Product Name</label>
+        <input type="text" id="p_name" placeholder="NIKE AirForce 1">
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select id="p_category">
+          <option value="shoes">Shoes</option>
+          <option value="clothes">Clothes</option>
+          <option value="accessories">Accessories</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Price (EGP)</label>
+        <input type="number" id="p_price" placeholder="455">
+      </div>
+      <div class="form-group">
+        <label>Original Price (EGP) — optional</label>
+        <input type="number" id="p_originalPrice" placeholder="550 (for sale badge)">
+      </div>
+      <div class="form-group full">
+        <label>Description</label>
+        <textarea id="p_desc" placeholder="Sky Leather Imported Quality"></textarea>
+      </div>
+      <div class="form-group full">
+        <label>Image filenames (comma-separated)</label>
+        <input type="text" id="p_images" placeholder="nike1.jpg, nike2.jpg, nike3.jpg">
+      </div>
+      <div class="form-group">
+        <label>Colors — type & press Enter</label>
+        <div class="tags-wrap" id="colorTagsWrap" onclick="this.querySelector('.tags-input').focus()">
+          <input class="tags-input" id="colorTagInput" placeholder="e.g. White" onkeydown="handleTag(event,'colorTags','colorTagInput')">
+        </div>
+        <input type="hidden" id="colorTags">
+      </div>
+      <div class="form-group">
+        <label>Sizes — type & press Enter</label>
+        <div class="tags-wrap" id="sizeTagsWrap" onclick="this.querySelector('.tags-input').focus()">
+          <input class="tags-input" id="sizeTagInput" placeholder="e.g. 42" onkeydown="handleTag(event,'sizeTags','sizeTagInput')">
+        </div>
+        <input type="hidden" id="sizeTags">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeProductModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveProduct()">Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- DISCOUNT MODAL -->
+<div class="modal-overlay" id="discountModal">
+  <div class="modal-box">
+    <h3>Add Discount Code</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Code</label>
+        <input type="text" id="d_code" placeholder="SAVE10" style="text-transform:uppercase">
+      </div>
+      <div class="form-group">
+        <label>Type</label>
+        <select id="d_type">
+          <option value="percent">Percent (%)</option>
+          <option value="fixed">Fixed (EGP)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Value</label>
+        <input type="number" id="d_value" placeholder="10">
+      </div>
+      <div class="form-group">
+        <label>Min Cart Total (EGP, 0 = none)</label>
+        <input type="number" id="d_min_total" placeholder="0" value="0">
+      </div>
+      <div class="form-group">
+        <label>Min Items (0 = none)</label>
+        <input type="number" id="d_min_items" placeholder="0" value="0">
+      </div>
+      <div class="form-group">
+        <label>Max Items (0 = no limit)</label>
+        <input type="number" id="d_max_items" placeholder="0" value="0">
+      </div>
+      <div class="form-group full">
+        <label>Description (shown to customer)</label>
+        <input type="text" id="d_description" placeholder="10% off your order">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeDiscountModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveDiscount()">Save Code</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════
+//  CONFIG — change this password
+// ══════════════════════════════════════════════════
+const ADMIN_PASSWORD = 'mshoes2025';
+
+// ══════════════════════════════════════════════════
+//  DEFAULT PRODUCTS (from your index.html)
+// ══════════════════════════════════════════════════
+const DEFAULT_PRODUCTS = [
+  { id: 1, name: 'NIKE AirForce 1', price: 455, originalPrice: 550, category: 'shoes', images: ['nikeaf1.jpg','nike1.jpg','nike2.jpg','nike3.jpg','nike4.jpg','nike5.jpg'], description: 'Sky Leather Imported Quality', colors:['White'], sizes:[42,43,44,45,46] },
+  { id: 4, name: 'NIKE Brown', price: 420, category: 'shoes', images: ['brown SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
+  { id: 2, name: 'NIKE AirForce1 Black', price: 455, originalPrice: 550, category: 'shoes', images: ['nikeb.jpg','nikeb1.jpg','nikeb2.jpg','nikeb3.jpg'], description: 'Sky Leather Imported Quality', colors:['Black'], sizes:[42,43,44,45,46] },
+  { id: 5, name: 'NIKE Brown 2', price: 420, category: 'shoes', images: ['fullbrown SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
+  { id: 6, name: 'NIKE Gray', price: 420, category: 'shoes', images: ['graynblack SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
+  { id: 7, name: 'NIKE Gray 2', price: 420, category: 'shoes', images: ['gray SB.jpg'], description: 'Sky Leather Imported Quality', colors:['Custom'], sizes:[41,42,43,44,45] },
+  { id: 8, name: 'NIKE AirMax', price: 500, originalPrice: 620, category: 'shoes', images: ['airmax.jpg'], description: 'High Quality', colors:['Black'], sizes:[41,42,43,44,45] },
+  { id: 3, name: 'Adidas Campus', price: 420, category: 'shoes', images: ['addi.jpg','adi1.jpg','adi2.jpg','adi3.jpg'], description: 'Rough leather material', colors:['Custom'], sizes:[41,42,43,44,45] }
+];
+
+const DEFAULT_DISCOUNTS = {
+  "WEBSITE": { type:"percent", value:5, min_items:2, max_items:2, min_total:0, description:"5% off your order" },
+  "BUNDLE15": { type:"percent", value:15, min_items:2, max_items:0, min_total:0, description:"15% off when buying 2+ items" },
+  "VIP50": { type:"fixed", value:50, min_items:1, max_items:0, min_total:400, description:"EGP 50 off orders over EGP 400" },
+  "SHOES5": { type:"percent", value:5, min_items:1, max_items:1, min_total:0, description:"5% off single item" }
+};
+
+// ══════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════
+let products = [];
+let discounts = {};
+let stock = {};
+let editingProductId = null;
+
+function loadData() {
+  const savedProducts = localStorage.getItem('admin_products');
+  products = savedProducts ? JSON.parse(savedProducts) : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+
+  const savedDiscounts = localStorage.getItem('admin_discounts');
+  discounts = savedDiscounts ? JSON.parse(savedDiscounts) : JSON.parse(JSON.stringify(DEFAULT_DISCOUNTS));
+
+  const savedStock = localStorage.getItem('admin_stock');
+  stock = savedStock ? JSON.parse(savedStock) : {};
+}
+
+function saveProducts() {
+  localStorage.setItem('admin_products', JSON.stringify(products));
+}
+function saveDiscountsData() {
+  localStorage.setItem('admin_discounts', JSON.stringify(discounts));
+}
+function saveStockData() { localStorage.setItem('admin_stock', JSON.stringify(stock)); }
+
+// ══════════════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════════════
+function doLogin() {
+  const pw = document.getElementById('pwInput').value;
+  if (pw === ADMIN_PASSWORD) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminApp').style.display = 'block';
+    loadData();
+    renderAll();
+  } else {
+    const err = document.getElementById('loginError');
+    err.style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    setTimeout(() => err.style.display = 'none', 3000);
+  }
+}
+function logout() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminApp').style.display = 'none';
+  document.getElementById('pwInput').value = '';
+}
+document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+// ══════════════════════════════════════════════════
+//  TABS
+// ══════════════════════════════════════════════════
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ══════════════════════════════════════════════════
+//  RENDER ALL
+// ══════════════════════════════════════════════════
+function renderAll() { renderProducts(); renderStock(); renderDiscounts(); }
+
+// ══════════════════════════════════════════════════
+//  PRODUCTS RENDER
+// ══════════════════════════════════════════════════
+function renderProducts() {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = '';
+  if (!products.length) { grid.innerHTML = '<p style="color:var(--text-muted);padding:20px 0">No products yet.</p>'; return; }
+  products.forEach(p => {
+    const totalStock = getTotalStock(p);
+    const stockClass = totalStock === 0 ? 'out' : totalStock < 10 ? 'low' : '';
+    const stockLabel = totalStock === 0 ? 'Out of Stock' : totalStock < 10 ? `Low (${totalStock})` : `In Stock (${totalStock})`;
+    const row = document.createElement('div');
+    row.className = 'product-row';
+    row.innerHTML = `
+      <img class="product-thumb" src="${p.images[0]}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1 1%22><rect fill=%22%23222%22/></svg>'">
+      <div class="product-info">
+        <h4>${p.name}</h4>
+        <span>${p.category} · ${p.colors.join(', ')} · Sizes: ${p.sizes.join(', ')}</span>
+      </div>
+      <div class="product-price">EGP ${p.price}</div>
+      <div class="stock-pill ${stockClass}">${stockLabel}</div>
+      <div class="product-actions">
+        <button class="btn-ghost" onclick="editProduct(${p.id})">Edit</button>
+        <button class="btn-danger" onclick="deleteProduct(${p.id})">Remove</button>
+      </div>`;
+    grid.appendChild(row);
+  });
+}
+
+function getTotalStock(p) {
+  let total = 0;
+  (p.colors || []).forEach(c => {
+    (p.sizes || []).forEach(s => {
+      const key = `${p.id}_${c}_${s}`;
+      total += parseInt(stock[key] || 0);
+    });
+  });
+  return total;
+}
+
+// ══════════════════════════════════════════════════
+//  PRODUCT MODAL
+// ══════════════════════════════════════════════════
+function openProductModal(id = null) {
+  editingProductId = id;
+  clearTagsUI('colorTags', 'colorTagsWrap', 'colorTagInput');
+  clearTagsUI('sizeTags', 'sizeTagsWrap', 'sizeTagInput');
+
+  if (id) {
+    const p = products.find(x => x.id === id);
+    document.getElementById('productModalTitle').textContent = 'Edit Product';
+    document.getElementById('p_name').value = p.name;
+    document.getElementById('p_category').value = p.category;
+    document.getElementById('p_price').value = p.price;
+    document.getElementById('p_originalPrice').value = p.originalPrice || '';
+    document.getElementById('p_desc').value = p.description;
+    document.getElementById('p_images').value = p.images.join(', ');
+    p.colors.forEach(c => addTag('colorTags', 'colorTagsWrap', 'colorTagInput', String(c)));
+    p.sizes.forEach(s => addTag('sizeTags', 'sizeTagsWrap', 'sizeTagInput', String(s)));
+  } else {
+    document.getElementById('productModalTitle').textContent = 'Add Product';
+    ['p_name','p_price','p_originalPrice','p_desc','p_images'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('p_category').value = 'shoes';
+  }
+  document.getElementById('productModal').classList.add('show');
+}
+function closeProductModal() { document.getElementById('productModal').classList.remove('show'); editingProductId = null; }
+document.getElementById('productModal').addEventListener('click', e => { if (e.target.id === 'productModal') closeProductModal(); });
+
+function editProduct(id) { openProductModal(id); }
+
+function saveProduct() {
+  const name = document.getElementById('p_name').value.trim();
+  const price = parseFloat(document.getElementById('p_price').value);
+  const origPrice = parseFloat(document.getElementById('p_originalPrice').value) || null;
+  const category = document.getElementById('p_category').value;
+  const desc = document.getElementById('p_desc').value.trim();
+  const images = document.getElementById('p_images').value.split(',').map(s => s.trim()).filter(Boolean);
+  const colors = (document.getElementById('colorTags').value || '').split('|||').filter(Boolean);
+  const sizes  = (document.getElementById('sizeTags').value || '').split('|||').filter(Boolean).map(s => isNaN(s) ? s : Number(s));
+
+  if (!name || !price || !images.length || !colors.length || !sizes.length) {
+    showToast('Please fill in all required fields.', true); return;
+  }
+
+  if (editingProductId) {
+    const idx = products.findIndex(p => p.id === editingProductId);
+    products[idx] = { ...products[idx], name, price, originalPrice: origPrice, category, description: desc, images, colors, sizes };
+  } else {
+    const newId = Date.now();
+    products.push({ id: newId, name, price, originalPrice: origPrice, category, description: desc, images, colors, sizes });
+  }
+  saveProducts();
+  renderAll();
+  closeProductModal();
+  showToast(editingProductId ? 'Product updated!' : 'Product added!');
+}
+
+function deleteProduct(id) {
+  if (!confirm('Delete this product? This cannot be undone.')) return;
+  products = products.filter(p => p.id !== id);
+  saveProducts();
+  renderAll();
+  showToast('Product removed.');
+}
+
+// ══════════════════════════════════════════════════
+//  STOCK RENDER
+// ══════════════════════════════════════════════════
+function renderStock() {
+  const grid = document.getElementById('stockGrid');
+  grid.innerHTML = '';
+  products.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'stock-product-card';
+    let rows = '';
+    p.colors.forEach(color => {
+      p.sizes.forEach(size => {
+        const key = `${p.id}_${color}_${size}`;
+        const qty = stock[key] !== undefined ? stock[key] : '';
+        rows += `<tr>
+          <td style="color:var(--text-muted);font-size:0.85rem">${color}</td>
+          <td style="color:var(--text-muted);font-size:0.85rem">${size}</td>
+          <td><input class="stock-input" type="number" min="0" data-key="${key}" value="${qty}" placeholder="0"></td>
+        </tr>`;
+      });
+    });
+    card.innerHTML = `
+      <div class="stock-product-name">
+        <img src="${p.images[0]}" style="width:36px;height:36px;border-radius:6px;object-fit:cover;background:#222" onerror="this.style.display='none'">
+        ${p.name}
+      </div>
+      <table class="stock-table">
+        <thead><tr><th>Color</th><th>Size</th><th>Qty in Stock</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <button class="save-stock-btn" onclick="saveProductStock(${p.id}, this)">Save ${p.name} Stock</button>`;
+    grid.appendChild(card);
+  });
+}
+
+function saveProductStock(pid, btn) {
+  const card = btn.closest('.stock-product-card');
+  card.querySelectorAll('.stock-input').forEach(input => {
+    stock[input.dataset.key] = parseInt(input.value) || 0;
+  });
+  saveStockData();
+  renderProducts();
+  showToast('Stock saved!');
+}
+
+function saveAllStock() {
+  document.querySelectorAll('.stock-input').forEach(input => {
+    stock[input.dataset.key] = parseInt(input.value) || 0;
+  });
+  saveStockData();
+  renderProducts();
+  showToast('All stock saved!');
+}
+
+// ══════════════════════════════════════════════════
+//  DISCOUNTS RENDER
+// ══════════════════════════════════════════════════
+function renderDiscounts() {
+  const grid = document.getElementById('discountGrid');
+  grid.innerHTML = '';
+  const entries = Object.entries(discounts);
+  if (!entries.length) { grid.innerHTML = '<p style="color:var(--text-muted);padding:20px 0">No discount codes yet.</p>'; return; }
+  entries.forEach(([code, rule]) => {
+    const row = document.createElement('div');
+    row.className = 'discount-row';
+    const valDisplay = rule.type === 'percent' ? `${rule.value}% off` : `EGP ${rule.value} off`;
+    const conds = [];
+    if (rule.min_items > 0) conds.push(`min ${rule.min_items} items`);
+    if (rule.max_items > 0) conds.push(`max ${rule.max_items} items`);
+    if (rule.min_total > 0) conds.push(`min EGP ${rule.min_total}`);
+    row.innerHTML = `
+      <div class="discount-code">${code}</div>
+      <div class="discount-meta"><strong>${valDisplay}</strong>${conds.length ? conds.join(' · ') : 'No restrictions'}</div>
+      <div class="discount-meta"><strong>Type</strong><span class="type-badge ${rule.type}">${rule.type}</span></div>
+      <div class="discount-meta"><strong>Description</strong>${rule.description || '—'}</div>
+      <button class="btn-danger" onclick="deleteDiscount('${code}')">Remove</button>`;
+    grid.appendChild(row);
+  });
+}
+
+function openDiscountModal() {
+  ['d_code','d_value','d_description'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('d_type').value = 'percent';
+  document.getElementById('d_min_total').value = 0;
+  document.getElementById('d_min_items').value = 0;
+  document.getElementById('d_max_items').value = 0;
+  document.getElementById('discountModal').classList.add('show');
+}
+function closeDiscountModal() { document.getElementById('discountModal').classList.remove('show'); }
+document.getElementById('discountModal').addEventListener('click', e => { if (e.target.id === 'discountModal') closeDiscountModal(); });
+
+function saveDiscount() {
+  const code = document.getElementById('d_code').value.trim().toUpperCase();
+  const type = document.getElementById('d_type').value;
+  const value = parseFloat(document.getElementById('d_value').value);
+  const min_total = parseFloat(document.getElementById('d_min_total').value) || 0;
+  const min_items = parseInt(document.getElementById('d_min_items').value) || 0;
+  const max_items = parseInt(document.getElementById('d_max_items').value) || 0;
+  const description = document.getElementById('d_description').value.trim();
+
+  if (!code || !value) { showToast('Enter a code and value.', true); return; }
+  discounts[code] = { type, value, min_items, max_items, min_total, description };
+  saveDiscountsData();
+  renderDiscounts();
+  closeDiscountModal();
+  showToast('Discount code saved!');
+}
+
+function deleteDiscount(code) {
+  if (!confirm(`Remove discount code "${code}"?`)) return;
+  delete discounts[code];
+  saveDiscountsData();
+  renderDiscounts();
+  showToast('Code removed.');
+}
+
+// ══════════════════════════════════════════════════
+//  TAGS UI
+// ══════════════════════════════════════════════════
+function clearTagsUI(hiddenId, wrapId, inputId) {
+  document.getElementById(hiddenId).value = '';
+  const wrap = document.getElementById(wrapId);
+  wrap.querySelectorAll('.tag').forEach(t => t.remove());
+}
+
+function addTag(hiddenId, wrapId, inputId, value) {
+  if (!value.trim()) return;
+  const current = document.getElementById(hiddenId).value;
+  const existing = current ? current.split('|||') : [];
+  if (existing.includes(value.trim())) return;
+  existing.push(value.trim());
+  document.getElementById(hiddenId).value = existing.join('|||');
+
+  const wrap = document.getElementById(wrapId);
+  const tag = document.createElement('div');
+  tag.className = 'tag';
+  tag.innerHTML = `${value.trim()} <button type="button" onclick="removeTag('${hiddenId}','${wrapId}','${inputId}','${value.trim()}',this)">×</button>`;
+  wrap.insertBefore(tag, wrap.querySelector('.tags-input'));
+  document.getElementById(inputId).value = '';
+}
+
+function removeTag(hiddenId, wrapId, inputId, value, btn) {
+  const current = document.getElementById(hiddenId).value;
+  const existing = current ? current.split('|||') : [];
+  document.getElementById(hiddenId).value = existing.filter(v => v !== value).join('|||');
+  btn.closest('.tag').remove();
+}
+
+function handleTag(e, hiddenId, inputId) {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    const wrapId = hiddenId === 'colorTags' ? 'colorTagsWrap' : 'sizeTagsWrap';
+    addTag(hiddenId, wrapId, inputId, document.getElementById(inputId).value.replace(',','').trim());
+  }
+}
+
+// ══════════════════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════════════════
+let toastTimer;
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
