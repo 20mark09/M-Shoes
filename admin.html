@@ -436,10 +436,32 @@ let editingProductId = null;
 
 // Load from Cloudflare instead of localStorage
 async function loadData() {
-  const response = await fetch('https://apistock.m-shoes.workers.dev/products');
-  const data = await response.json();
-  products = data.length ? data : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
-  renderAll();
+  try {
+
+    // PRODUCTS
+    const p = await fetch('https://apistock.m-shoes.workers.dev/products');
+    const pdata = await p.json();
+    products = pdata.length ? pdata : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+
+    // DISCOUNTS
+    const d = await fetch('https://apistock.m-shoes.workers.dev/discounts');
+    discounts = d.ok ? await d.json() : JSON.parse(JSON.stringify(DEFAULT_DISCOUNTS));
+
+    // STOCK
+    const s = await fetch('https://apistock.m-shoes.workers.dev/stock');
+    stock = s.ok ? await s.json() : {};
+
+    renderAll();
+
+  } catch (err) {
+    console.log(err);
+
+    products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+    discounts = JSON.parse(JSON.stringify(DEFAULT_DISCOUNTS));
+    stock = {};
+
+    renderAll();
+  }
 }
 
 // Save to Cloudflare instead of localStorage
@@ -451,10 +473,25 @@ async function saveProducts() {
   });
   showToast('Saved to Cloud!');
 }
-function saveDiscountsData() {
-  localStorage.setItem('admin_discounts', JSON.stringify(discounts));
+async function saveDiscountsData() {
+  await fetch('https://apistock.m-shoes.workers.dev/discounts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(discounts)
+  });
+
+  showToast('Discounts saved!');
 }
-function saveStockData() { localStorage.setItem('admin_stock', JSON.stringify(stock)); }
+
+async function saveStockData() {
+  await fetch('https://apistock.m-shoes.workers.dev/stock', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(stock)
+  });
+
+  showToast('Stock saved!');
+}
 
 // ══════════════════════════════════════════════════
 //  AUTH
@@ -636,12 +673,12 @@ function renderStock() {
   });
 }
 
-function saveProductStock(pid, btn) {
+  async function saveProductStock(pid, btn) {
   const card = btn.closest('.stock-product-card');
   card.querySelectorAll('.stock-input').forEach(input => {
     stock[input.dataset.key] = parseInt(input.value) || 0;
   });
-  saveStockData();
+  await saveStockData();
   renderProducts();
   showToast('Stock saved!');
 }
