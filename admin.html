@@ -403,7 +403,7 @@ body { font-family: var(--font-body); background: var(--black); color: var(--tex
 // ══════════════════════════════════════════════════
 //  CONFIG — change this password
 // ══════════════════════════════════════════════════
-const ADMIN_PASSWORD = 'mshoes2025';
+
 
 // ══════════════════════════════════════════════════
 //  DEFAULT PRODUCTS (from your index.html)
@@ -496,18 +496,33 @@ async function saveStockData() {
 // ══════════════════════════════════════════════════
 //  AUTH
 // ══════════════════════════════════════════════════
-function doLogin() {
+async function doLogin() {
   const pw = document.getElementById('pwInput').value;
-  if (pw === ADMIN_PASSWORD) {
+
+  const res = await fetch('https://apistock.m-shoes.workers.dev/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      password: pw
+    })
+  });
+
+  const data = await res.json();
+
+  if (data.success) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminApp').style.display = 'block';
     loadData();
-    renderAll();
   } else {
     const err = document.getElementById('loginError');
     err.style.display = 'block';
     document.getElementById('pwInput').value = '';
-    setTimeout(() => err.style.display = 'none', 3000);
+
+    setTimeout(() => {
+      err.style.display = 'none';
+    }, 3000);
   }
 }
 function logout() {
