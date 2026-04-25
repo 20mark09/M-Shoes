@@ -683,11 +683,11 @@ function renderStock() {
   showToast('Stock saved!');
 }
 
-function saveAllStock() {
+async function saveAllStock() {
   document.querySelectorAll('.stock-input').forEach(input => {
     stock[input.dataset.key] = parseInt(input.value) || 0;
   });
-  saveStockData();
+  await saveStockData();
   renderProducts();
   showToast('All stock saved!');
 }
