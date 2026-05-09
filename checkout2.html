@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — M Shoes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="shortcut icon" type="image/x-icon" href="logo.png">
+<link rel="stylesheet" href="checkoutstyle.css">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="back-link">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    <span class="en" style="display:inline">Back to Shop</span>
+    <span class="ar" style="display:none">العودة للمتجر</span>
+  </a>
+  <div class="header-brand">
+    <img src="logo.png" alt="M Shoes" class="toplogo">
+    <span>M SHOES</span>
+  </div>
+  <button id="langBtn">EN / ع</button>
+</header>
+
+<!-- PROGRESS BAR -->
+<div class="checkout-progress">
+  <div class="progress-step done" id="step1">
+    <div class="step-circle">1</div>
+    <span class="en" style="display:block">Contact</span>
+    <span class="ar" style="display:none">التواصل</span>
+  </div>
+  <div class="progress-line" id="line12"></div>
+  <div class="progress-step" id="step2">
+    <div class="step-circle">2</div>
+    <span class="en" style="display:block">Address</span>
+    <span class="ar" style="display:none">العنوان</span>
+  </div>
+  <div class="progress-line" id="line23"></div>
+  <div class="progress-step" id="step3">
+    <div class="step-circle">3</div>
+    <span class="en" style="display:block">Payment</span>
+    <span class="ar" style="display:none">الدفع</span>
+  </div>
+  <div class="progress-line" id="line34"></div>
+  <div class="progress-step" id="step4">
+    <div class="step-circle">4</div>
+    <span class="en" style="display:block">Review</span>
+    <span class="ar" style="display:none">المراجعة</span>
+  </div>
+</div>
+
+<div class="page-wrap">
+  <div class="checkout-grid">
+
+    <!-- ═══ LEFT: FORM ═══ -->
+    <div class="form-side">
+
+      <!-- 01 CONTACT -->
+      <div class="section-label">
+        <span>01</span>
+        <h2 class="en" style="display:block">Contact Info</h2>
+        <h2 class="ar" style="display:none">بيانات التواصل</h2>
+      </div>
+
+      <div class="field-group two">
+        <div class="field">
+          <label>
+            <span class="en" style="display:block">Full Name *</span>
+            <span class="ar" style="display:none">الاسم الكامل *</span>
+          </label>
+          <input type="text" id="name" placeholder="Ahmed Mohamed" required autocomplete="name">
+          <span class="field-hint" id="nameHint"></span>
+        </div>
+        <div class="field">
+          <label>
+            <span class="en" style="display:block">Phone *</span>
+            <span class="ar" style="display:none">رقم الهاتف *</span>
+          </label>
+          <!-- prefix shown inside a wrapper -->
+          <div class="phone-wrap">
+            <span class="phone-prefix">+20</span>
+            <input
+              type="tel"
+              id="phone"
+              placeholder="01012345678"
+              maxlength="11"
+              inputmode="numeric"
+              autocomplete="tel"
+              required
+            >
+          </div>
+          <span class="field-hint" id="phoneHint"></span>
+        </div>
+      </div>
+
+      <!-- Optional second phone -->
+      <div class="field collapsible" id="phone2Field">
+        <button type="button" class="add-field-btn" onclick="togglePhone2()" id="phone2Toggle">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span class="en" style="display:inline">Add second phone (optional)</span>
+          <span class="ar" style="display:none">إضافة رقم ثانٍ (اختياري)</span>
+        </button>
+        <div id="phone2Input" style="display:none">
+          <div class="phone-wrap" style="margin-top:8px">
+            <span class="phone-prefix">+20</span>
+            <input type="tel" id="phone2" placeholder="01112345678" maxlength="11" inputmode="numeric">
+          </div>
+          <span class="field-hint" id="phone2Hint"></span>
+        </div>
+      </div>
+
+      <!-- 02 ADDRESS -->
+      <div class="section-label" style="margin-top:32px">
+        <span>02</span>
+        <h2 class="en" style="display:block">Delivery Address</h2>
+        <h2 class="ar" style="display:none">عنوان التوصيل</h2>
+      </div>
+
+      <div class="field-group two">
+        <div class="field">
+          <label>
+            <span class="en" style="display:block">Governorate *</span>
+            <span class="ar" style="display:none">المحافظة *</span>
+          </label>
+          <div class="select-wrap">
+            <select id="governorate" required>
+              <option value="">Loading…</option>
+            </select>
+            <div class="select-loader" id="govLoader">
+              <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>
+            <span class="en" style="display:block">Area *</span>
+            <span class="ar" style="display:none">المنطقة *</span>
+          </label>
+          <div class="select-wrap">
+            <select id="area" required disabled>
+              <option value="">Select governorate first</option>
+            </select>
+            <div class="select-loader hidden" id="areaLoader">
+              <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inline shipping cost shown right after selecting gov -->
+      <div class="inline-shipping-badge" id="inlineShippingBadge" style="display:none">
+        <span>🚚</span>
+        <span id="inlineShippingText"></span>
+        <span class="inline-shipping-fee" id="inlineShippingFee"></span>
+      </div>
+
+      <div class="field-group three">
+        <div class="field">
+          <label>
+            <span class="en" style="display:block">Floor</span>
+            <span class="ar" style="display:none">الدور</span>
+          </label>
+          <input type="text" id="floor_no" placeholder="4" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label>
+            <span class="en" style="display:block">Apartment</span>
+            <span class="ar" style="display:none">الشقة</span>
+          </label>
+          <input type="text" id="apartment_no" placeholder="8" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label>
+            <span class="en" style="display:block">Landmark</span>
+            <span class="ar" style="display:none">علامة مميزة</span>
+          </label>
+          <input type="text" id="address_notes" placeholder="Near Carrefour…">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>
+          <span class="en" style="display:block">Notes for courier</span>
+          <span class="ar" style="display:none">ملاحظات للمندوب</span>
+        </label>
+        <input type="text" id="deliver_notes" placeholder="Any time / call before coming">
+      </div>
+
+      <div class="shipping-estimate" id="shippingEstimate" style="display:none">
+        <span>🕐</span>
+        <div>
+          <div class="estimate-title en" style="display:block">Estimated Delivery</div>
+          <div class="estimate-title ar" style="display:none">موعد التوصيل المتوقع</div>
+          <div class="estimate-value" id="estimateValue">24 hours</div>
+        </div>
+      </div>
+
+      <!-- 03 PAYMENT -->
+      <div class="section-label" style="margin-top:32px">
+        <span>03</span>
+        <h2 class="en" style="display:block">Payment</h2>
+        <h2 class="ar" style="display:none">طريقة الدفع</h2>
+      </div>
+
+      <div class="payment-options">
+        <label class="payment-option">
+          <input type="radio" name="payment" value="COD" checked>
+          <div class="payment-card">
+            <div class="payment-icon">💵</div>
+            <div>
+              <strong class="en" style="display:block">Cash on Delivery</strong>
+              <strong class="ar" style="display:none">الدفع عند الاستلام</strong>
+              <span class="en" style="display:block">Pay when you receive</span>
+              <span class="ar" style="display:none">ادفع عند الاستلام</span>
+            </div>
+          </div>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="payment" value="InstaPay">
+          <div class="payment-card">
+            <div class="payment-icon">📱</div>
+            <div>
+              <strong class="en" style="display:block">InstaPay</strong>
+              <strong class="ar" style="display:none">إنستاباي</strong>
+              <span class="en" style="display:block">Pay via app</span>
+              <span class="ar" style="display:none">ادفع عبر التطبيق</span>
+            </div>
+          </div>
+        </label>
+      </div>
+
+    </div>
+
+    <!-- ═══ RIGHT: SUMMARY ═══ -->
+    <div class="summary-side">
+
+      <div class="section-label">
+        <span>04</span>
+        <h2 class="en" style="display:block">Order Summary</h2>
+        <h2 class="ar" style="display:none">ملخص الطلب</h2>
+      </div>
+
+      <div class="trust-widget">
+        <div class="trust-live-row">
+          <span class="trust-dot"></span>
+          <span id="trustMsg">4 people are viewing this store right now</span>
+        </div>
+        <div class="trust-stats">
+          <div class="trust-stat">
+            <span class="trust-stat-num" id="todayOrders">—</span>
+            <span class="trust-stat-label en" style="display:block">orders today</span>
+            <span class="trust-stat-label ar" style="display:none">طلب اليوم</span>
+          </div>
+          <div class="trust-divider"></div>
+          <div class="trust-stat">
+            <span class="trust-stat-num">★ 4.9</span>
+            <span class="trust-stat-label en" style="display:block">avg rating</span>
+            <span class="trust-stat-label ar" style="display:none">متوسط التقييم</span>
+          </div>
+          <div class="trust-divider"></div>
+          <div class="trust-stat">
+            <span class="trust-stat-num">48h</span>
+            <span class="trust-stat-label en" style="display:block">avg delivery</span>
+            <span class="trust-stat-label ar" style="display:none">متوسط التوصيل</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="summaryItems"></div>
+
+      <div class="summary-total-block">
+        <div class="summary-row">
+          <span class="en" style="display:block">Subtotal</span>
+          <span class="ar" style="display:none">المجموع الفرعي</span>
+          <span>EGP <span id="summarySubtotal">0</span></span>
+        </div>
+
+        <div class="summary-row discount-row" id="checkoutDiscountRow" style="display:none">
+          <div class="discount-row-label">
+            <span style="font-size:15px">🏷</span>
+            <div>
+              <span class="en" style="display:block">Discount</span>
+              <span class="ar" style="display:none">خصم</span>
+              <span class="discount-code-tag" id="checkoutDiscountCode"></span>
+            </div>
+          </div>
+          <span class="discount-saving" id="checkoutDiscountAmt"></span>
+        </div>
+
+        <div class="summary-row" id="shippingRow">
+          <div class="shipping-row-label">
+            <span class="en" style="display:block">Shipping</span>
+            <span class="ar" style="display:none">الشحن</span>
+            <span class="shipping-zone-name" id="shippingZoneName"></span>
+          </div>
+          <span id="shippingDisplay" class="shipping-pending">— select area —</span>
+        </div>
+
+        <div class="summary-row total-row">
+          <span class="en" style="display:block">Total</span>
+          <span class="ar" style="display:none">الإجمالي</span>
+          <strong>EGP <span id="summaryTotal">0</span></strong>
+        </div>
+      </div>
+
+      <div class="savings-callout" id="savingsCallout" style="display:none">
+        <span>🎉</span>
+        <span>You're saving <strong id="savingsCalloutAmt"></strong> on this order!</span>
+      </div>
+
+      <!-- Empty cart warning -->
+      <div class="empty-cart-warning" id="emptyCartWarning" style="display:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span class="en" style="display:inline">Your cart is empty. <a href="index.html">Go back to shop</a></span>
+        <span class="ar" style="display:none">سلتك فارغة. <a href="index.html">العودة للمتجر</a></span>
+      </div>
+
+      <button type="button" id="placeOrderBtn" class="place-order-btn">
+        <span id="btnContent" style="display:flex;align-items:center;gap:8px">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span class="en" style="display:inline">Place Order</span>
+          <span class="ar" style="display:none">تأكيد الطلب</span>
+        </span>
+        <span id="btnLoading" style="display:none;align-items:center;gap:8px">
+          <svg class="spin" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+          <span class="en" style="display:inline">Submitting…</span>
+          <span class="ar" style="display:none">جاري التقديم…</span>
+        </span>
+      </button>
+
+      <div class="divider-text"><span>or</span></div>
+
+      <button type="button" id="whatsappBtn" class="whatsapp-btn">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        <span class="en" style="display:inline">Order via WhatsApp instead</span>
+        <span class="ar" style="display:none">اطلب عبر واتساب</span>
+      </button>
+
+      <p class="checkout-note en" style="display:block">Your order is handled by Wingezz. You'll receive a tracking SMS after confirmation.</p>
+      <p class="checkout-note ar" style="display:none">يتم شحن طلبك عبر وينجيز. ستصلك رسالة متابعة بعد التأكيد.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div id="successOverlay" class="success-overlay" style="display:none">
+  <div class="success-box">
+    <div class="success-icon">✓</div>
+    <h2>Order Placed!</h2>
+    <p class="en" style="display:block">Your shipment has been booked with Wingezz. You'll receive a tracking SMS shortly.</p>
+    <p class="ar" style="display:none">تم حجز شحنتك عبر وينجيز. ستصلك رسالة تتبع قريباً.</p>
+    <div class="tracking-info" id="trackingInfo" style="display:none">
+      <span>Tracking ID</span>
+      <strong id="trackingId"></strong>
+    </div>
+    <div class="success-actions">
+      <button onclick="window.location.href='index.html'" class="success-btn">Continue Shopping</button>
+      <button id="successWhatsApp" class="success-btn secondary">Confirm on WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+const WORKER_URL   = "https://api.m-shoes.workers.dev/";
+const WHATSAPP_NUM = "201556761228";
+
+// ════════════════════════════════════════════════════════════════════════
+//  SHIPPING ZONES
+// ════════════════════════════════════════════════════════════════════════
+const SHIPPING_ZONES = [
+  { label: 'Cairo & Giza',         labelAr: 'القاهرة والجيزة',        fee: 35,  hours: 24, govs: [8, 14] },
+  { label: 'Alexandria',           labelAr: 'الإسكندرية',             fee: 45,  hours: 24, govs: [4] },
+  { label: 'Delta & Canal Cities', labelAr: 'مدن الدلتا ومدن القناة', fee: 50,  hours: 72, govs: [15, 16, 12] },
+  { label: 'North Upper Egypt',    labelAr: 'شمال الصعيد',            fee: 55,  hours: 72, govs: [13, 17, 19, 2, 7, 9, 26] },
+  { label: 'South Upper Egypt',    labelAr: 'جنوب الصعيد',            fee: 65,  hours: 86, govs: [25, 23, 1, 3, 10, 11, 5, 20, 22] },
+  { label: 'Remote Areas',         labelAr: 'المناطق الخارجية',       fee: 70,  hours: 98, govs: [18, 6, 27, 29] },
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let isArabic     = false;
+let governorates = [];
+
+// ═══════════════════════════════════════════════════════════════════════
+//  PHONE VALIDATION — Egyptian mobile numbers
+//  Rules: exactly 11 digits, starts with 010 / 011 / 012 / 015
+// ═══════════════════════════════════════════════════════════════════════
+const EGY_PHONE_RE = /^01[0125]\d{8}$/;
+
+function cleanPhone(raw) {
+  // Strip everything except digits
+  return raw.replace(/\D/g, '');
+}
+
+function validateEgyPhone(raw) {
+  const digits = cleanPhone(raw);
+  if (!digits) return { ok: false, msg: '' }; // empty = neutral, required check handles it
+  if (digits.length < 11) return { ok: false, msg: isArabic ? `${digits.length}/11 رقم` : `${digits.length}/11 digits` };
+  if (digits.length > 11) return { ok: false, msg: isArabic ? 'عدد الأرقام تجاوز 11' : 'Too many digits — must be 11' };
+  if (!EGY_PHONE_RE.test(digits)) {
+    return { ok: false, msg: isArabic ? 'يجب أن يبدأ بـ 010 أو 011 أو 012 أو 015' : 'Must start with 010, 011, 012, or 015' };
+  }
+  return { ok: true, msg: isArabic ? '✓ صحيح' : '✓ Valid' };
+}
+
+function attachPhoneValidation(inputId, hintId) {
+  const input = document.getElementById(inputId);
+  const hint  = document.getElementById(hintId);
+  if (!input || !hint) return;
+
+  input.addEventListener('input', () => {
+    // Strip non-digits live
+    const cleaned = cleanPhone(input.value);
+    if (cleaned !== input.value) input.value = cleaned;
+    // Cap at 11
+    if (input.value.length > 11) input.value = input.value.slice(0, 11);
+
+    const result = validateEgyPhone(input.value);
+    if (!input.value) {
+      hint.textContent = '';
+      hint.className = 'field-hint';
+      input.className = '';
+    } else if (result.ok) {
+      hint.textContent = result.msg;
+      hint.className = 'field-hint ok';
+      input.classList.add('input-valid');
+      input.classList.remove('input-error');
+    } else {
+      hint.textContent = result.msg;
+      hint.className = 'field-hint error';
+      input.classList.remove('input-valid');
+      input.classList.add('input-error');
+    }
+
+    updateProgressBar();
+  });
+
+  input.addEventListener('blur', () => {
+    if (input.value && !validateEgyPhone(input.value).ok) {
+      input.classList.add('input-error');
+    }
+  });
+}
+
+// Attach to both phone fields
+attachPhoneValidation('phone', 'phoneHint');
+attachPhoneValidation('phone2', 'phone2Hint');
+
+// Also validate name live
+document.getElementById('name').addEventListener('input', () => {
+  const hint = document.getElementById('nameHint');
+  const val  = document.getElementById('name').value.trim();
+  if (val.length >= 3) {
+    hint.textContent = '✓';
+    hint.className = 'field-hint ok';
+    document.getElementById('name').classList.add('input-valid');
+    document.getElementById('name').classList.remove('input-error');
+  } else if (val.length > 0) {
+    hint.textContent = isArabic ? 'الاسم قصير جداً' : 'Too short';
+    hint.className = 'field-hint error';
+  } else {
+    hint.textContent = '';
+    hint.className = 'field-hint';
+  }
+  updateProgressBar();
+});
+
+// ─── TOGGLE SECOND PHONE ──────────────────────────────────────────────────────
+function togglePhone2() {
+  const el     = document.getElementById('phone2Input');
+  const btn    = document.getElementById('phone2Toggle');
+  const open   = el.style.display === 'none';
+  el.style.display = open ? 'block' : 'none';
+  const svgLine = btn.querySelector('line:last-child');
+  if (svgLine) svgLine.style.display = open ? 'none' : '';
+}
+
+// ─── PROGRESS BAR ─────────────────────────────────────────────────────────────
+function updateProgressBar() {
+  const name    = document.getElementById('name').value.trim();
+  const phone   = document.getElementById('phone').value.trim();
+  const gov     = document.getElementById('governorate').value;
+  const area    = document.getElementById('area').value;
+
+  const s1Done = name.length >= 3 && validateEgyPhone(phone).ok;
+  const s2Done = s1Done && gov && area;
+  const s3Done = s2Done; // payment always has a default
+
+  setStep(1, s1Done);
+  setStep(2, s2Done, s1Done);
+  setStep(3, s3Done, s2Done);
+  setStep(4, false, s3Done);
+  setLine('line12', s1Done);
+  setLine('line23', s2Done);
+  setLine('line34', s3Done);
+}
+
+function setStep(n, done, active) {
+  const el = document.getElementById(`step${n}`);
+  if (!el) return;
+  el.className = `progress-step${done ? ' done' : active ? ' active' : ''}`;
+}
+function setLine(id, active) {
+  const el = document.getElementById(id);
+  if (el) el.className = `progress-line${active ? ' active' : ''}`;
+}
+
+// Hook selects to progress update
+document.getElementById('governorate').addEventListener('change', updateProgressBar);
+document.getElementById('area').addEventListener('change', updateProgressBar);
+
+// ─── LANGUAGE ────────────────────────────────────────────────────────────────
+document.getElementById('langBtn').addEventListener('click', () => {
+  isArabic = !isArabic;
+  document.querySelectorAll('.en').forEach(el => el.style.display = isArabic ? 'none' : 'block');
+  document.querySelectorAll('.ar').forEach(el => el.style.display = isArabic ? 'block' : 'none');
+  document.body.classList.toggle('rtl', isArabic);
+  renderSummary();
+  const govId = document.getElementById('governorate').value;
+  if (govId) {
+    const zone = getShippingZone(govId);
+    if (zone) document.getElementById('shippingZoneName').textContent = isArabic ? zone.labelAr : zone.label;
+  }
+});
+
+// ─── TRUST WIDGET ─────────────────────────────────────────────────────────────
+(function() {
+  const today = new Date();
+  const seed  = today.getFullYear() * 10000 + (today.getMonth()+1) * 100 + today.getDate();
+  document.getElementById('todayOrders').textContent = 14 + (seed % 11);
+  const viewers = [2,3,3,4,4,5,5,6,7,8];
+  let vi = Math.floor(Math.random() * viewers.length);
+  setInterval(() => {
+    vi = (vi + 1) % viewers.length;
+    const v = viewers[vi];
+    document.getElementById('trustMsg').textContent =
+      `${v} ${v === 1 ? 'person is' : 'people are'} viewing this store right now`;
+  }, 25000);
+})();
+
+// ─── SHIPPING ─────────────────────────────────────────────────────────────────
+function getShippingZone(governId) {
+  const id = parseInt(governId);
+  if (!id) return null;
+  return SHIPPING_ZONES.find(z => z.govs.includes(id)) || null;
+}
+
+function updateShippingDisplay(governId) {
+  const zone   = getShippingZone(governId);
+  const el     = document.getElementById('shippingDisplay');
+  const nameEl = document.getElementById('shippingZoneName');
+  const badge  = document.getElementById('inlineShippingBadge');
+
+  if (!zone) {
+    el.textContent     = '— select area —';
+    el.className       = 'shipping-pending';
+    nameEl.textContent = '';
+    badge.style.display = 'none';
+  } else {
+    el.textContent     = `EGP ${zone.fee}`;
+    el.className       = 'shipping-cost';
+    nameEl.textContent = isArabic ? zone.labelAr : zone.label;
+
+    // Inline badge under the governorate selects
+    badge.style.display = 'flex';
+    document.getElementById('inlineShippingText').textContent =
+      isArabic ? `تكلفة الشحن إلى ${zone.labelAr}:` : `Shipping to ${zone.label}:`;
+    document.getElementById('inlineShippingFee').textContent = `EGP ${zone.fee}`;
+  }
+  renderSummary(governId);
+}
+
+// ─── RENDER SUMMARY ───────────────────────────────────────────────────────────
+function renderSummary(governId) {
+  if (governId === undefined) governId = document.getElementById('governorate').value;
+
+  const cart = JSON.parse(localStorage.getItem('cartForCheckout') || '[]');
+  const box  = document.getElementById('summaryItems');
+  let subtotal = 0;
+
+  // Show/hide empty cart warning
+  const emptyWarn = document.getElementById('emptyCartWarning');
+  const placeBtn  = document.getElementById('placeOrderBtn');
+
+  if (!cart.length) {
+    box.innerHTML = '<div class="empty-cart-msg">No items in cart</div>';
+    emptyWarn.style.display = 'flex';
+    placeBtn.disabled = true;
+    placeBtn.style.opacity = '0.4';
+  } else {
+    emptyWarn.style.display = 'none';
+    placeBtn.disabled = false;
+    placeBtn.style.opacity = '';
+    cart.forEach(i => {
+      subtotal += i.price * i.qty;
+      box.innerHTML += `
+        <div class="summary-item">
+          <div class="summary-item-info">
+            <span class="summary-item-name">${i.name}</span>
+            <span class="summary-item-meta">${i.color} · Size ${i.size} · ×${i.qty}</span>
+          </div>
+          <span class="summary-item-price">EGP ${i.price * i.qty}</span>
+        </div>`;
+    });
+  }
+
+  const disc    = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
+  const saving  = disc ? Number(disc.saving) : 0;
+  const zone    = getShippingZone(governId);
+  const shipFee = zone ? zone.fee : 0;
+  const grand   = (subtotal - saving) + shipFee;
+
+  document.getElementById('summarySubtotal').textContent = subtotal.toFixed(2);
+  document.getElementById('summaryTotal').textContent    = grand.toFixed(2);
+
+  const discRow = document.getElementById('checkoutDiscountRow');
+  if (disc && saving > 0) {
+    discRow.style.display = 'flex';
+    document.getElementById('checkoutDiscountCode').textContent = disc.code;
+    const label = disc.type === 'fixed'
+      ? `−EGP ${saving.toFixed(2)}`
+      : `−EGP ${saving.toFixed(2)} (${disc.value}% off)`;
+    document.getElementById('checkoutDiscountAmt').textContent = label;
+    const sc = document.getElementById('savingsCallout');
+    if (sc) { sc.style.display = 'flex'; document.getElementById('savingsCalloutAmt').textContent = `EGP ${saving.toFixed(2)}`; }
+  } else {
+    discRow.style.display = 'none';
+    const sc = document.getElementById('savingsCallout');
+    if (sc) sc.style.display = 'none';
+  }
+}
+
+renderSummary();
+
+// ─── LOAD GOVERNORATES ────────────────────────────────────────────────────────
+async function loadGovernorates() {
+  const sel    = document.getElementById('governorate');
+  const loader = document.getElementById('govLoader');
+  try {
+    const res    = await fetch(`${WORKER_URL}?action=governs`);
+    if (!res.ok) throw new Error(res.status);
+    const result = await res.json();
+    const list   = Array.isArray(result) ? result : (result.data || result.governs || []);
+    governorates = list;
+    sel.innerHTML = `<option value="">${isArabic ? 'اختر المحافظة' : 'Select Governorate'}</option>`;
+    list.forEach(g => {
+      const name = g.govern_name || g.name_ar || g.name_en || g.name || `Gov ${g.id}`;
+      sel.innerHTML += `<option value="${g.id}">${name}</option>`;
+    });
+  } catch { loadFallbackGovs(); }
+  finally { loader.style.display = 'none'; }
+}
+
+function loadFallbackGovs() {
+  const GOVS = [
+    {id:1,n:'Cairo / القاهرة'},{id:2,n:'Giza / الجيزة'},{id:3,n:'Alexandria / الإسكندرية'},
+    {id:4,n:'Dakahlia / الدقهلية'},{id:5,n:'Beheira / البحيرة'},{id:6,n:'Fayoum / الفيوم'},
+    {id:7,n:'Gharbia / الغربية'},{id:8,n:'Ismailia / الإسماعيلية'},{id:9,n:'Menofia / المنوفية'},
+    {id:10,n:'Minya / المنيا'},{id:11,n:'Qaliubiya / القليوبية'},{id:12,n:'Suez / السويس'},
+    {id:13,n:'Aswan / أسوان'},{id:14,n:'Assiut / أسيوط'},{id:15,n:'Beni Suef / بني سويف'},
+    {id:16,n:'Port Said / بورسعيد'},{id:17,n:'Damietta / دمياط'},{id:18,n:'Sharkia / الشرقية'},
+    {id:19,n:'Luxor / الأقصر'},{id:20,n:'Qena / قنا'},{id:21,n:'Sohag / سوهاج'},
+    {id:22,n:'Matrouh / مطروح'},{id:23,n:'Red Sea / البحر الأحمر'},
+    {id:24,n:'South Sinai / جنوب سيناء'},{id:25,n:'Kafr El Sheikh / كفر الشيخ'},
+    {id:26,n:'New Valley / الوادي الجديد'},
+  ];
+  governorates = GOVS.map(g => ({id: g.id, govern_name: g.n}));
+  const sel = document.getElementById('governorate');
+  sel.innerHTML = `<option value="">Select Governorate</option>`;
+  GOVS.forEach(g => sel.innerHTML += `<option value="${g.id}">${g.n}</option>`);
+}
+
+// ─── GOVERNORATE CHANGE ───────────────────────────────────────────────────────
+document.getElementById('governorate').addEventListener('change', async function() {
+  const govId   = this.value;
+  const areaSel = document.getElementById('area');
+  const loader  = document.getElementById('areaLoader');
+
+  document.getElementById('shippingEstimate').style.display = 'none';
+  document.getElementById('inlineShippingBadge').style.display = 'none';
+
+  if (!govId) {
+    areaSel.innerHTML = '<option value="">Select governorate first</option>';
+    areaSel.disabled  = true;
+    updateShippingDisplay('');
+    return;
+  }
+
+  areaSel.disabled = true;
+  areaSel.innerHTML = '<option>Loading areas…</option>';
+  loader.classList.remove('hidden');
+
+  try {
+    const res    = await fetch(`${WORKER_URL}?action=areas&govern_id=${govId}`);
+    if (!res.ok) throw new Error(res.status);
+    const result = await res.json();
+    const list   = Array.isArray(result) ? result : (result.data || result.areas || []);
+    areaSel.innerHTML = `<option value="">${isArabic ? 'اختر المنطقة' : 'Select Area'}</option>`;
+    list.forEach(a => {
+      const name = a.area_name || a.name_ar || a.name_en || a.name || `Area ${a.id}`;
+      areaSel.innerHTML += `<option value="${a.id}">${name}</option>`;
+    });
+    areaSel.disabled = false;
+  } catch {
+    areaSel.innerHTML = '<option value="">Areas unavailable</option>';
+    areaSel.disabled  = false;
+  } finally { loader.classList.add('hidden'); }
+
+  updateShippingDisplay(govId);
+
+  const zone = getShippingZone(govId);
+  if (zone) {
+    const hrs = zone.hours;
+    document.getElementById('estimateValue').textContent =
+      hrs <= 24 ? '24 hours' : hrs <= 72 ? '2–3 business days' : `${Math.ceil(hrs/24)} business days`;
+    document.getElementById('shippingEstimate').style.display = 'flex';
+  }
+});
+
+// ─── COLLECT + VALIDATE FORM ──────────────────────────────────────────────────
+function collectForm() {
+  return {
+    name:          document.getElementById('name').value.trim(),
+    phone:         cleanPhone(document.getElementById('phone').value),
+    phone2:        cleanPhone(document.getElementById('phone2').value),
+    govern_id:     document.getElementById('governorate').value,
+    area_id:       document.getElementById('area').value,
+    floor_no:      document.getElementById('floor_no').value.trim(),
+    apartment_no:  document.getElementById('apartment_no').value.trim(),
+    address_notes: document.getElementById('address_notes').value.trim(),
+    deliver_notes: document.getElementById('deliver_notes').value.trim(),
+    payment:       document.querySelector('input[name="payment"]:checked').value,
+    cart:          JSON.parse(localStorage.getItem('cartForCheckout') || '[]'),
+  };
+}
+
+function validateForm(f) {
+  if (!f.name || f.name.length < 3) {
+    scrollToField('name');
+    return isArabic ? 'أدخل اسمك الكامل' : 'Please enter your full name';
+  }
+  const phoneCheck = validateEgyPhone(f.phone);
+  if (!phoneCheck.ok) {
+    scrollToField('phone');
+    return isArabic
+      ? 'رقم الهاتف غير صحيح — يجب أن يكون 11 رقم ويبدأ بـ 010 أو 011 أو 012 أو 015'
+      : 'Invalid phone — must be 11 digits starting with 010, 011, 012, or 015';
+  }
+  // If second phone is filled, validate it too
+  if (f.phone2) {
+    const p2Check = validateEgyPhone(f.phone2);
+    if (!p2Check.ok) {
+      scrollToField('phone2');
+      return isArabic ? 'رقم الهاتف الثاني غير صحيح' : 'Second phone number is invalid';
+    }
+  }
+  if (!f.govern_id) {
+    scrollToField('governorate');
+    return isArabic ? 'اختر المحافظة' : 'Please select a governorate';
+  }
+  if (!f.area_id) {
+    scrollToField('area');
+    return isArabic ? 'اختر المنطقة' : 'Please select an area';
+  }
+  if (!f.cart.length) return isArabic ? 'سلتك فارغة' : 'Your cart is empty';
+  return null;
+}
+
+function scrollToField(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => el.focus(), 400);
+  }
+}
+
+function cleanPhone(raw) { return raw.replace(/\D/g, ''); }
+
+// ─── PLACE ORDER ──────────────────────────────────────────────────────────────
+document.getElementById('placeOrderBtn').addEventListener('click', async () => {
+  const f   = collectForm();
+  const err = validateForm(f);
+  if (err) { showError(err); return; }
+
+  const subtotal   = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
+  const disc       = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
+  const saving     = disc ? Number(disc.saving) : 0;
+  const zone       = getShippingZone(f.govern_id);
+  const shipFee    = zone ? zone.fee : 0;
+  const shipLabel  = zone ? zone.label : '';
+  const total      = (subtotal - saving) + shipFee;
+  const itemsCount = f.cart.reduce((a, b) => a + b.qty, 0);
+  const itemsDesc  = f.cart.map(i => `${i.name} (${i.color} Sz${i.size}) x${i.qty}`).join(', ');
+
+  document.getElementById('btnContent').style.display = 'none';
+  document.getElementById('btnLoading').style.display  = 'flex';
+  document.getElementById('placeOrderBtn').disabled    = true;
+
+  try {
+    const res = await fetch(`${WORKER_URL}?action=create_order`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: f.name, phone: f.phone, phone2: f.phone2,
+        govern_id: f.govern_id, area_id: f.area_id,
+        floor_no: f.floor_no, apartment_no: f.apartment_no,
+        address_notes: f.address_notes, deliver_notes: f.deliver_notes,
+        payment: f.payment, total, items_count: itemsCount,
+        items_description: itemsDesc,
+        reference_no: 'MSHOES-' + Date.now().toString().slice(-6),
+        subtotal, shipping_fee: shipFee, shipping_zone: shipLabel,
+        discount_code: disc ? disc.code : null,
+        discount_saving: saving,
+      }),
+    });
+
+    const data = await res.json();
+    if (!res.ok || data.error) throw new Error(JSON.stringify(data.error || 'Failed'));
+
+    showSuccess(
+      data.order?.id || data.order?.shipment_id || data.order?.order_number || null,
+      f, total, saving, shipFee, disc
+    );
+
+    localStorage.removeItem('cartForCheckout');
+    localStorage.removeItem('cart');
+    localStorage.removeItem('checkoutDiscount');
+    localStorage.removeItem('activeDiscount');
+
+  } catch (e) {
+    console.error(e);
+    showError(isArabic
+      ? 'فشل إرسال الطلب — يمكنك إرسال الطلب عبر واتساب'
+      : 'Order failed — you can still send via WhatsApp below');
+  } finally {
+    document.getElementById('btnContent').style.display = 'flex';
+    document.getElementById('btnLoading').style.display  = 'none';
+    document.getElementById('placeOrderBtn').disabled    = false;
+  }
+});
+
+// ─── WHATSAPP ─────────────────────────────────────────────────────────────────
+function buildWhatsAppMsg(f, total, trackingId, saving, shipFee, disc) {
+  const govObj   = governorates.find(g => String(g.id) === String(f.govern_id)) || {};
+  const govName  = govObj.govern_name || f.govern_id;
+  const zone     = getShippingZone(f.govern_id);
+  const subtotal = f.cart.reduce((a,b) => a + b.price * b.qty, 0);
+  const items    = f.cart.map(i => `${i.name} x${i.qty} — EGP ${i.price * i.qty}`).join('%0A');
+  const parts    = [
+    '🛍 *New Order — M Shoes*', '',
+    `👤 ${f.name}`,
+    `📞 ${f.phone}${f.phone2 ? ' / ' + f.phone2 : ''}`,
+    `📍 ${govName}${f.floor_no ? ', Floor ' + f.floor_no : ''}${f.apartment_no ? ', Apt ' + f.apartment_no : ''}`,
+    f.address_notes ? `   ${f.address_notes}` : '',
+    f.deliver_notes ? `📝 ${f.deliver_notes}` : '',
+    `💳 ${f.payment}`, '',
+    '📦 *Items:*', items, '',
+    `🧾 Subtotal: EGP ${subtotal.toFixed(2)}`,
+    (saving > 0) ? `🏷 Discount (${disc?.code || ''}): −EGP ${saving.toFixed(2)}` : '',
+    `🚚 Shipping (${zone ? zone.label : 'unknown'}): EGP ${shipFee}`,
+    `💰 *Total: EGP ${typeof total === 'number' ? total.toFixed(2) : total}*`,
+    trackingId ? `🔖 Tracking: ${trackingId}` : '',
+  ].filter(Boolean);
+  return parts.join('%0A');
+}
+
+document.getElementById('whatsappBtn').addEventListener('click', () => {
+  const f        = collectForm();
+  if (!f.name || !f.phone) { showError(isArabic ? 'أدخل الاسم ورقم الهاتف أولاً' : 'Please fill your name and phone first'); return; }
+  const subtotal = f.cart.reduce((a, b) => a + b.price * b.qty, 0);
+  const disc     = JSON.parse(localStorage.getItem('checkoutDiscount') || 'null');
+  const saving   = disc ? Number(disc.saving) : 0;
+  const zone     = getShippingZone(f.govern_id);
+  const shipFee  = zone ? zone.fee : 0;
+  const total    = (subtotal - saving) + shipFee;
+  window.open(`https://wa.me/${WHATSAPP_NUM}?text=${buildWhatsAppMsg(f, total, null, saving, shipFee, disc)}`, '_blank');
+  localStorage.removeItem('cartForCheckout');
+  localStorage.removeItem('cart');
+  localStorage.removeItem('checkoutDiscount');
+  localStorage.removeItem('activeDiscount');
+});
+
+// ─── SUCCESS ──────────────────────────────────────────────────────────────────
+function showSuccess(trackingId, f, total, saving, shipFee, disc) {
+  document.getElementById('successOverlay').style.display = 'flex';
+  if (trackingId) {
+    document.getElementById('trackingInfo').style.display = 'flex';
+    document.getElementById('trackingId').textContent = trackingId;
+  }
+  document.getElementById('successWhatsApp').onclick = () => {
+    window.open(`https://wa.me/${WHATSAPP_NUM}?text=${buildWhatsAppMsg(f, total, trackingId, saving, shipFee, disc)}`, '_blank');
+  };
+}
+
+// ─── ERROR TOAST ──────────────────────────────────────────────────────────────
+function showError(msg) {
+  let t = document.getElementById('errToast');
+  if (!t) { t = document.createElement('div'); t.id = 'errToast'; t.className = 'error-toast'; document.body.appendChild(t); }
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4500);
+}
+
+loadGovernorates();
+updateProgressBar();
+</script>
+</body>
+</html>
