@@ -595,6 +595,7 @@ function renderSummary(governId) {
     emptyWarn.style.display = 'none';
     placeBtn.disabled = false;
     placeBtn.style.opacity = '';
+    box.innerHTML = '';
     cart.forEach(i => {
       subtotal += i.price * i.qty;
       box.innerHTML += `
