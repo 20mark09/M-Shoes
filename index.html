@@ -23,10 +23,20 @@ body.noscroll{overflow:hidden;}
 
 /* ═══ CURSOR ═══ */
 #cr,#cd{position:fixed;border-radius:50%;pointer-events:none;z-index:99999;}
-#cr{width:40px;height:40px;border:1px solid rgba(242,240,235,0.25);transform:translate(-50%,-50%);transition:width .25s var(--eo),height .25s var(--eo),background .25s,border-color .25s;}
-#cr.h{width:60px;height:60px;border-color:var(--r);background:rgba(232,32,31,0.07);}
-#cr.c{transform:translate(-50%,-50%) scale(0.75);}
-#cd{width:5px;height:5px;background:var(--t1);transform:translate(-50%,-50%);}
+#cr{
+  width:38px;height:38px;
+  border:2px solid var(--r);
+  box-shadow:0 0 12px rgba(232,32,31,.6),inset 0 0 8px rgba(232,32,31,.15);
+  transform:translate(-50%,-50%);
+  transition:width .25s var(--eo),height .25s var(--eo),background .25s,box-shadow .25s;
+}
+#cr.h{
+  width:58px;height:58px;
+  background:rgba(232,32,31,.12);
+  box-shadow:0 0 24px rgba(232,32,31,.8),inset 0 0 16px rgba(232,32,31,.2);
+}
+#cr.c{transform:translate(-50%,-50%) scale(0.72);}
+#cd{width:6px;height:6px;background:var(--r);transform:translate(-50%,-50%);box-shadow:0 0 6px rgba(232,32,31,1);}
 
 /* ═══ DOT GRID BG ═══ */
 body::before{
@@ -360,25 +370,25 @@ header::after{
 /* glowing add button */
 .abtn{
   width:100%;padding:11px;
-  background:transparent;
-  border:1px solid var(--bdr2);color:var(--t1);
+  background:var(--r);
+  border:1px solid var(--r);color:#fff;
   border-radius:5px;font-family:var(--fb);
-  font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;
+  font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
   cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;
   transition:all .25s;margin-top:auto;position:relative;overflow:hidden;
+  box-shadow:0 4px 18px rgba(232,32,31,.35);
 }
 .abtn::before{
   content:'';position:absolute;inset:0;
-  background:var(--r);transform:scaleY(0);transform-origin:bottom;
+  background:rgba(255,255,255,.12);transform:scaleX(0);transform-origin:left;
   transition:transform .3s var(--eo);z-index:0;
 }
-.abtn:hover{border-color:var(--r);box-shadow:0 0 20px rgba(232,32,31,.25);}
-.abtn:hover::before{transform:scaleY(1);}
-.abtn:hover .abtn-t,.abtn:hover svg{color:#fff;position:relative;z-index:1;}
+.abtn:hover{background:var(--rd);border-color:var(--rd);box-shadow:0 6px 28px rgba(232,32,31,.55);transform:translateY(-2px);}
+.abtn:hover::before{transform:scaleX(1);}
 .abtn:active{transform:scale(.97);}
-.abtn-t,.abtn svg{position:relative;z-index:1;transition:color .25s;}
-.abtn.clicked{background:var(--r);border-color:var(--r);}
-.abtn:disabled{background:#1a1a1a;border-color:var(--bdr);color:var(--t3);cursor:not-allowed;}
+.abtn-t,.abtn svg{position:relative;z-index:1;}
+.abtn.clicked{background:#16a34a;border-color:#16a34a;box-shadow:0 4px 18px rgba(22,163,74,.4);}
+.abtn:disabled{background:#1a1a1a;border-color:var(--bdr);color:var(--t3);cursor:not-allowed;box-shadow:none;}
 
 .ribbon{position:absolute;top:12px;left:0;z-index:5;background:var(--r);color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 10px 4px 8px;border-radius:0 3px 3px 0;box-shadow:3px 3px 14px rgba(232,32,31,.5);pointer-events:none;}
 .lowbadge{position:absolute;bottom:10px;left:10px;z-index:3;background:rgba(245,158,11,.9);color:#000;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;backdrop-filter:blur(4px);}
@@ -529,6 +539,14 @@ footer{
 .fc a:hover{color:var(--t1);}
 .fbot{border-top:1px solid var(--bdr);padding:14px 40px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;}
 .fbot p{font-size:10px;color:var(--t3);}
+.socials{display:flex;gap:10px;margin-top:16px;}
+.soc{
+  display:flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:8px;
+  border:1px solid var(--bdr2);color:var(--t2);
+  transition:all .2s;text-decoration:none;
+}
+.soc:hover{border-color:var(--r);color:var(--r);background:rgba(232,32,31,.08);box-shadow:0 0 12px rgba(232,32,31,.25);}
 @media(max-width:640px){footer{grid-template-columns:1fr 1fr;}footer .fc:nth-child(4){display:none;}.fbot{padding:12px 20px;}}
 @media(max-width:400px){footer{grid-template-columns:1fr;}.hero{padding:60px 20px 50px;}.hero-bottom{flex-direction:column;align-items:flex-start;gap:16px;}}
 
@@ -597,10 +615,6 @@ select option:disabled{color:#444;}
   </div>
 
   <div class="hero-bottom">
-    <div class="hero-cta">
-      <button class="mag-btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Now</button>
-      <button class="ghost-btn" onclick="openProduct(1)">View Featured</button>
-    </div>
     <div class="hero-stats">
       <div class="stat"><div class="stat-num">8+</div><div class="stat-label">Models</div></div>
       <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Quality</div></div>
@@ -690,6 +704,20 @@ select option:disabled{color:#444;}
   <div class="fc">
     <div class="brand">M-SHOES</div>
     <p>Premium footwear crafted for Egyptian streets. Quality you can trust, style you'll love.</p>
+    <div class="socials">
+      <a href="#" class="soc" aria-label="Instagram">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="#" class="soc" aria-label="TikTok">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+      </a>
+      <a href="#" class="soc" aria-label="Facebook">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href="#" class="soc" aria-label="WhatsApp">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      </a>
+    </div>
   </div>
   <div class="fc">
     <h5>Shop</h5>
